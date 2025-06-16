@@ -5,7 +5,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 40vh;
+      height: 50vh;
       padding: 20px;
       overflow-y: auto;  /* Changed from overflow: hidden */
     }
@@ -13,13 +13,14 @@
     .testimonial {
       display: none;
       margin: auto;
-      max-width: 60%;
+      max-width: 70%;
       text-align: center;
       padding: 10px;
-      background-color: #000000;
+      background-color: rgb(23,23,23);
+      border: 1px solid #ffffff;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      /* Remove max-height and overflow-y since parent will scroll */
+      font-family: "Futura PT", futura-pt, sans-serif;
     }
 
     .testimonial.active {
@@ -38,7 +39,7 @@
       transform: translateY(-50%);
       cursor: pointer;
       padding: 10px;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.9);
       color: white;
       border-radius: 50%;
     }
@@ -54,14 +55,16 @@
       color: #ffffff;
       font-size: 14px;
       padding: 5px 10px;
-      background-color: rgba(0,0,0,0.5);
+      background-color: rgba(23,23,23,0.5);
       border-radius: 15px;
+      font-family: "Futura PT", futura-pt, sans-serif;
     }
     
     .testimonial-name {
       font-weight: bold;
       margin-bottom: 5px;
-      color: #ffffff;
+      color: rgb(141, 142, 153);
+      font-family: "Futura PT", futura-pt, sans-serif;
     }
     
     .testimonial-rating {
@@ -71,10 +74,12 @@
 
     .testimonial-review {
       font-style: italic;
-      color: #ffffff;
-      line-height: 1.6;
+      color: rgb(243, 243, 243);
+      line-height: 1.65;
       margin-bottom: 15px;
-      /* Remove max-height and overflow-y */
+      font-family: "Futura PT", futura-pt, sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.05em;
     }
 
     /* Move scrollbar styles to carousel container */

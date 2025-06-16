@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Audio Player</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: futura-pt, sans-serif;
+        }
+
+        .audio-player {
+            max-width: 400px;
+            margin: 20px auto;
+            background: #111;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            font-family: futurea-pt, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .album-art {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .album-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .track-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .track-title {
+            font-family: futura-pt, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .track-artist {
+            font-family: futura-pt, sans-serif;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            color: #fff;
+        }
+
+        .control-btn:hover {
+            background: #333;
+            transform: scale(1.1);
+        }
+
+        .play-pause-btn {
+            width: 60px;
+            height: 60px;
+            background: #333;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .progress-container {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+        }
+
+        .progress-fill {
+            background: #fff;
+        }
+
+        .time-display {
+            font-family: futura-pt, sans-serif;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .volume-container {
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1%;
+            gap: 10px;
+        }
+
+        .volume-slider {
+            background: #333;
+            -webkit-appearance: none;
+            width: 100px;
+            height: 4px;
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="audio-player">
+        <div class="album-art">
+            <img id="albumArt" src="https://images.squarespace-cdn.com/content/57f01c31d482e918dc2ca91a/1586803438247-9GCDA5K96CLRBUQDGUWA/1R+Native.jpg?content-type=image%2Fjpeg" alt="Album Artwork">
+        </div>
+        
+        <div class="track-info">
+            <div class="track-title" id="trackTitle">Counting Stars</div>
+            <div class="track-artist" id="trackArtist">OneRepublic</div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn play-pause-btn" id="playPauseBtn">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" id="playIcon">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" id="pauseIcon" style="display: none;">
+                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="time-display">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+        </div>
+
+        <div class="volume-container">
+            <button class="control-btn volume-btn" id="volumeBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                </svg>
+            </button>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70">
+        </div>
+    </div>
+
+    <audio id="audioElement" crossorigin="anonymous" 
+        src="https://cors-anywhere.herokuapp.com/https://drive.google.com/uc?export=download&id=1XmRdXw55VEofWES_uCpuospDwugDQbui" 
+        preload="metadata">
+    </audio>
+ 
+    <!-- <audio id="audioElement" src="/Users/matthewtryba/Library/CloudStorage/GoogleDrive-matthew@matthewtryba.com/My Drive/matthewtryba.com/audio-files/Counting+Stars.mp3" preload="metadata"></audio> -->
+
+    <script>
+        // Convert sharing URL to direct download URL
+        function getDirectDownloadUrl(sharingUrl) {
+            const fileId = sharingUrl.match(/[-\w]{25,}/);
+            return `https://docs.google.com/uc?export=download&id=${fileId}`;
+        }
+
+        class AudioPlayer {
+            constructor() {
+                this.audio = document.getElementById('audioElement');
+                this.playPauseBtn = document.getElementById('playPauseBtn');
+                this.playIcon = document.getElementById('playIcon');
+                this.pauseIcon = document.getElementById('pauseIcon');
+                this.progressBar = document.getElementById('progressBar');
+                this.progressFill = document.getElementById('progressFill');
+                this.currentTimeEl = document.getElementById('currentTime');
+                this.durationEl = document.getElementById('duration');
+                this.volumeBtn = document.getElementById('volumeBtn');
+                this.volumeSlider = document.getElementById('volumeSlider');
+                
+                this.isPlaying = false;
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.setVolume(70);
+            }
+
+            bindEvents() {
+                this.playPauseBtn.addEventListener('click', () => this.togglePlayPause());
+                this.progressBar.addEventListener('click', (e) => this.seekTo(e));
+                this.volumeSlider.addEventListener('input', (e) => this.setVolume(e.target.value));
+                this.audio.addEventListener('timeupdate', () => this.updateProgress());
+                this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
+                this.audio.addEventListener('error', (e) => {
+                    console.error('Audio Error Details:');
+                    console.error('Error code:', this.audio.error.code);
+                    console.error('Error message:', this.audio.error.message);
+                    console.error('Source URL:', this.audio.src);
+                    console.error('Ready State:', this.audio.readyState);
+                    console.error('Network State:', this.audio.networkState);
+                });
+
+                // Add loading state logging
+                this.audio.addEventListener('loadstart', () => console.log('Audio loading started'));
+                this.audio.addEventListener('loadeddata', () => console.log('Audio data loaded'));
+                this.audio.addEventListener('canplay', () => console.log('Audio can play'));
+            }
+
+            togglePlayPause() {
+                if (this.isPlaying) {
+                    this.pause();
+                } else {
+                    this.play();
+                }
+            }
+
+            play() {
+                if (this.audio.src) {
+                    this.audio.play();
+                    this.isPlaying = true;
+                    this.playIcon.style.display = 'none';
+                    this.pauseIcon.style.display = 'block';
+                }
+            }
+
+            pause() {
+                this.audio.pause();
+                this.isPlaying = false;
+                this.playIcon.style.display = 'block';
+                this.pauseIcon.style.display = 'none';
+            }
+
+            seekTo(e) {
+                const rect = this.progressBar.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                const seekTime = percent * this.audio.duration;
+                this.audio.currentTime = seekTime;
+            }
+
+            updateProgress() {
+                if (this.audio.duration) {
+                    const percent = (this.audio.currentTime / this.audio.duration) * 100;
+                    this.progressFill.style.width = percent + '%';
+                    this.currentTimeEl.textContent = this.formatTime(this.audio.currentTime);
+                }
+            }
+
+            updateDuration() {
+                this.durationEl.textContent = this.formatTime(this.audio.duration);
+            }
+
+            setVolume(value) {
+                this.audio.volume = value / 100;
+                this.volumeSlider.value = value;
+            }
+
+            formatTime(seconds) {
+                if (isNaN(seconds)) return '0:00';
+                const minutes = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${minutes}:${secs.toString().padStart(2, '0')}`;
+            }
+        }
+
+        // Initialize the player when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new AudioPlayer();
+        });
+    </script>
+</body>
+</html>
