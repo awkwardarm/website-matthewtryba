@@ -1,0 +1,202 @@
+<div class="sqs-block-content">
+  <style>
+    .testimonial-carousel {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50vh;
+      padding: 20px;
+      overflow-y: auto;  /* Changed from overflow: hidden */
+    }
+    
+    .testimonial {
+      display: none;
+      margin: auto;
+      max-width: 70%;
+      text-align: center;
+      padding: 10px;
+      background-color: rgb(23,23,23);
+      border: 1px solid #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      font-family: "Futura PT", futura-pt, sans-serif;
+    }
+
+    .testimonial.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      padding: 10px;
+      background: rgba(0,0,0,0.9);
+      color: white;
+      border-radius: 50%;
+    }
+
+    .prev { left: 20px; }
+    .next { right: 20px; }
+
+    .slide-counter {
+      position: relative;
+      bottom: 25%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ffffff;
+      font-size: 14px;
+      padding: 5px 10px;
+      background-color: rgba(23,23,23,0.5);
+      border-radius: 15px;
+      font-family: "Futura PT", futura-pt, sans-serif;
+    }
+    
+    .testimonial-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: rgb(141, 142, 153);
+      font-family: "Futura PT", futura-pt, sans-serif;
+    }
+    
+    .testimonial-rating {
+      color: #ffc107;
+      margin-bottom: 10px;
+    }
+
+    .testimonial-review {
+      font-style: italic;
+      color: rgb(243, 243, 243);
+      line-height: 1.65;
+      margin-bottom: 15px;
+      font-family: "Futura PT", futura-pt, sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+
+    /* Move scrollbar styles to carousel container */
+    .testimonial-carousel::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .testimonial-carousel::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+
+    .testimonial-carousel::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+    }
+
+    .testimonial-carousel::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .testimonial-divider {
+      width: 50%;
+      margin: 15px auto;
+      border: 0;
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+
+  </style>
+
+  <div class="testimonial-carousel" id="testimonialCarousel">
+    <!-- Testimonials will be inserted here -->
+    <div class="carousel-nav prev" onclick="moveSlide(-1)">❮</div>
+    <div class="carousel-nav next" onclick="moveSlide(1)">❯</div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    let slides;
+    let autoAdvanceTimer; // Add this at the top with other variables
+
+    // Function to fetch data from Google Sheets
+    async function fetchTestimonials() {
+      const SHEET_ID = '1Vvd4tJnikKjNN8zXQrZS_CtUjuQVeCouZNuxIyWPlsU';
+      const API_KEY = 'AIzaSyDNBNSlBbbmSU0z1wwS6i4KZvi3GLSl_ow'; // Replace with your restricted API key
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1?key=${API_KEY}`;
+
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          mode: 'cors' // Enable CORS
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        const rows = data.values.slice(1); // Skip header row
+        
+        // Generate random initial slide index
+        currentSlide = Math.floor(Math.random() * rows.length);
+        
+        const carousel = document.getElementById('testimonialCarousel');
+        const totalSlides = rows.length;
+        const testimonials = rows.map((row, index) => `
+          <div class="testimonial ${index === currentSlide ? 'active' : ''}">
+            <div class="testimonial-name">${row[0]}</div>
+            <div class="testimonial-rating">${'★'.repeat(parseInt(row[1]))}</div>
+            <div class="testimonial-review">${row[2]}</div>
+            <hr class="testimonial-divider">
+            <div class="slide-counter">${index + 1} of ${totalSlides}</div>
+          </div>
+        `).join('');
+        
+        // Insert testimonials before navigation buttons
+        const navButtons = carousel.querySelectorAll('.carousel-nav');
+        carousel.innerHTML = testimonials;
+        navButtons.forEach(button => carousel.appendChild(button));
+        
+        // Initialize slides after content is loaded
+        slides = document.querySelectorAll('.testimonial');
+      } catch (error) {
+        console.error('Error fetching testimonials:', error);
+        // Add error handling UI feedback
+        document.getElementById('testimonialCarousel').innerHTML = 
+          '<div class="testimonial active">Error loading testimonials. Please try again later.</div>';
+      }
+    }
+
+    function moveSlide(direction) {
+      if (!slides) return;
+      
+      // Clear existing timer
+      clearInterval(autoAdvanceTimer);
+      
+      // Move to next slide
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + direction + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+      
+      // Start a new timer
+      autoAdvanceTimer = setInterval(() => moveSlide(1), 10000);
+    }
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+      // Start the carousel
+      fetchTestimonials();
+      
+      // Initial auto-advance timer
+      autoAdvanceTimer = setInterval(() => moveSlide(1), 10000);
+    });
+  </script>
+</div>
