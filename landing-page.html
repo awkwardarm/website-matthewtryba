@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matthew Tryba | Music Producer</title>
+    <style>
+        /*--------------------------------------------------*/
+        /* 1. Global Styles & Typography */
+        /*--------------------------------------------------*/
+        :root {
+            --primary-color: #0d0d0d;
+            --secondary-color: #5a5a5a;
+            --background-color: #ffffff;
+            --accent-color: #1a73e8;
+            --surface-color: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+
+        /* ADDED FOR SMOOTH SCROLL */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Futura PT", sans-serif;
+            background-color: var(--background-color);
+            color: var(--primary-color);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--primary-color);
+        }
+
+        h1 { font-size: 2.8rem; margin-bottom: 1rem; }
+        h2 { font-size: 2.2rem; margin-bottom: 2rem; text-align: center;}
+        h3 { font-size: 1.5rem; }
+
+        p {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .btn:hover {
+            background-color: #1765c6;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /*--------------------------------------------------*/
+        /* 2. Hero Section */
+        /*--------------------------------------------------*/
+        .hero {
+            padding-top: 40px;
+            padding-bottom: 60px;
+            text-align: center;
+        }
+
+        .hero .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .hero-content {
+             max-width: 800px;
+        }
+
+        .hero img {
+            max-width: 250px;
+            border-radius: 50%;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .hero-subheadline {
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+            max-width: 650px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .hero-bullets {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+            display: inline-flex;
+            flex-direction: column;
+            gap: 1rem;
+            text-align: left;
+            max-width: 500px;
+        }
+
+        .hero-bullets li {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-bullets svg {
+            color: var(--accent-color);
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        /* NEW HERO BUTTON STYLE */
+        .hero-cta-button {
+            margin-top: 2rem;
+        }
+
+        /*--------------------------------------------------*/
+        /* 3. Social Proof (Album Art) Section */
+        /*--------------------------------------------------*/
+        .social-proof {
+            padding: 40px 0;
+            background-color: var(--surface-color);
+        }
+        
+        .social-proof h3 {
+             text-align:center;
+             color: var(--secondary-color);
+             font-weight: 500;
+             margin-bottom: 2rem;
+             text-transform: uppercase;
+             letter-spacing: 1px;
+             font-size: 0.9rem;
+        }
+
+        .logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .logos img {
+            max-height: 120px;
+            width: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        .logos img:hover {
+            transform: scale(1.05);
+        }
+
+        /*--------------------------------------------------*/
+        /* 4. Testimonials Section */
+        /*--------------------------------------------------*/
+        .testimonials {
+             background-color: var(--background-color);
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .testimonial-card .quote-headline {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .quote-headline::before {
+            content: '“';
+            position: absolute;
+            left: 0;
+            top: -10px;
+            font-size: 3rem;
+            color: var(--accent-color);
+            font-family: Georgia, serif;
+        }
+        
+        .testimonial-card .quote-body {
+             font-style: italic;
+             color: var(--secondary-color);
+             margin-bottom: 1.5rem;
+        }
+        
+        .testimonial-author {
+             margin-top: auto;
+             padding-top: 1rem;
+             border-top: 1px solid var(--border-color);
+             display: flex;
+             align-items: center;
+        }
+        
+        .testimonial-author img {
+             width: 50px;
+             height: 50px;
+             border-radius: 50%;
+             margin-right: 15px;
+             object-fit: cover;
+        }
+
+        .author-info .name {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .author-info .rating {
+             color: #ffc107;
+             font-size: 1rem;
+        }
+
+        /*--------------------------------------------------*/
+        /* 5. CTA Section */
+        /*--------------------------------------------------*/
+        .cta-section {
+            background-color: var(--accent-color);
+            color: white;
+            text-align: center;
+        }
+        .cta-section h2, .cta-section p {
+            color: white;
+        }
+        .cta-section .btn {
+            background-color: white;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+        .cta-section .btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        /*--------------------------------------------------*/
+        /* 6. Dream Outcome & About Section */
+        /*--------------------------------------------------*/
+        .feature-section .container {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .feature-section.about .image-content {
+            order: 2;
+        }
+        
+        .feature-section .text-content,
+        .feature-section .image-content {
+            flex: 1;
+        }
+
+        .feature-section .image-content img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-section h2 {
+            text-align: left;
+        }
+
+
+        /*--------------------------------------------------*/
+        /* 7. Contact Form Section */
+        /*--------------------------------------------------*/
+        .contact {
+            background-color: var(--surface-color);
+        }
+        
+        #contact-form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: "Futura PT", sans-serif;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+        }
+
+        #form-status {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        /*--------------------------------------------------*/
+        /* 8. Footer */
+        /*--------------------------------------------------*/
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+
+        /*--------------------------------------------------*/
+        /* 9. Responsive Styles */
+        /*--------------------------------------------------*/
+        @media (max-width: 900px) {
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            .feature-section .container {
+                flex-direction: column;
+            }
+            .feature-section.about .image-content {
+                 order: 1; /* Stack image on top */
+            }
+             .feature-section .text-content {
+                 order: 2;
+            }
+            .feature-section h2 {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <div class="container">
+            <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/1719266731114-6O292W0D1JCJ2T5YNY8F/matthew-tryba-headshot-2024-2.jpg" alt="Matthew Tryba in his studio">
+            
+            <div class="hero-content">
+                <h1>Major Label Sound for Independent Artists</h1>
+                <p class="hero-subheadline">For over 14 years, I've brought the same process, quality, and attention to detail from Grammy-winning and Diamond-certified records to every independent artist I partner with.</p>
+
+                <ul class="hero-bullets">
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                        <span>Translate your raw song ideas into a streaming-ready, commercially competitive master.</span>
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
+                        <span>Benefit from world-class vocal production that captures your most powerful and authentic performance.</span>
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.26 10.147a60.438 60.438 0 0 0-.26 2.473a60.438 60.438 0 0 0 .26 2.473l.01 1.028l.01.018l.01.01l.01.004l.01.002l.002.002l.003.002l.003.002l.002.002l.002.002l.002.002l.002.002a6.4 6.4 0 0 0 2.94 2.94l.002.002l.002.002l.002.002l.002.002l.003.002l.003.002l.002.002l.004.002l.01.01l.018.01l1.028.01a60.438 60.438 0 0 0 2.473.26a60.438 60.438 0 0 0 2.473-.26l1.028-.01l.018-.01l.01-.01l.004-.002l.002-.002l.002-.003l.002-.003l.002-.002l.002-.002l.002-.002l.002-.002a6.4 6.4 0 0 0 2.94-2.94l.002-.002l.002-.002l.002-.002l.002-.002l.003-.002l.003-.002l.002-.002l.002-.004l.01-.01l.01-.018l.01-1.028a60.438 60.438 0 0 0 .26-2.473a60.438 60.438 0 0 0-.26-2.473l-.01-1.028l-.01-.018l-.01-.01l-.004-.002l-.002-.002l-.003-.002l-.003-.002l-.002-.002l-.002-.002l-.002-.002l-.002-.002a6.4 6.4 0 0 0-2.94-2.94l-.002-.002l-.002-.002l-.002-.002l-.002-.002l-.003-.002l-.003-.002l-.002-.002l-.004-.002l-.01-.01l-.018-.01l-1.028-.01a60.438 60.438 0 0 0-2.473-.26a60.438 60.438 0 0 0-2.473.26l-1.028.01l-.018.01l-.01.01l-.004.002l-.002.002l-.002.003l-.002.003l-.002.002l-.002.002l-.002.002l-.002.002a6.4 6.4 0 0 0-2.94 2.94l-.002.002l-.002.002l-.002.002l-.002.002l-.003.002l-.003.002l-.002.002l-.002.004l-.01.01l-.01.018Z"></path><path d="m12 8.25 2.5 2.5-2.5 2.5"></path><path d="M12 10.75h-4.25"></path></svg>
+                        <span>Leverage experience from RIAA Diamond-certified and Grammy-winning records.</span>
+                    </li>
+                </ul>
+                <div class="hero-cta-button">
+                    <a href="#contact" class="btn">Start The Conversation</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="social-proof">
+        <div class="container">
+            <h3>ENGINEERING CREDITS ON DIAMOND, MULTI-PLATINUM, & GRAMMY-WINNING RECORDS</h3>
+            <div class="logos">
+                <img src="https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png" alt="Taylor Swift 1989 Album Art">
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/a0/OneRepublic_-_Counting_Stars.png" alt="OneRepublic Counting Stars Single Art">
+                <img src="https://upload.wikimedia.org/wikipedia/en/d/d7/Adele_-_25_%28Official_Album_Cover%29.png" alt="Adele 25 Album Art">
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/Maroon_5_-_V.png" alt="Maroon 5 V Album Art">
+                <img src="https://upload.wikimedia.org/wikipedia/en/5/5a/Ariana_Grande_My_Everything_2014_album_artwork.png" alt="Ariana Grande My Everything Album Art">
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2>What Artists Are Saying</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="quote-headline">"Matthew is the best vocal producer I've found - his ear training is unmatched."</p>
+                    <p class="quote-body">If you are serious about your song and want it the strongest it can be he is your guy!</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/8586f24a-abf9-4282-b912-701a9a4eef68/hunter+m.webp" alt="Hunter M Headshot">
+                        <div class="author-info">
+                            <span class="name">Hunter M.</span>
+                            <span class="rating">★★★★★</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="quote-headline">"Matthew was a great visionary! Really brought the song I've written to life... on a song that needed direction."</p>
+                    <p class="quote-body">Professional and patient. Really gave his own stamp on the song... I will be continuing to work with him on future projects!</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/ad81a661-a4db-4df4-b882-1e6c507be5ae/Cupnoodle.jpg" alt="Cupnoodle Headshot">
+                        <div class="author-info">
+                            <span class="name">Cupnoodle</span>
+                            <span class="rating">★★★★★</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="quote-headline">"I came to Matt after being frustrated with other producers putting their own spin on my music instead of listening to what my needs were."</p>
+                    <p class="quote-body">He has a great way of capitalizing on your strengths and building off of your writing style. He exceeded my expectations.</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/320289df-a4f8-4507-9694-4330abbbda0f/lindsey+leigh.webp" alt="Lindsey Leigh Headshot">
+                        <div class="author-info">
+                            <span class="name">Lindsey Leigh</span>
+                            <span class="rating">★★★★★</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="quote-headline">"I am happy to say that my voice never sounded better... He was easy to work with and great at always communicating."</p>
+                    <p class="quote-body">His production was spot on... Will definitely use again.</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/c0e9a213-8e9b-4637-b2c9-f922e3f78a13/matteo+s+image.jpeg" alt="Matteo S Headshot">
+                        <div class="author-info">
+                            <span class="name">Matteo S.</span>
+                            <span class="rating">★★★★★</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to bring your music to life?</h2>
+            <p>Let's talk about how we can transform your song into a professional, competitive record.</p>
+            <a href="#contact" class="btn">Start The Conversation</a>
+        </div>
+    </section>
+
+    <section class="feature-section dream-outcome">
+        <div class="container">
+            <div class="text-content">
+                <h2>From The Sound In Your Head To The Final Master</h2>
+                <p>I know how hard it is to get the sound in your head to come out of the speakers. You have a powerful song idea, but you're struggling to translate that emotion and energy into a professional recording that truly connects with listeners.</p>
+                <p>My entire process is designed to bridge that gap. We'll work together to not only capture your vision but to elevate it, making sure every creative choice serves the song. You can stop worrying about the technical hurdles and focus on what you do best: being an artist.</p>
+            </div>
+            <div class="image-content">
+                <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/1599596486008-K6Y3Y842L2HQ6C56113A/matthew-tryba-producing-music.jpg" alt="Matthew Tryba producing with an artist">
+            </div>
+        </div>
+    </section>
+    
+    <section class="feature-section about" style="background-color: var(--surface-color);">
+        <div class="container">
+            <div class="text-content">
+                <h2>More Than A Producer—A Partner In Your Sound</h2>
+                <p>Hey, I'm Matthew Tryba. My career began as an engineer for some of music's biggest names, including Ryan Tedder of OneRepublic. This gave me a masterclass in what separates a good song from a global hit. I worked on the RIAA Diamond certified hit "Counting Stars," the Grammy-winning albums "1989" for Taylor Swift and "25" for Adele, and on multi-platinum records for Ariana Grande and Maroon 5.</p>
+                <p>Now, I bring that same major-label process and sonic excellence to every independent artist I work with. I'm a multi-instrumentalist, a singer, and a songwriter, but my most important role is being your creative partner, dedicated to realizing your artistic vision.</p>
+            </div>
+            <div class="image-content">
+                <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/1599596002715-ECKPDB2K0M4C1Q23UCKL/matthew-tryba-mixing-music-in-studio.jpg" alt="Matthew Tryba mixing music">
+            </div>
+        </div>
+    </section>
+    
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Let's Talk About Your Project</h2>
+            <div id="contact-form-container">
+                <form id="contact-form" action="https://formspree.io/f/YOUR_UNIQUE_ID" method="POST">
+                    <div class="form-group">
+                        <label for="name">First Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="budget">What is your approximate budget for this song?</label>
+                        <select id="budget" name="budget" required>
+                            <option value="" disabled selected>Please select a range...</option>
+                            <option value="$1,500 - $3,000">$1,500 - $3,000</option>
+                            <option value="$3,000 - $5,000">$3,000 - $5,000</option>
+                            <option value="$5,000 - $10,000">$5,000 - $10,000</option>
+                            <option value="$10,000+">$10,000+</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Tell me about your project and your vision for it.</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+                    <p id="form-status"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 TRYBA MUSIC, LLC. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        var form = document.getElementById("contact-form");
+    
+        async function handleSubmit(event) {
+            event.preventDefault();
+            var status = document.getElementById("form-status");
+            var data = new FormData(event.target);
+            
+            status.innerHTML = "Sending...";
+            status.style.color = 'var(--secondary-color)';
+
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    status.innerHTML = "Thanks for your submission! I'll be in touch soon.";
+                    status.style.color = 'green';
+                    form.reset()
+                } else {
+                    response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                            status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
+                        } else {
+                            status.innerHTML = "Oops! There was a problem submitting your form";
+                            status.style.color = 'red';
+                        }
+                    })
+                }
+            }).catch(error => {
+                status.innerHTML = "Oops! There was a problem submitting your form";
+                status.style.color = 'red';
+            });
+        }
+    
+        form.addEventListener("submit", handleSubmit)
+    </script>
+</body>
+</html>
