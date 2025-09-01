@@ -1,0 +1,131 @@
+<style>
+  /* The main grid container */
+  .testimonial-grid {
+    display: grid;
+    /* Adjusts columns automatically based on screen size */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 15px; /* Space between the cards */
+    width: 100%;
+    margin: 40px 0;
+  }
+
+  /* Individual testimonial cards */
+  .testimonial-card {
+    background-color: #f9f9f9; /* A very light grey, almost white */
+    border: 1px solid #e0e0e0; /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Soft shadow for depth */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* The client headshot image */
+  .testimonial-image {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%; /* Makes the image perfectly round */
+    object-fit: cover; /* Prevents the image from being stretched */
+    margin-bottom: 20px;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  /* The main "golden snippet" headline */
+  .testimonial-headline {
+    font-family: "Futura PT", sans-serif;
+    font-size: 1.25em;
+    font-weight: 500;
+    color: #2c2c2c; /* Dark grey for text */
+    line-height: 1.4;
+    margin: 0 0 15px 0;
+  }
+
+  /* The full quote text */
+  .testimonial-quote {
+    font-family: "Futura PT", sans-serif;
+    font-size: 1em;
+    font-weight: 300;
+    color: #555555;
+    line-height: 1.65;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  /* The author's name */
+  .testimonial-author {
+    font-family: "Futura PT", sans-serif;
+    font-weight: 700; /* Bolder name */
+    color: #333333;
+    margin: 0;
+  }
+
+  /* The star rating */
+  .testimonial-rating {
+    color: #f0ad4e; /* A gold/yellow color for stars */
+    font-size: 1.2em;
+    margin-top: 10px;
+  }
+</style>
+
+<div class="testimonial-grid">
+
+  <div class="testimonial-card">
+    <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/8586f24a-abf9-4282-b912-701a9a4eef68/hunter+m.webp" alt="Headshot of Hunter M." class="testimonial-image">
+    <h3 class="testimonial-headline">"Matthew is the best vocal producer I've found - his ear training is unmatched."</h3>
+    <p class="testimonial-quote">"He knows all the nuances and small details/tweaks needed in a vocal performance to bring out the best in you and for the song. If you are serious about your song and want it the strongest it can be he is your guy!"</p>
+    <p class="testimonial-author"><strong>Hunter Masters</strong></p>
+    <div class="testimonial-rating">★★★★★</div>
+  </div>
+
+  <div class="testimonial-card">
+    <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/320289df-a4f8-4507-9694-4330abbbda0f/lindsey+leigh.webp" alt="Headshot of Lindsey Leigh" class="testimonial-image">
+    <h3 class="testimonial-headline">"I came to Matthew after being frustrated with other producers putting their own spin on my music."</h3>
+    <p class="testimonial-quote">"He has a great way of capitalizing on your strengths and building off of your writing style. He exceeded my expectations and was very helpful through the recording process. Thank you, Matt!"</p>
+    <p class="testimonial-author"><strong>Lindsey Leigh</strong></p>
+    <div class="testimonial-rating">★★★★★</div>
+  </div>
+
+  <div class="testimonial-card">
+    <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/ad81a661-a4db-4df4-b882-1e6c507be5ae/Cupnoodle.jpg" alt="Headshot of Cupnoodle" class="testimonial-image">
+    <h3 class="testimonial-headline">"Matthew is a great visionary! Really brought the song I've written to life."</h3>
+    <p class="testimonial-quote">"A dream to work with. Professional and patient. Really gave his own stamp on the song that needed direction. I will be continuing to work with him on future projects!"</p>
+    <p class="testimonial-author"><strong>Cupnoodle</strong></p>
+    <div class="testimonial-rating">★★★★★</div>
+  </div>
+
+  <div class="testimonial-card">
+    <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/c0e9a213-8e9b-4637-b2c9-f922e3f78a13/matteo+s+image.jpeg" alt="Headshot of Matteo S." class="testimonial-image">
+    <h3 class="testimonial-headline">"I am happy to say that my voice never sounded better."</h3>
+    <p class="testimonial-quote">"Matthew was able to take my song and bring it to the next level. His production was spot on... He was easy to work with and great at always communicating with me."</p>
+    <p class="testimonial-author"><strong>Matteo S.</strong></p>
+    <div class="testimonial-rating">★★★★★</div>
+  </div>
+
+  <div class="testimonial-card">
+    <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/ac13c5a4-83fa-44ff-87c2-bb094916087c/Jon+Omen.jpg" alt="Headshot of Jon Omen" class="testimonial-image">
+    <h3 class="testimonial-headline">"Not only is he an amazing producer, but he is an incredible engineer."</h3>
+    <p class="testimonial-quote">"I’ve worked with Matthew for over a year now and will continue to work with him... The biggest factor is that he continues to exceed my expectations. Highly recommended."</p>
+    <p class="testimonial-author"><strong>Jon Omen</strong></p>
+    <div class="testimonial-rating">★★★★★</div>
+  </div>
+
+  <div class="testimonial-card">
+    <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/a3766a3a-dc1f-4384-a179-f12a315453ce/Ricky+Asch.jpg" alt="Headshot of Ricky Asche" class="testimonial-image">
+    <h3 class="testimonial-headline">"He really understands pop music and was able to collaborate with me to achieve the sound I was looking for."</h3>
+    <p class="testimonial-quote">"Highly receptive to all my notes and great to have him for every step of the process. I think we created something really great together."</p>
+    <p class="testimonial-author"><strong>Ricky Asch</strong></p>
+    <div class="testimonial-rating">★★★★★</div>
+  </div>
+
+  <!-- <div class="testimonial-card">
+    <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/ab8b182d-f352-4fa3-b01d-5157be7f49d2/christian-headshot.jpeg" alt="Headshot of Christian" class="testimonial-image">
+    <h3 class="testimonial-headline">"He fully understands my artistic vision... personable and professional, which makes it very easy to work with."</h3>
+    <p class="testimonial-quote">"Matthew is absolutely incredible. He has a keen ear for production... I truly couldn’t have asked for a better producer, and I’m looking forward to collaborating with him again."</p>
+    <p class="testimonial-author"><strong>luvchristian</strong></p>
+    <div class="testimonial-rating">★★★★★</div>
+  </div> -->
+
+</div>
