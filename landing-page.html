@@ -34,7 +34,7 @@
         .container {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 10px;
         }
 
         h1, h2, h3 {
@@ -44,7 +44,13 @@
         }
 
         h1 { font-size: 2.8rem; margin-bottom: 1rem; }
-        h2 { font-size: 2.2rem; margin-bottom: 2rem; text-align: center;}
+        h2 { 
+            font-size: 2.2rem; 
+            margin-bottom: 2rem; 
+            text-align: center; /* Ensures all h2 headings are centered */
+            font-weight: 700;
+            color: var(--primary-color);
+        }
         h3 { font-size: 1.5rem; }
 
         p {
@@ -140,7 +146,7 @@
         /* 3. Social Proof (Album Art) Section */
         /*--------------------------------------------------*/
         .social-proof {
-            padding: 30px 0;
+            padding: 20px 0;
             background-color: var(--surface-color);
         }
         
@@ -178,7 +184,7 @@
         /* 4. Testimonials Section */
         /*--------------------------------------------------*/
         .testimonials {
-            padding: 30px 0;
+            padding: 20px 0;
             background-color: var(--background-color);
         }
         
@@ -253,17 +259,29 @@
         /*--------------------------------------------------*/
         .cta-section {
             background-color: var(--accent-color);
-            padding: 30px 0;
+            padding: 20px 0;
             color: white;
             text-align: center;
         }
+        .cta-section .container {
+            max-width: 800px; /* Narrower container for better centered appearance */
+            margin: 0 auto;
+            padding: 20px;
+        }
         .cta-section h2, .cta-section p {
             color: white;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta-section p {
+            margin-bottom: 2rem; /* Add more space between the paragraph and button */
         }
         .cta-section .btn {
             background-color: white;
             color: var(--accent-color);
             font-weight: 700;
+            display: inline-block; /* Ensures button maintains proper spacing */
         }
         .cta-section .btn:hover {
             background-color: #f0f0f0;
@@ -273,9 +291,9 @@
         /* 6. Dream Outcome & About Section */
         /*--------------------------------------------------*/
         .feature-section {
-            padding: 30px 0;
+            padding: 20px 0;
         }
-        .feature-section.container {
+        .feature-section .container {
             display: flex;
             align-items: center;
             gap: 60px;
@@ -296,8 +314,18 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
         
-        .feature-section h2 {
+        /* Remove or comment out this rule that's causing the left alignment */
+        /* .feature-section h2 {
             text-align: left;
+        } */
+
+        .about-heading {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            width: 100%; /* Ensures it spans the full width */
         }
 
 
@@ -390,6 +418,10 @@
             h2 { font-size: 1.8rem; }
         }
 
+        /* Add this rule to your existing CSS */
+        .g-recaptcha {
+            margin-bottom: 20px; /* Adjust the value as needed */
+        }
     </style>
 </head>
 <body>
@@ -411,12 +443,12 @@
                         <span>Benefit from world-class vocal production that captures your most powerful and authentic performance.</span>
                     </li>
                     <li>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.26 10.147a60.438 60.438 0 0 0-.26 2.473a60.438 60.438 0 0 0 .26 2.473l.01 1.028l.01.018l.01.01l.01.004l.01.002l.002.002l.003.002l.003.002l.002.002l.002.002l.002.002l.002.002a6.4 6.4 0 0 0 2.94 2.94l.002.002l.002.002l.002.002l.002.002l.003.002l.003.002l.002.002l.004.002l.01.01l.018.01l1.028.01a60.438 60.438 0 0 0 2.473.26a60.438 60.438 0 0 0 2.473-.26l1.028-.01l.018-.01l.01-.01l.004-.002l.002-.002l.002-.003l.002-.003l.002-.002l.002-.002l.002-.002l.002-.002a6.4 6.4 0 0 0 2.94-2.94l.002-.002l.002-.002l.002-.002l.002-.002l.003-.002l.003-.002l.002-.002l.002-.004l.01-.01l.01-.018l.01-1.028a60.438 60.438 0 0 0 .26-2.473a60.438 60.438 0 0 0-.26-2.473l-.01-1.028l-.01-.018l-.01-.01l-.004-.002l-.002-.002l-.003-.002l-.003-.002l-.002-.002l-.002-.002l-.002-.002l-.002-.002a6.4 6.4 0 0 0-2.94-2.94l-.002-.002l-.002-.002l-.002-.002l-.002-.002l-.003-.002l-.003-.002l-.002-.002l-.004-.002l-.01-.01l-.018-.01l-1.028-.01a60.438 60.438 0 0 0-2.473-.26a60.438 60.438 0 0 0-2.473.26l-1.028.01l-.018.01l-.01.01l-.004.002l-.002.002l-.002.003l-.002.003l-.002.002l-.002.002l-.002.002l-.002.002a6.4 6.4 0 0 0-2.94 2.94l-.002.002l-.002.002l-.002.002l-.002.002l-.003.002l-.003.002l-.002.002l-.002.004l-.01.01l-.01.018Z"></path><path d="m12 8.25 2.5 2.5-2.5 2.5"></path><path d="M12 10.75h-4.25"></path></svg>
-                        <span>Leverage experience from RIAA Diamond-certified and Grammy-winning records.</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                        <span>Enjoy a seamless, all-in-one process from first note to final master, with no need to hire outside engineers or session players.</span>
                     </li>
                 </ul>
                 <div class="hero-cta-button">
-                    <a href="#contact" class="btn">Start The Conversation</a>
+                    <a href="#contact" class="btn">Bring Your Music to Life</a>
                 </div>
             </div>
         </div>
@@ -492,14 +524,14 @@
         <div class="container">
             <h2>Ready to bring your music to life?</h2>
             <p>Let's talk about how we can transform your song into a professional, competitive record.</p>
-            <a href="#contact" class="btn">Start The Conversation</a>
+            <a href="#contact" class="btn">Bring Your Music to Life</a>
         </div>
     </section>
 
     <section class="feature-section dream-outcome">
+        <h2>From The Sound In Your Head To The Final Master</h2>
         <div class="container">
             <div class="text-content">
-                <h2>From The Sound In Your Head To The Final Master</h2>
                 <p>I know how hard it is to get the sound in your head to come out of the speakers. You have a powerful song idea, but you're struggling to translate that emotion and energy into a professional recording that truly connects with listeners.</p>
                 <p>My entire process is designed to bridge that gap. We'll work together to not only capture your vision but to elevate it, making sure every creative choice serves the song. You can stop worrying about the technical hurdles and focus on what you do best: being an artist.</p>
             </div>
@@ -507,21 +539,21 @@
     </section>
     
     <section class="feature-section about" style="background-color: var(--surface-color);">
+        <h2 class="about-heading">More Than A Producer—A Partner In Your Sound</h2>
         <div class="container">
-            <div class="text-content">
-                <h2>More Than A Producer—A Partner In Your Sound</h2>
-                <div class="image-content">
-                    <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/profile-photos/profile-photo-IMG_5507.jpeg?raw=tru" alt="Matthew Tryba mixing music">
-                </div>
-                <p>Hey, I'm Matthew Tryba. My career began as an engineer for some of music's biggest names, including Ryan Tedder of OneRepublic. This gave me a masterclass in what separates a good song from a global hit. I worked on the RIAA Diamond certified hit "Counting Stars," the Grammy-winning albums "1989" for Taylor Swift and "25" for Adele, and on multi-platinum records for Ariana Grande and Maroon 5.</p>
-                <p>Now, I bring that same major-label process and sonic excellence to every independent artist I work with. I'm a multi-instrumentalist, a singer, and a songwriter, but my most important role is being your creative partner, dedicated to realizing your artistic vision.</p>
-            </div>
+        <div class="text-content">
+            <p>Hey, I'm Matthew Tryba. My career began as an engineer for some of music's biggest names, including Ryan Tedder of OneRepublic. This gave me a masterclass in what separates a good song from a global hit. I worked on the RIAA Diamond certified hit "Counting Stars," the Grammy-winning albums "1989" for Taylor Swift and "25" for Adele, and on multi-platinum records for Ariana Grande and Maroon 5.</p>
+            <p>Now, I bring that same major-label process and sonic excellence to every independent artist I work with. I'm a multi-instrumentalist, a singer, and a songwriter, but my most important role is being your creative partner, dedicated to realizing your artistic vision.</p>
         </div>
-    </section>
+        <div class="image-content">
+            <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/profile-photos/profile-photo-IMG_5507.jpeg?raw=true" alt="Matthew Tryba mixing music">
+        </div>
+    </div>
+</section>
     
     <section id="contact" class="contact">
         <div class="container">
-            <h2>Let's Talk About Your Project</h2>
+            <h2>Tell Me About Your Vision</h2>
             <div id="contact-form-container">
                 <form id="contact-form" action="https://formbold.com/s/3nKg0" method="POST">
                     <input type="hidden" name="_redirect" value="https://www.matthewtryba.com/thank-you-8399akkgak3214">
@@ -535,21 +567,21 @@
                         <input type="email" id="email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="budget">What is your approximate budget for this song? <span style="font-weight: normal; color: #666;">(required)</span></label>
+                        <label for="budget">What is your approximate budget for this project? <span style="font-weight: normal; color: #666;">(required)</span></label>
                         <select id="budget" name="budget" required>
                             <option value="" disabled selected>Please select a range...</option>
-                            <option value="$1,500 - $3,000">$1,500 - $3,000</option>
-                            <option value="$3,000 - $5,000">$3,000 - $5,000</option>
-                            <option value="$5,000 - $10,000">$5,000 - $10,000</option>
-                            <option value="$10,000+">$10,000+</option>
+                            <option value="$1,500 - $3,000 per song">$1,500 - $3,000 per song</option>
+                            <option value="$3,000 - $5,000 per song">$3,000 - $5,000 per song</option>
+                            <option value="$5,000 - $10,000 per song">$5,000 - $10,000 per song</option>
+                            <option value="$10,000+ per song">$10,000+ per song</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="message">Tell me about your project and your vision for it. <span style="font-weight: normal; color: #666;">(required)</span></label>
+                        <label for="message">Your Project Details: Tell me what you would like to achieve. <span style="font-weight: normal; color: #666;">(required)</span></label>
                         <textarea id="message" name="message" rows="5" required></textarea>
                     </div>
                     <div class="g-recaptcha" data-sitekey="6LehErsrAAAAANJRw4ksp2u26JgHkqQZ6yCoW24a"></div>
-                    <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+                    <button type="submit" class="btn" style="width: 100%;">Submit Details</button>
                     <p id="form-status"></p>
                 </form> 
             </div>
