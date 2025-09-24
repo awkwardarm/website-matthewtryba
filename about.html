@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Matthew Tryba</title>
+    <style>
+        /*--------------------------------------------------*/
+        /* 1. Global Styles & Typography */
+        /*--------------------------------------------------*/
+        :root {
+            --primary-color: #0d0d0d;
+            --secondary-color: #5a5a5a;
+            --background-color: #ffffff;
+            --accent-color: #1a73e8;
+            --surface-color: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            font-family: "Futura PT", sans-serif;
+            background-color: var(--background-color);
+            color: var(--primary-color);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--primary-color);
+        }
+        h1 { font-size: 2.8rem; margin-bottom: 1rem; text-align: center; }
+        h2 { font-size: 2.2rem; margin-bottom: 2rem; text-align: center; }
+        p {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        .btn:hover { background-color: #1765c6; }
+        section { padding: 48px 0; }
+
+        /*--------------------------------------------------*/
+        /* 2. About Page Specific Styles */
+        /*--------------------------------------------------*/
+        .page-hero { text-align: center; padding: 60px 0; background-color: var(--surface-color); }
+
+        .about-layout { display: flex; align-items: flex-start; gap: 60px; }
+        .about-layout .image-content { flex: 1; min-width: 300px; }
+        .about-layout .text-content { flex: 1.5; }
+        .about-layout .image-content img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .about-layout h2 { text-align: left; }
+        .about-layout p { text-align: left; }
+
+        .cta-section { background-color: var(--accent-color); color: white; text-align: center; }
+        .cta-section h2, .cta-section p { color: white; }
+        .cta-section .btn { background-color: white; color: var(--accent-color); font-weight: 700; }
+        .cta-section .btn:hover { background-color: #f0f0f0; }
+        
+        footer { text-align: center; padding: 30px; font-size: 0.9rem; color: var(--secondary-color); background: var(--surface-color); }
+
+        /*--------------------------------------------------*/
+        /* 3. Responsive Styles */
+        /*--------------------------------------------------*/
+        @media (max-width: 900px) {
+            .about-layout { flex-direction: column; }
+            .about-layout h2 { text-align: center; }
+            .about-layout p { text-align: center; }
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="page-hero">
+        <div class="container">
+            <h1>About Matthew Tryba</h1>
+        </div>
+    </header>
+
+    <section>
+        <div class="container">
+            <div class="about-layout">
+                <div class="image-content">
+                    <img src="https://raw.githubusercontent.com/awkwardarm/website-matthewtryba/refs/heads/main/images/profile-photos/profile-photo-IMG_5507.jpeg" alt="Matthew Tryba in his studio">
+                </div>
+                <div class="text-content">
+                    <h2>From Global Hits to Your Next Record</h2>
+                    <p>Matthew Tryba offers independent artists the one thing they need to compete: a major label sound. His foundation was built engineering for music's elite on records like the RIAA Diamond-certified "Counting Stars" (OneRepublic), the Grammy-winning "1989" (Taylor Swift), and multi-platinum albums for Adele, Ariana Grande, and Maroon 5. This masterclass in what separates a good song from a global hit is now the bedrock of his production work.</p>
+                    <p>Specializing in Pop, Adult Contemporary, and Dark-Pop/Soul, Matthew partners with artists to transform their raw ideas into polished, commercially competitive records ready for radio and sync placement. His sound is built on a backbone of authentic vocals and proven song structure, elevated by textured drums and unique sound design.</p>
+                    <p>Now based in Denver, CO, Matthew works with artists around the world, bringing his unique blend of technical excellence and creative partnership to every project.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to create your best work?</h2>
+            <p style="text-align:center;">Let's talk about how we can transform your song into a professional record that truly connects with listeners.</p>
+            <div style="text-align:center;">
+                <a href="/home#contact" class="btn">Start The Conversation</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 TRYBA MUSIC, LLC. All Rights Reserved. <a href="/home" style="color: var(--secondary-color);">Home</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matthew Tryba | Music Producer</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         /*--------------------------------------------------*/
         /* 1. Global Styles & Typography */
@@ -65,40 +66,8 @@
         .btn-secondary:hover {
             background-color: var(--surface-color);
         }
-        section { padding: 80px 0; }
-
-        /*--------------------------------------------------*/
-        /* 2. Header & Navigation */
-        /*--------------------------------------------------*/
-        header {
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            text-decoration: none;
-            color: var(--primary-color);
-        }
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            gap: 30px;
-        }
-        nav a {
-            text-decoration: none;
-            color: var(--secondary-color);
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        nav a:hover { color: var(--primary-color); }
+        /* Section padding: adjust this value for more/less space between sections */
+        section { padding: 48px 0; } /* was 80px 0 */
 
         /*--------------------------------------------------*/
         /* 3. Hero Section */
@@ -137,8 +106,8 @@
         /*--------------------------------------------------*/
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;            
             text-align: center;
         }
         .service-card {
@@ -190,13 +159,43 @@
         footer { text-align: center; padding: 30px; font-size: 0.9rem; color: var(--secondary-color); background: var(--surface-color); }
 
         /*--------------------------------------------------*/
-        /* 8. Responsive Styles */
+        /* 8. Contact Form Styles */
         /*--------------------------------------------------*/
+        .contact-form-section { background-color: var(--surface-color); }
+        .contact-form-section h2 { text-align: center; }
+        .contact-form-section .form-subtitle { text-align: center; max-width: 600px; margin: 0 auto 2rem auto; }
+        .form-container { max-width: 700px; margin: 0 auto; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--primary-color); }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: inherit;
+            box-sizing: border-box; /* Added for consistent sizing */
+            background-color: white; /* Ensure select has a background */
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+        .form-group textarea { min-height: 150px; resize: vertical; }
+        .form-submit-btn { width: 100%; }
+        .g-recaptcha { margin-bottom: 1.5rem; }
+
+        /*--------------------------------------------------*/
+        /* 9. Responsive Styles */
+        /*--------------------------------------------------*/
+        @media (max-width: 1100px) {
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+        }
         @media (max-width: 900px) {
             .services-grid, .testimonial-grid { grid-template-columns: 1fr; }
             .feature-section .container { flex-direction: column; }
             .feature-section h2 { text-align: center; }
-            nav ul { display: none; } /* Hide nav links on mobile for now */
         }
         @media (max-width: 768px) {
             h1 { font-size: 2.2rem; }
@@ -206,25 +205,12 @@
 </head>
 <body>
 
-    <header>
-        <div class="container">
-            <a href="/" class="logo">MATTHEW TRYBA</a>
-            <nav>
-                <ul>
-                    <li><a href="/about">About</a></li>
-                    <li><a href="/work">Work</a></li>
-                    <li><a href="/contact" class="btn btn-secondary">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
     <section class="hero">
         <div class="container">
             <h1>Major Label Sound for Independent Artists</h1>
             <p class="hero-subheadline">I'm a Denver-based music producer specializing in transforming your raw song ideas into professional, streaming-ready records with RIAA Diamond-certified quality.</p>
             <div class="hero-buttons">
-                 <a href="/contact" class="btn">Start The Conversation</a>
+                 <a href="#contact" class="btn">Start The Conversation</a>
                 <a href="/work" class="btn btn-secondary">See My Work</a>
             </div>
         </div>
@@ -235,14 +221,16 @@
             <h3>ENGINEERING CREDITS ON DIAMOND, MULTI-PLATINUM, & GRAMMY-WINNING RECORDS</h3>
             <div class="logos">
                 <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/album-art/Taylor%20Swift%201989.jpg?raw=true" alt="Taylor Swift 1989 Album Art">
-                <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/album-art/1R%20Native.jpg?raw=true" alt="OneRepublic Native Album Art">
                 <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/album-art/Arana%20Grande%20My%20Everything.jpg?raw=true" alt="Ariana Grande My Everything Album Art">
+                <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/album-art/1R%20Native.jpg?raw=true" alt="OneRepublic Native Album Art">
                 <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/album-art/Adele%2025.jpg?raw=true" alt="Adele 25 Album Art">
                 <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/album-art/Maroon%205%20V.jpg?raw=true" alt="Maroon 5 V Album Art">
+                <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/album-art/burn-ellie-goulding.jpg?raw=true" alt="Ellie Goulding Burn Single Art">
             </div>
         </div>
     </section>
-
+    
+    <!-- Bio/Feature section moved down -->
     <section class="feature-section">
         <div class="container">
             <div class="image-content">
@@ -251,11 +239,14 @@
             <div class="text-content">
                 <h2>Your Partner In Sound</h2>
                 <p>My career began as an engineer for some of music's biggest names, including Ryan Tedder of OneRepublic, which gave me a masterclass in what separates a good song from a global hit. Now, I bring that same major-label process and sonic excellence to every independent artist I partner with.</p>
-                <a href="/about" class="btn">Learn More About Me</a>
+                <div style="text-align:center;">
+                    <a href="/about" class="btn">Learn More About Me</a>
+                </div>
             </div>
         </div>
     </section>
-
+    
+    <!-- Moved up: How I Can Help -->
     <section class="services" style="background-color: var(--surface-color);">
         <div class="container">
             <h2>How I Can Help</h2>
@@ -266,7 +257,7 @@
                     <p>Crafting powerful, authentic vocal performances that make your song unforgettable.</p>
                 </div>
                 <div class="service-card">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18.5a9 9 0 0 1-12.6 0"></path><path d="M14 15.5a5 5 0 0 1-6.6 0"></path><path d="M11 12.5a1 1 0 0 1-1.2 0"></path><path d="M2 10.5V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4.5"></path></svg>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
                     <h3>Full Production</h3>
                     <p>An end-to-end service taking your raw idea to a commercially competitive, streaming-ready master.</p>
                 </div>
@@ -274,6 +265,11 @@
                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="4" y2="20"></line><line x1="4" x2="4" y1="10" y2="14"></line><line x1="20" x2="20" y1="10" y2="14"></line></svg>
                     <h3>Mixing & Mastering</h3>
                     <p>Balancing and enhancing all sonic elements to achieve a polished, professional sound.</p>
+                </div>
+                <div class="service-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                    <h3>Sync Licensing</h3>
+                    <p>For select projects, I leverage industry connections to pitch your music for placement in film, TV, and ads.</p>
                 </div>
             </div>
         </div>
@@ -285,35 +281,95 @@
             <div class="testimonial-grid">
                 <div class="testimonial-card">
                     <p class="quote-headline">"Matthew is the best vocal producer I've found - his ear training is unmatched."</p>
+                    <p class="quote-body">If you are serious about your song and want it the strongest it can be he is your guy!</p>
                     <div class="testimonial-author">
                         <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/8586f24a-abf9-4282-b912-701a9a4eef68/hunter+m.webp" alt="Hunter M Headshot">
-                        <div class="author-info"><span class="name">Hunter M.</span><span class="rating">★★★★★</span></div>
+                        <div class="author-info">
+                            <span class="name">Hunter M.</span>
+                            <span class="rating">★★★★★</span>
+                        </div>
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <p class="quote-headline">"I came to Matt after being frustrated with other producers putting their own spin on my music instead of listening..."</p>
+                    <p class="quote-headline">"Matthew was a great visionary! Really brought the song I've written to life... on a song that needed direction."</p>
+                    <p class="quote-body">Professional and patient. Really gave his own stamp on the song... I will be continuing to work with him on future projects!</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/ad81a661-a4db-4df4-b882-1e6c507be5ae/Cupnoodle.jpg" alt="Cupnoodle Headshot">
+                        <div class="author-info">
+                            <span class="name">Cupnoodle</span>
+                            <span class="rating">★★★★★</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="quote-headline">"I came to Matt after being frustrated with other producers putting their own spin on my music instead of listening to what my needs were."</p>
+                    <p class="quote-body">He has a great way of capitalizing on your strengths and building off of your writing style. He exceeded my expectations.</p>
                     <div class="testimonial-author">
                         <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/320289df-a4f8-4507-9694-4330abbbda0f/lindsey+leigh.webp" alt="Lindsey Leigh Headshot">
-                        <div class="author-info"><span class="name">Lindsey Leigh</span><span class="rating">★★★★★</span></div>
+                        <div class="author-info">
+                            <span class="name">Lindsey Leigh</span>
+                            <span class="rating">★★★★★</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="quote-headline">"I am happy to say that my voice never sounded better... He was easy to work with and great at always communicating."</p>
+                    <p class="quote-body">His production was spot on... Will definitely use again.</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/c0e9a213-8e9b-4637-b2c9-f922e3f78a13/matteo+s+image.jpeg" alt="Matteo S Headshot">
+                        <div class="author-info">
+                            <span class="name">Matteo S.</span>
+                            <span class="rating">★★★★★</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="cta-section">
+
+    <section id="contact" class="contact-form-section">
         <div class="container">
-            <h2>Ready to create your best work?</h2>
-            <p>Let's talk about how we can transform your song into a professional record that truly connects with listeners.</p>
-            <a href="/contact" class="btn">Start The Conversation</a>
+            <h2>Tell Me About Your Vision</h2>
+            <p class="form-subtitle">Ready to start your next project with me? Send me a message and I will get back to you as soon as possible!</p>
+            <div class="form-container">
+                <form action="https://formbold.com/s/oYrGW" method="POST">
+                    <input type="hidden" name="_redirect" value="https://www.matthewtryba.com/thank-you-8399akkgak3214">
+                    <div class="form-group">
+                        <label for="name">Full Name <span style="font-weight: normal; color: #666;">(required)</span></label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address <span style="font-weight: normal; color: #666;">(required)</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="budget">What is your approximate budget for this project? <span style="font-weight: normal; color: #666;">(required)</span></label>
+                        <select id="budget" name="budget" required>
+                            <option value="" disabled selected>Please select a range...</option>
+                            <option value="$1,500 - $3,000 per song">$1,500 - $3,000 per song</option>
+                            <option value="$3,000 - $5,000 per song">$3,000 - $5,000 per song</option>
+                            <option value="$5,000 - $10,000 per song">$5,000 - $10,000 per song</option>
+                            <option value="$10,000+ per song">$10,000+ per song</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Project Details: Tell me what you would like to achieve. <span style="font-weight: normal; color: #666;">(required)</span></label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <div class="g-recaptcha" data-sitekey="6LehErsrAAAAANJRw4ksp2u26JgHkqQZ6yCoW24a"></div>
+                    <button type="submit" class="btn form-submit-btn">Submit Details</button>
+                </form>
+            </div>
         </div>
     </section>
-
+    
+    <!-- Font Awesome icons (free version) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <footer>
         <div class="container">
             <p>&copy; 2025 TRYBA MUSIC, LLC. All Rights Reserved.</p>
         </div>
     </footer>
-
 </body>
 </html>
