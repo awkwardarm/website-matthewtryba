@@ -384,14 +384,7 @@
 
         /* Honeypot field styling - invisible to humans but accessible to bots */
         .honeypot-field {
-            opacity: 0;
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 0;
-            width: 0;
-            z-index: -1;
-            pointer-events: none;
+            display: none !important; /* Standard way to hide fields that systems recognize as honeypots */
         }
 
         /*--------------------------------------------------*/
@@ -577,10 +570,10 @@
                 <form id="contact-form" action="https://formbold.com/s/3nKg0" method="POST" onsubmit="return validateForm()">
                     <input type="hidden" name="_redirect" value="https://www.matthewtryba.com/thank-you-8399akkgak3214">
                     
-                    <!-- Honeypot field - bots will fill this out but humans won't see it -->
-                    <div class="honeypot-field">
-                        <label for="website">Website</label>
-                        <input type="text" id="website" name="website" autocomplete="off">
+                    <!-- Honeypot field using a standard name that Formbold might recognize as honeypot -->
+                    <div class="form-group honeypot-field">
+                        <label for="_honeypot">Leave this field empty</label>
+                        <input type="text" id="_honeypot" name="_honeypot" autocomplete="off" tabindex="-1">
                     </div>
                     
                     <div class="form-group">
@@ -624,12 +617,26 @@
     </footer>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
+    // Spam detection list - add new patterns here as needed
+    const spamPatterns = [
+        "robertduend",
+        "robert duend"
+        // Add more patterns as needed, e.g.,
+        // "another-spam-name",
+        // "yet-another-spammer"
+    ];
+    
     function validateForm() {
         // Get the honeypot field value
-        const honeypot = document.getElementById('website').value;
-        if (honeypot) {
-            // If the honeypot field is filled, it's likely a bot
-            console.log("Bot detected!");
+        const honeypot = document.getElementById('_honeypot').value;
+        // Get the name field value
+        const name = document.getElementById('name').value.toLowerCase();
+        
+        // Check for honeypot or if name contains any spam patterns
+        if (honeypot || spamPatterns.some(pattern => name.includes(pattern))) {
+            console.log("Spam submission blocked");
+            // Redirect to thank you page instead of showing alert
+            window.location.href = "https://www.matthewtryba.com/thank-you-home-98jkxco9012";
             return false; // Prevent form submission
         }
         return true; // Allow the form to submit
