@@ -382,6 +382,18 @@
             text-align: center;
         }
 
+        /* Honeypot field styling - invisible to humans but accessible to bots */
+        .honeypot-field {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 0;
+            width: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
         /*--------------------------------------------------*/
         /* 8. Footer */
         /*--------------------------------------------------*/
@@ -562,9 +574,15 @@
         </div>
         <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
             <div class="col-lg-6">
-                <form id="contact-form" action="https://formbold.com/s/oYrGW" method="POST">
+                <form id="contact-form" action="https://formbold.com/s/oYrGW" method="POST" onsubmit="return validateForm()">
                     <input type="hidden" name="_redirect" value="https://www.matthewtryba.com/thank-you-8399akkgak3214">
-
+                    
+                    <!-- Honeypot field - bots will fill this out but humans won't see it -->
+                    <div class="honeypot-field">
+                        <label for="website">Website</label>
+                        <input type="text" id="website" name="website" autocomplete="off">
+                    </div>
+                    
                     <div class="form-group">
                         <label for="name">Full Name <span style="font-weight: normal; color: #666;">(required)</span></label>
                         <input type="text" id="name" name="name" class="form-control" required>
@@ -605,5 +623,17 @@
         <p>&copy; 2025 TRYBA MUSIC, LLC. All Rights Reserved.</p>
     </footer>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+    function validateForm() {
+        // Get the honeypot field value
+        const honeypot = document.getElementById('website').value;
+        if (honeypot) {
+            // If the honeypot field is filled, it's likely a bot
+            console.log("Bot detected!");
+            return false; // Prevent form submission
+        }
+        return true; // Allow the form to submit
+    }
+</script>
 </body>
 </html>
