@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You | Denver Recording Studio</title>
+    <style>
+        /*--------------------------------------------------*/
+        /* 1. Global Styles & Typography */
+        /*--------------------------------------------------*/
+        :root {
+            --primary-color: #0d0d0d;
+            --secondary-color: #5a5a5a;
+            --background-color: #ffffff;
+            --accent-color: #1a73e8;
+            --surface-color: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Futura PT", sans-serif;
+            background-color: var(--background-color);
+            color: var(--primary-color);
+            line-height: 1.3;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 10px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        h1 { font-size: 2.8rem; margin-bottom: 1rem; }
+        h2 { 
+            font-size: 2.2rem; 
+            margin-bottom: 2rem; 
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        h3 { font-size: 1.5rem; }
+
+        p {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            text-align: center;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        section {
+            padding: 60px 0;
+        }
+
+        /*--------------------------------------------------*/
+        /* 2. Thank You Section */
+        /*--------------------------------------------------*/
+        .thank-you-header {
+            padding: 80px 0;
+            text-align: center;
+            background-color: var(--surface-color);
+        }
+
+        /*--------------------------------------------------*/
+        /* 3. Studio Photos Section */
+        /*--------------------------------------------------*/
+        .studio-showcase {
+            padding: 30px 0;
+        }
+        
+        .studio-showcase h3 {
+             text-align:center;
+             color: var(--secondary-color);
+             font-weight: 500;
+             margin-bottom: 2rem;
+             text-transform: uppercase;
+             letter-spacing: 1px;
+             font-size: 0.9rem;
+        }
+
+        .studio-photos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .studio-photos img {
+            max-height: 300px;
+            width: auto;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        /*--------------------------------------------------*/
+        /* 4. Audio Player Section */
+        /*--------------------------------------------------*/
+        .audio-section {
+            padding: 60px 0;
+            background-color: var(--surface-color);
+        }
+        .audio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+        .disco-embed {
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        /*--------------------------------------------------*/
+        /* 5. Footer */
+        /*--------------------------------------------------*/
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+
+        /*--------------------------------------------------*/
+        /* 6. Responsive Styles */
+        /*--------------------------------------------------*/
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+            .studio-photos img {
+                max-height: 200px;
+            }
+        }
+    </style>
+    <!-- Add conversion tracking pixel/script here if needed -->
+</head>
+<body>
+
+    <header class="thank-you-header">
+        <div class="container">
+            <h1>Thank You For Your Interest in Our Denver Studio!</h1>
+            <p>I've received your inquiry about booking studio time and will reach out within 24 hours to discuss your project in detail.</p>
+            <p>In the meantime, take a look at some of the work we've produced in our Denver recording studio.</p>
+        </div>
+    </header>
+
+    <section class="studio-showcase">
+        <div class="container">
+            <h2>Recent Productions from Our Denver Studio</h2>
+            <p>Here are some recent projects we've recorded, produced, and mixed in our Denver recording facility.</p>
+            
+            <div class="audio-grid">
+                <iframe id="disco-track-162142274" name="disco-track-162142274" allowfullscreen frameborder="0" class="disco-embed" src="https://tryba.disco.ac/e/t/162142274?s=XFs4pi8EsCzMovyWKGWj6CTq_aI%3Arw2AiwdJ&artwork=true&color=%23D95923&theme=light&by=%20&v=0.7" width="100%" height="236"></iframe>
+                <iframe id="disco-track-162142276" name="disco-track-162142276" allowfullscreen frameborder="0" class="disco-embed" src="https://tryba.disco.ac/e/t/162142276?s=DS66erIP_HanpBDGXilmfL-r9uA%3AruU0px84&artwork=true&color=%23D95923&theme=light&by=%20&v=0.7" width="100%" height="236"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section class="audio-section">
+        <div class="container">
+            <h2>Client Success Stories</h2>
+            <p>Artists who record in our Denver studio have seen their music featured in major films, TV shows, and streaming playlists.</p>
+            
+            <div class="studio-photos">
+                <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/1683307227116-ZJNZV057VG4EWBWCORRJ/fast-x-poster.jpg?format=500w" alt="Fast X Poster">
+                <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/1659158558719-GVGJDHCKXAQ7GDIQWW8N/Screen+Shot+2022-07-27+at+4.46.01+PM.png?format=500w" alt="Batwoman Poster">
+                <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/1730849053225-NRPOB8ZJW2E4D1Q7PVW1/NBC+Found+Poster.jpg?format=500w" alt="Found Poster">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 TRYBA MUSIC, LLC. All Rights Reserved. <a href="/landing-page-recording-studio.html" style="color: var(--secondary-color);">Back to Studio Info</a></p>
+    </footer>
+
+</body>
+</html>

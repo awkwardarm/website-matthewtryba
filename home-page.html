@@ -398,16 +398,39 @@
         function validateForm() {
             // Get the honeypot field value
             const honeypot = document.getElementById('_honeypot').value;
-            // Get the name field value
-            const name = document.getElementById('name').value.toLowerCase();
             
-            // Check for honeypot or if name contains any spam patterns
-            if (honeypot || spamPatterns.some(pattern => name.includes(pattern))) {
-                console.log("Spam submission blocked");
-                // Redirect to thank you page instead of showing alert
+            // Get the name field value and clean it
+            // 1. Convert to lowercase
+            // 2. Remove extra whitespace
+            // 3. Remove non-alphanumeric characters
+            const rawName = document.getElementById('name').value;
+            const cleanName = rawName.toLowerCase()
+                                  .replace(/\s+/g, ' ')    // Normalize spaces
+                                  .trim();                 // Remove leading/trailing whitespace
+            
+            // Also create a stripped version with only alphanumeric chars
+            const strippedName = cleanName.replace(/[^a-z0-9]/g, '');
+            
+            console.log("Raw name:", rawName);
+            console.log("Clean name:", cleanName);
+            console.log("Stripped name:", strippedName);
+            
+            // Check for honeypot
+            if (honeypot) {
+                console.log("Honeypot filled - spam detected");
                 window.location.href = "https://www.matthewtryba.com/thank-you-home-98jkxco9012";
-                return false; // Prevent form submission
+                return false;
             }
+            
+            // Check against spam patterns in both clean and stripped versions
+            for (const pattern of spamPatterns) {
+                if (cleanName.includes(pattern) || strippedName.includes(pattern.replace(/\s+/g, ''))) {
+                    console.log(`Spam pattern "${pattern}" detected`);
+                    window.location.href = "https://www.matthewtryba.com/thank-you-home-98jkxco9012";
+                    return false;
+                }
+            }
+            
             return true; // Allow the form to submit
         }
     </script>
