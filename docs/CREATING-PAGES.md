@@ -5,7 +5,8 @@
 1. Copy an existing template
 2. Update content and configuration
 3. Add to `page-configs.js`
-4. Deploy to Squarespace
+4. Set up Google Ads conversion tracking
+5. Deploy to Squarespace
 
 ---
 
@@ -112,13 +113,130 @@ const PAGE_CONFIGS = {
 
 **Important fields:**
 - `formAction` - Where the form submits (Formbold endpoint)
-- `redirectUrl` - Where users go after submission (add `?source=` for tracking)
+- `redirectUrl` - Where users go after submission (**Must include `?source=` parameter for tracking**)
 - `recaptchaSiteKey` - Your Google reCAPTCHA key
 - `heroImage` / `aboutImage` - Image URLs from GitHub
 
 ---
 
-## Step 4: Test Locally
+## Step 4: Set Up Google Ads Conversion Tracking
+
+**Critical for measuring campaign ROI!** Each landing page needs unique tracking.
+
+### Add Source Parameter to Redirect URL
+
+The `?source=` parameter identifies which landing page generated the conversion.
+
+**Format:**
+```
+https://www.matthewtryba.com/thank-you-8399akkgak3214?source=landing-page-CAMPAIGN-NAME
+```
+
+**Examples:**
+```javascript
+'la-landing': {
+    redirectUrl: 'https://www.matthewtryba.com/thank-you-8399akkgak3214?source=landing-page-la'
+}
+
+'nashville-studio': {
+    redirectUrl: 'https://www.matthewtryba.com/thank-you-8399akkgak3214?source=landing-page-nashville-studio'
+}
+
+'google-ads-test-a': {
+    redirectUrl: 'https://www.matthewtryba.com/thank-you-8399akkgak3214?source=landing-page-google-ads-test-a'
+}
+```
+
+### Naming Convention for Source Parameter
+
+Use this format: `landing-page-[campaign-identifier]`
+
+**Good examples:**
+- `landing-page-la` (geographic)
+- `landing-page-nashville-studio` (service + location)
+- `landing-page-vocal-production` (service-specific)
+- `landing-page-summer-promo-2026` (campaign)
+- `landing-page-google-ads-test-a` (A/B testing)
+
+**Why this matters:**
+- Google Ads tracks conversions based on the thank-you page URL
+- The `?source=` parameter lets you identify which ad/campaign drove the conversion
+- You can see conversion data per landing page in Google Ads reports
+
+### Set Up Google Ads Conversion Tracking
+
+**In Google Ads:**
+
+1. **Go to:** Tools & Settings → Measurement → Conversions
+2. **Create new conversion action:**
+   - Conversion name: `Form Submit - LA Landing Page` (match your landing page)
+   - Category: Lead
+   - Value: Assign estimated lead value
+   - Count: One (per conversion)
+   
+3. **Set conversion URL:**
+   - Use your thank-you page URL with source parameter
+   - Example: `https://www.matthewtryba.com/thank-you-8399akkgak3214?source=landing-page-la`
+   - Match should be: `URL equals` or `URL contains landing-page-la`
+
+4. **Verify tracking:**
+   - Test submit form on your new landing page
+   - Check that conversion appears in Google Ads within 24 hours
+   - Verify source parameter is being tracked
+
+### Google Tag Manager (Optional but Recommended)
+
+If using GTM for advanced tracking:
+
+1. Create a **Custom Event Trigger** for form submissions
+2. Add **Data Layer Variable** to capture the source parameter
+3. Send conversion event to Google Ads with source as a custom parameter
+
+**Example data layer push:**
+```javascript
+dataLayer.push({
+    'event': 'form_submission',
+    'landing_page': 'la-landing',
+    'source': 'landing-page-la'
+});
+```
+
+### Verify Google Ads Tag is Active
+
+Your global Google Ads tag loads via Code Injection (already set up):
+
+```html
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17389653886"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-17389653886');
+</script>
+```
+
+This tag is **site-wide** and tracks all pages automatically. You don't need to add it to individual pages.
+
+### Testing Conversion Tracking
+
+**After deploying your new landing page:**
+
+1. **Submit a test form** on your new landing page
+2. **Check Google Ads** (Tools → Conversions → All conversions)
+3. **Verify:**
+   - Conversion appears within 24 hours
+   - Source parameter is captured
+   - Attributed to correct campaign
+
+**Troubleshooting:**
+- If conversion doesn't appear: Check thank-you page URL matches exactly
+- If wrong campaign: Verify source parameter is unique per landing page
+- If no attribution: Ensure Google Ads tag is firing (use Chrome DevTools → Network tab)
+
+---
+
+## Step 5: Test Locally
 
 **1. Uncomment local asset paths:**
 ```html
@@ -140,10 +258,11 @@ open pages-landing/landing-page-los-angeles.html
 - Fill out all fields
 - Submit and verify redirect works
 - Check reCAPTCHA loads correctly
+- **Verify the redirect URL includes the correct `?source=` parameter**
 
 ---
 
-## Step 5: Deploy to Squarespace
+## Step 6: Deploy to Squarespace
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for full deployment instructions.
 
