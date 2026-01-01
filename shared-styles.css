@@ -1,0 +1,490 @@
+/*--------------------------------------------------*/
+/* Shared Styles for All Landing Pages */
+/*--------------------------------------------------*/
+
+:root {
+    --primary-color: #0d0d0d;
+    --secondary-color: #5a5a5a;
+    --background-color: #ffffff;
+    --accent-color: #1a73e8;
+    --surface-color: #f8f9fa;
+    --border-color: #dee2e6;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: "Futura PT", sans-serif;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    line-height: 1.3;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--primary-color);
+}
+
+h1 { font-size: 2.8rem; margin-bottom: 1rem; }
+h2 { 
+    font-size: 2.2rem; 
+    margin-bottom: 2rem; 
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+h3 { font-size: 1.5rem; }
+
+p {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: var(--accent-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.btn:hover {
+    background-color: #1765c6;
+}
+
+section {
+    padding: 80px 0;
+}
+
+/* Hero Section */
+.hero {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.hero .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.hero img {
+    max-width: 250px;
+    border-radius: 4%;
+    margin-bottom: -0.5rem;
+    box-shadow: 1 10px 30px rgba(0,0,0,0.1);
+}
+
+.hero-subheadline {
+    font-size: 1.3rem;
+    color: var(--secondary-color);
+    max-width: 650px;
+    margin: 0 auto 2rem auto;
+}
+
+.hero-bullets {
+    list-style: none;
+    padding: 0;
+    margin: -1.2rem 0;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    text-align: left;
+    max-width: 500px;
+}
+
+.hero-bullets li {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.hero-bullets svg {
+    color: var(--accent-color);
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.hero-cta-button {
+    margin-top: 2rem;
+}
+
+/* Social Proof Section */
+.social-proof {
+    padding: 20px 0;
+    background-color: var(--surface-color);
+}
+
+.social-proof h3 {
+    text-align: center;
+    color: var(--secondary-color);
+    font-weight: 500;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.logos img {
+    max-height: 120px;
+    width: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+}
+
+.logos img:hover {
+    transform: scale(1.05);
+}
+
+/* Testimonials Section */
+.testimonials {
+    padding: 20px 0;
+    background-color: var(--background-color);
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.testimonial-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-card .quote-headline {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    position: relative;
+    padding-left: 30px;
+}
+
+.quote-headline::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    top: -10px;
+    font-size: 3rem;
+    color: var(--accent-color);
+    font-family: Georgia, serif;
+}
+
+.testimonial-card .quote-body {
+    font-style: italic;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-author {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+}
+
+.testimonial-author img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+.author-info .name {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.author-info .rating {
+    color: #ffc107;
+    font-size: 1rem;
+}
+
+/* CTA Section */
+.cta-section {
+    background-color: var(--accent-color);
+    padding: 20px 0;
+    color: white;
+    text-align: center;
+}
+
+.cta-section .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.cta-section h2, .cta-section p {
+    color: white;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-section p {
+    margin-bottom: 2rem;
+}
+
+.cta-section .btn {
+    background-color: white;
+    color: var(--accent-color);
+    font-weight: 700;
+    display: inline-block;
+}
+
+.cta-section .btn:hover {
+    background-color: #f0f0f0;
+}
+
+/* Feature Section */
+.feature-section {
+    padding: 20px 0;
+}
+
+.feature-section .container {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.feature-section.about .image-content {
+    order: 2;
+}
+
+.feature-section .text-content,
+.feature-section .image-content {
+    flex: 1;
+}
+
+.feature-section .image-content img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.about-heading {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+    width: 100%;
+}
+
+/* Contact Form Section */
+.contact {
+    padding: 5px 0;
+    background-color: var(--surface-color);
+}
+
+#contact-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: "Futura PT", sans-serif;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+}
+
+#form-status {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.honeypot-field {
+    display: none !important;
+}
+
+/*--------------------------------------------------*/
+/* Form Enhancements */
+/*--------------------------------------------------*/
+
+/* Email field checkbox positioning */
+.form-item.field.email {
+    position: relative !important;
+    padding-bottom: 25px !important;
+}
+
+.form-item.field.email .option {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    margin: 0 0 10px 15px !important;
+    display: flex;
+    align-items: center;
+    width: 100% !important;
+}
+
+.form-item.field.email .option input[type="checkbox"] {
+    margin-right: -10px !important;
+    flex-shrink: 0;
+}
+
+/* Custom checkbox label text */
+.form-item.field.email .option label {
+    font-size: 0 !important;
+    line-height: 0 !important;
+}
+
+.form-item.field.email .option label:after {
+    content: "Required: consent to receive download link.";
+    color: black !important;
+    font-size: 16px;
+    line-height: 1.2;
+    white-space: normal;
+}
+
+/*--------------------------------------------------*/
+/* Shimmer Pill Button */
+/*--------------------------------------------------*/
+
+.pill-button {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    padding: 18px 40px;
+    background-color: rgb(23, 23, 23);
+    color: #FFFFFF !important;
+    border: 2px solid #FFFFFF;
+    border-radius: 50px;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+.pill-button:hover {
+    background-color: #FFFFFF;
+    color: rgb(23, 23, 23) !important;
+}
+
+.pill-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 75%;
+    height: 100%;
+    background: linear-gradient(
+        60deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    animation: shimmer 4s infinite;
+}
+
+@keyframes shimmer {
+    100% {
+        left: 150%;
+    }
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+}
+
+.g-recaptcha {
+    margin-bottom: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+    .testimonial-grid {
+        grid-template-columns: 1fr;
+    }
+    .feature-section .container {
+        flex-direction: column;
+    }
+    .feature-section.about .image-content {
+        order: 1;
+    }
+    .feature-section .text-content {
+        order: 2;
+    }
+    .feature-section h2 {
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.8rem; }
+}

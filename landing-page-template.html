@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matthew Tryba | Music Producer</title>
+    
+    <!-- Link to shared CSS - UPDATE THIS PATH in Squarespace -->
+    <link rel="stylesheet" href="/s/shared-styles.css">
+    
+    <!-- Page-specific styles if needed -->
+    <style>
+        /* Add any page-specific overrides here */
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <!-- Hero content here - customize per page -->
+        <div class="container">
+            <img src="" alt="Matthew Tryba" id="hero-image">
+            <div class="hero-content">
+                <h1>Major Label Sound for Independent Artists</h1>
+                <!-- ...existing hero content... -->
+                <div class="hero-cta-button">
+                    <!-- Option 1: Standard button -->
+                    <a href="#contact" class="btn">Bring Your Music to Life</a>
+                    
+                    <!-- Option 2: Shimmer pill button (comment out one option) -->
+                    <!-- <a href="#contact" class="pill-button">Start Your Project</a> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ...all other sections... -->
+
+    <section class="page-section" id="contact">
+        <div class="container px-4 px-lg-5">
+            <!-- ...existing contact form structure... -->
+            <form id="contact-form" action="" method="POST">
+                <input type="hidden" name="_redirect" value="" id="form-redirect">
+                <!-- ...existing form fields... -->
+                <div class="g-recaptcha" data-sitekey=""></div>
+                <button type="submit" class="btn btn-primary btn-xl" style="width: 100%;">Submit Details</button>
+                <p id="form-status"></p>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 TRYBA MUSIC, LLC. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Load reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
+    <!-- Load shared scripts - UPDATE THIS PATH in Squarespace -->
+    <script src="/s/shared-scripts.js"></script>
+    
+    <!-- Load page config - UPDATE THIS PATH in Squarespace -->
+    <script src="/s/page-configs.js"></script>
+    
+    <!-- Page-specific initialization -->
+    <script>
+        // Set the page name to load correct config
+        const pageConfig = getPageConfig('main-landing'); // Change this per page
+        
+        // Apply configuration
+        document.getElementById('contact-form').action = pageConfig.formAction;
+        document.getElementById('form-redirect').value = pageConfig.redirectUrl;
+        document.querySelector('.g-recaptcha').setAttribute('data-sitekey', pageConfig.recaptchaSiteKey);
+        document.getElementById('hero-image').src = pageConfig.heroImage;
+    </script>
+</body>
+</html>
