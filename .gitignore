@@ -1,3 +1,7 @@
 .DS_STORE
 archive/
 scratch.css
+
+# Preview files for local development
+*-PREVIEW.html
+*-OLD.html

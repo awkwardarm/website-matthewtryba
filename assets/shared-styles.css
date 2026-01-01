@@ -3,12 +3,21 @@
 /*--------------------------------------------------*/
 
 :root {
-    --primary-color: #0d0d0d;
+    /* Light Mode (default) - Comment out to disable */
+    /* --primary-color: #0d0d0d;
     --secondary-color: #5a5a5a;
     --background-color: #ffffff;
     --accent-color: #1a73e8;
     --surface-color: #f8f9fa;
-    --border-color: #dee2e6;
+    --border-color: #dee2e6; */
+
+    /* Dark Mode - Comment out to disable */
+    --primary-color: #ffffff;
+    --secondary-color: #cccccc;
+    --background-color: #0d0d0d;
+    --accent-color: #1a73e8;
+    --surface-color: #1a1a1a;
+    --border-color: #333333;
 }
 
 html {
