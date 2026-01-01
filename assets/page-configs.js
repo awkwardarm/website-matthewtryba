@@ -11,13 +11,19 @@ const PAGE_CONFIGS = {
         heroImage: 'https://raw.githubusercontent.com/awkwardarm/website-matthewtryba/refs/heads/main/images/profile-photos/profile-photo-IMG_5596.jpeg',
         aboutImage: 'https://github.com/awkwardarm/website-matthewtryba/blob/main/images/profile-photos/profile-photo-IMG_5507.jpeg?raw=true'
     },
-    // Add more landing page configs here as needed
-    'secondary-landing': {
-        formAction: 'https://formbold.com/s/XXXXX',
-        redirectUrl: 'https://www.matthewtryba.com/thank-you-secondary',
+    'national-landing': {
+        formAction: 'https://formbold.com/s/3nKg0',
+        redirectUrl: 'https://www.matthewtryba.com/thank-you-8399akkgak3214?source=landing-page-usa',
         recaptchaSiteKey: '6LehErsrAAAAANJRw4ksp2u26JgHkqQZ6yCoW24a',
-        heroImage: 'https://example.com/different-hero.jpg',
-        aboutImage: 'https://example.com/different-about.jpg'
+        heroImage: 'https://raw.githubusercontent.com/awkwardarm/website-matthewtryba/main/images/profile-photos/profile-photo-IMG_5596%202000%20wide.jpeg',
+        aboutImage: 'https://github.com/awkwardarm/website-matthewtryba/blob/main/images/profile-photos/profile-photo-IMG_5507.jpeg?raw=true'
+    },
+    'recording-studio': {
+        formAction: 'https://formbold.com/s/3nKg0',
+        redirectUrl: 'https://www.matthewtryba.com/thank-you-8399akkgak3214?source=landing-page-recording-studio',
+        recaptchaSiteKey: '6LehErsrAAAAANJRw4ksp2u26JgHkqQZ6yCoW24a',
+        heroImage: 'https://raw.githubusercontent.com/awkwardarm/website-matthewtryba/refs/heads/main/images/profile-photos/profile-photo-IMG_5596.jpeg',
+        aboutImage: 'https://github.com/awkwardarm/website-matthewtryba/blob/main/images/profile-photos/profile-photo-IMG_5507.jpeg?raw=true'
     }
 };
 

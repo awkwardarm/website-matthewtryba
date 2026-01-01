@@ -68,6 +68,19 @@ https://raw.githubusercontent.com/awkwardarm/website-matthewtryba/main/assets/pa
 Paste this in the **HEADER** section:
 
 ```html
+<!-- Google Ads Verification & Tracking -->
+<meta name="google-site-verification" content="C6rIbGf37oPNtwidRGBKWA6wnrsLsSVH9P4v8ZzXo9E" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17389653886"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17389653886');
+</script>
+
 <!-- Global CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@main/assets/shared-styles.css">
 
