@@ -262,7 +262,28 @@ open pages-landing/landing-page-los-angeles.html
 
 ---
 
-## Step 6: Deploy to Squarespace
+## Step 6: Update CHANGELOG.md
+
+Before deploying, document your new landing page in `CHANGELOG.md`:
+
+```markdown
+## [1.0.4] - 2026-01-02
+
+### Added
+- New Los Angeles landing page (`landing-page-los-angeles.html`)
+  - Configured for LA-specific Google Ads campaigns
+  - Custom hero image and copy for LA market
+  - Tracking parameter: `?source=landing-page-la`
+```
+
+**This helps you:**
+- Track when pages were created
+- Remember which campaigns are active
+- See version history at a glance
+
+---
+
+## Step 7: Deploy to Squarespace
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for full deployment instructions.
 
