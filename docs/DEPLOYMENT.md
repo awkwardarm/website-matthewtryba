@@ -38,7 +38,32 @@ open pages-landing/landing-page-national.html
 
 ---
 
-### 2. Commit Changes to Git
+### 2. Update CHANGELOG.md
+
+**Before committing**, document your changes in `CHANGELOG.md`.
+
+1. Open `CHANGELOG.md`
+2. Add your changes under the appropriate version section
+3. Follow the format:
+
+```markdown
+## [1.0.4] - 2026-01-02
+
+### Changed
+- Updated hero section styling
+  - Increased font size for headings
+  - Adjusted button padding
+```
+
+**Categories to use:**
+- `Added` - New features or files
+- `Changed` - Changes to existing functionality
+- `Fixed` - Bug fixes
+- `Removed` - Removed features or files
+
+---
+
+### 3. Commit Changes to Git
 
 #### Option A: Using VS Code UI
 
@@ -68,7 +93,7 @@ git commit -m "Update hero section styling"
 
 ---
 
-### 3. Create Version Tag
+### 4. Create Version Tag
 
 Version tags control what Squarespace loads. Use **semantic versioning**:
 - `v1.0.0` → Major redesign
@@ -101,7 +126,7 @@ git tag --list
 
 ---
 
-### 4. Push to GitHub
+### 5. Push to GitHub
 
 If you haven't already pushed:
 
@@ -117,7 +142,7 @@ git push origin main
 
 ---
 
-### 5. Update Squarespace
+### 6. Update Squarespace
 
 Now that the new version is on GitHub, update Squarespace to use it.
 
