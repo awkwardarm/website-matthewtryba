@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2026-02-13
+
+### Changed
+- Removed budget dropdown from contact forms
+  - Commented out budget field in `home-page.html` and `landing-page-national.html`
+  - Reduces friction for potential leads
+- Updated service cards grid layout in `home-page.html`
+  - Changed from 4-column to 3-column layout after removing sync licensing service
+- Improved testimonial quotation mark styling in `shared-styles.css`
+  - Reduced quotation mark size from 3rem to 1.9rem for better proportions
+  - Added closing quotation marks after quote-body text
+  - Ensured consistent styling between opening and closing quotes
+  - Refactored CSS to eliminate duplication
+
 ## [1.0.3] - 2026-01-02
 
 ### Added
