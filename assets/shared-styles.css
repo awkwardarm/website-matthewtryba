@@ -208,20 +208,35 @@ section {
     padding-left: 30px;
 }
 
-.quote-headline::before {
-    content: '"';
-    position: absolute;
-    left: 0;
-    top: -10px;
-    font-size: 3rem;
-    color: var(--accent-color);
-    font-family: Georgia, serif;
-}
-
 .testimonial-card .quote-body {
     font-style: italic;
     color: var(--secondary-color);
     margin-bottom: 1.5rem;
+    position: relative;
+    padding-right: 30px;
+}
+
+/* Shared quote mark styles */
+.quote-headline::before,
+.quote-body::after {
+    content: '"';
+    position: absolute;
+    font-size: 1.9rem;
+    font-weight: 400;
+    color: var(--accent-color);
+    font-family: Georgia, serif;
+    font-style: normal;
+    line-height: 1;
+}
+
+.quote-headline::before {
+    left: 0;
+    top: 0;
+}
+
+.quote-body::after {
+    right: 0;
+    bottom: 0;
 }
 
 .testimonial-author {
