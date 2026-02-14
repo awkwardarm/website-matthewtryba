@@ -110,10 +110,10 @@
                     <img src="https://raw.githubusercontent.com/awkwardarm/website-matthewtryba/refs/heads/main/images/profile-photos/profile-photo-IMG_5507.jpeg" alt="Matthew Tryba in his studio">
                 </div>
                 <div class="text-content">
-                    <h2>From Global Hits to Your Next Song</h2>
-                    <p>I offer independent and major label artists boutique and refined sound forged by over 15 years in the music industry. My foundation was built engineering for music's elite on records like the RIAA Diamond-certified "Counting Stars" (OneRepublic), the Grammy-winning "1989" (Taylor Swift), and multi-platinum albums for Adele, Ariana Grande, and Maroon 5. This masterclass in what separates a good song from a global hit is now the bedrock of my production work.</p>
-                    <p>Specializing in Pop, Adult Contemporary, and Dark-Pop, I partner with artists to transform their raw ideas into polished, commercially competitive records ready for radio, film, and television. My sound is built on a backbone of authentic vocals woven into textured drums and unique sound design.</p>
-                    <p>Now based in Denver, CO, I work with artists around the world, bringing my unique blend of technical excellence and creative acumen to every song.</p>
+                    <h2>Built on Craft</h2>
+                    <p>For 15 years, I've held every song I touch to the same standard that produced Diamond certified hits and Grammy winning albums. Records for Taylor Swift, Adele, OneRepublic, and Ariana Grande were built by skill, determination, and artistic commitment. That's the exact process I now bring to you.</p>
+                    <p>Specializing in Pop, Adult Contemporary, and Dark Pop, I partner with artists to transform their raw ideas into polished competitive recordings, all the while protecting your creative identity and artistic fingerprint at every step. You'll never lose yourself and your voice in the process. My sound is built on a backbone of authentic vocals woven into textured drums and unique sound design.</p>
+                    <p>Based in Denver, Colorado and working with artists worldwide, I'm here to make the porcess as focused and personal as the music we'll create together.</p>
                 </div>
             </div>
         </div>
@@ -131,9 +131,12 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 TRYBA MUSIC, LLC. All Rights Reserved. <a href="/home" style="color: var(--secondary-color);">Home</a></p>
+            <p>&copy; <span id="year"></span> TRYBA MUSIC, LLC. All Rights Reserved. <a href="/home" style="color: var(--secondary-color);">Home</a></p>
         </div>
     </footer>
 
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

@@ -174,7 +174,7 @@
     <header class="thank-you-header">
         <div class="container">
             <h1>Thank You For Your Message!</h1>
-            <p>I've received your details and will do my best to respond within 24 hours, Monday through Friday. I'm looking forward to learning more about your music and how I can help bring your vision to life.</p>
+            <p>I've received your message and I will respond within 24 hours, Monday through Friday. I'm looking forward to learning about your music and showing you what's possible.</p>
             <p>In the meantime, feel free to explore my work below.</p>
         </div>
     </header>
@@ -214,8 +214,11 @@
     </section>
 
     <footer>
-        <p>&copy; 2025 TRYBA MUSIC, LLC. All Rights Reserved.</p>
+        <p>&copy; <span id="year"></span> TRYBA MUSIC, LLC. All Rights Reserved.</p>
     </footer>
 
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

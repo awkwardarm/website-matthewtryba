@@ -149,9 +149,9 @@
 
     <header class="thank-you-header">
         <div class="container">
-            <h1>Thank You For Your Interest in Our Denver Studio!</h1>
-            <p>I've received your inquiry about booking studio time and will reach out within 24 hours to discuss your project in detail.</p>
-            <p>In the meantime, take a look at some of the work we've produced in our Denver recording studio.</p>
+            <h1>Thank You For Your Interest in My Denver Studio!</h1>
+            <p>I've received your message and I will respond within 24 hours, Monday through Friday. I'm looking forward to learning about your music and showing you what's possible.</p>
+            <p>In the meantime, take a look at some of the work we've produced in my Denver recording studio.</p>
         </div>
     </header>
 
@@ -181,8 +181,11 @@
     </section>
 
     <footer>
-        <p>&copy; 2025 TRYBA MUSIC, LLC. All Rights Reserved. <a href="/landing-page-recording-studio.html" style="color: var(--secondary-color);">Back to Studio Info</a></p>
+        <p>&copy; <span id="year"></span> TRYBA MUSIC, LLC. All Rights Reserved. <a href="/landing-page-recording-studio.html" style="color: var(--secondary-color);">Back to Studio Info</a></p>
     </footer>
 
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

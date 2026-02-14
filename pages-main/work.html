@@ -131,7 +131,7 @@
     <section class="work-hero">
         <div class="container">
             <h1>My Work</h1>
-            <p>Here is a curated selection of my work. This portfolio showcases songs with both independent artists and major label acts across various genres.</p>
+            <p>Every song was held to one standard: the best it could possibly be. From independent artists to major label acts, this is what happens when you combine raw talent with world class production.</p>
             <div class="hero-button-wrapper">
                 <a href="/home#contact" class="btn">Ready to Work Together?</a>
             </div>
@@ -155,7 +155,7 @@
     <section id="sync" style="background-color: var(--surface-color);">
         <div class="container">
             <h2>Client Success In Film & Television</h2>
-            <p style="text-align: center; max-width: 700px; margin: -1rem auto 2rem auto;">My clients' music has been featured in major films and TV shows, a testament to the broadcast-quality sound we achieve together.</p>
+            <p style="text-align: center; max-width: 700px; margin: -1rem auto 2rem auto;">When your music sounds this good, Hollywood notices. These placements achieved with my clients are a testament to the standard we can achieve together.</p>
             
             <div class="video-wrapper">
                 <iframe src="https://www.youtube.com/embed/kFVZUrXk3oU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -184,9 +184,12 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 TRYBA MUSIC, LLC. All Rights Reserved. <a href="/home" style="color: var(--secondary-color);">Home</a></p>
+            <p>&copy; <span id="year"></span> TRYBA MUSIC, LLC. All Rights Reserved. <a href="/home" style="color: var(--secondary-color);">Home</a></p>
         </div>
     </footer>
 
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
