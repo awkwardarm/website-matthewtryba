@@ -151,10 +151,20 @@ section {
     text-align: center;
     color: var(--secondary-color);
     font-weight: 500;
-    margin-bottom: 2rem;
+    margin-bottom: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 0.9rem;
+}
+
+.social-proof p {
+    text-align: center;
+    color: var(--secondary-color);
+    font-size: 0.75rem;
+    font-style: italic;
+    opacity: 0.75;
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
 }
 
 .logos {

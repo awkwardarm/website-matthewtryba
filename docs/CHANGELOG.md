@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2026-02-27
+
+### Changed
+- Copy edits across landing page and main pages
+  - Updated hero subheadline, bullet points, and CTA button text in `landing-page-national.html`
+  - Revised dream outcome and about section body copy in `landing-page-national.html`
+  - Updated CTA section headline and copy in `landing-page-national.html` and `about.html`
+  - Updated page heading and body copy in `about.html`
+  - Simplified contact form subtitle in `landing-page-national.html`
+- Disabled reCAPTCHA on national landing page
+  - Commented out reCAPTCHA script, widget div, and JS initializer in `landing-page-national.html`
+- Added `.social-proof p` note styling in `shared-styles.css`
+  - Smaller font size (0.75rem), italic, muted opacity — styled as a contextual note below the section heading
+
 ## [1.0.4] - 2026-02-13
 
 ### Changed
