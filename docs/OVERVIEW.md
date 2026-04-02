@@ -80,17 +80,17 @@ Every page on your Squarespace site loads shared assets via **Code Injection**:
 **Header Injection:**
 ```html
 <!-- Global CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.3/assets/shared-styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.7/assets/shared-styles.css">
 
 <!-- Squarespace-specific overrides -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.3/assets/squarespace-overrides.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.7/assets/squarespace-overrides.css">
 ```
 
 **Footer Injection:**
 ```html
 <!-- Global JavaScript -->
-<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.3/assets/shared-scripts.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.3/assets/page-configs.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.7/assets/shared-scripts.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.7/assets/page-configs.js"></script>
 ```
 
 ### Local Development (Your Computer)

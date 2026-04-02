@@ -165,18 +165,18 @@ Change version numbers from `@v1.0.3` to `@v1.0.4` (your new version):
 </script>
 
 <!-- Global CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.4/assets/shared-styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.7/assets/shared-styles.css">
 
 <!-- Squarespace-specific overrides -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.4/assets/squarespace-overrides.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.7/assets/squarespace-overrides.css">
 ```
 
 #### Update Footer Injection
 
 ```html
 <!-- Global JavaScript -->
-<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.4/assets/shared-scripts.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.4/assets/page-configs.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.7/assets/shared-scripts.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.7/assets/page-configs.js"></script>
 ```
 
 **Click Save!**
