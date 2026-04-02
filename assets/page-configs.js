@@ -26,8 +26,8 @@ const PAGE_CONFIGS = {
         aboutImage: 'https://github.com/awkwardarm/website-matthewtryba/blob/main/images/profile-photos/profile-photo-IMG_5507.jpeg?raw=true'
     },
     'home': {
-        formAction: 'https://formbold.com/s/3nK2A',
-        redirectUrl: 'https://www.matthewtryba.com/thank-you-home-98jkxco9012',
+        formAction: 'https://formbold.com/s/3nK2A', //different form for home page to track source separately
+        redirectUrl: 'https://www.matthewtryba.com/thank-you-home-98jkxco9012?source=home-page',
         recaptchaSiteKey: '6LehErsrAAAAANJRw4ksp2u26JgHkqQZ6yCoW24a',
         heroImage: 'https://raw.githubusercontent.com/awkwardarm/website-matthewtryba/refs/heads/main/images/profile-photos/profile-photo-IMG_5596.jpeg',
         aboutImage: 'https://github.com/awkwardarm/website-matthewtryba/blob/main/images/profile-photos/profile-photo-IMG_5507.jpeg?raw=true'
