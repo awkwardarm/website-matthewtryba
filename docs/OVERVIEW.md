@@ -106,24 +106,21 @@ Assets uploaded directly to Squarespace via **Settings → Advanced → File Sto
 
 **Audio player assets (landing page):**
 ```html
-<!-- For Squarespace -->
-<link rel="stylesheet" href="/s/audio-player.css">
-<script src="/s/audio-player-tracks.js"></script>
-<script src="/s/audio-player.js"></script>
-<!-- For local preview -->
-<link rel="stylesheet" href="../assets/audio-player.css">
-<script src="../assets/audio-player-tracks.js"></script>
-<script src="../assets/audio-player.js"></script>
+<!-- For Squarespace (jsDelivr CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.9/assets/audio-player.css">
+<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.9/assets/audio-player-tracks.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.9/assets/audio-player.js"></script>
+<!-- For local preview (comment out CDN lines above and uncomment these) -->
+<!-- <link rel="stylesheet" href="../assets/audio-player.css"> -->
+<!-- <script src="../assets/audio-player-tracks.js"></script> -->
+<!-- <script src="../assets/audio-player.js"></script> -->
 ```
 
-Both paths are always active. Squarespace serves `/s/` files; local preview falls back to `../assets/`. The browser ignores the path that fails to load.
-
-Files to upload to Squarespace: `audio-player.css`, `audio-player-tracks.js`, `audio-player.js`
-See [DEPLOYMENT.md](DEPLOYMENT.md) for upload instructions.
+All audio player assets now use jsDelivr CDN — same pattern as `shared-styles.css`. Bump the version tag in these URLs whenever the audio player files change.
 
 ### Local Development (Your Computer)
 
-Both Squarespace `/s/` paths and local `../assets/` paths are always active in the landing page. No commenting/uncommenting needed — the browser silently ignores whichever path fails to load for the current environment.
+Comment out the CDN lines and uncomment the `../assets/` lines in the landing page `<head>` for local preview. Re-comment before pasting into Squarespace.
 ```
 
 ---
