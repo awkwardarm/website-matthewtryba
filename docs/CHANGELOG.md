@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.9] - 2026-04-15
+
+### Added
+- Custom modular audio player replacing Disco playlist embeds on `landing-page-national.html`
+  - `assets/audio-player.css` — all player component styles (cards, now-playing bar, play triggers)
+  - `assets/audio-player.js` — `initAudioPlayer(config)` function; renders cards, now-playing bar, wires album art triggers
+  - `assets/audio-player-tracks.js` — single source of truth for all tracks (edit once, updates all pages)
+- Spotify-style now-playing bar: fixed bottom bar that slides up on first play with track info, progress/seek, play/pause, and volume control (hidden on touch devices)
+- Social proof click-to-play: clicking any album art image in the social proof section plays the corresponding track and opens the now-playing bar
+- Audio files and artwork served from Cloudflare R2 bucket (`pub-869789a451fa44dbadf9e27cd445afa0.r2.dev`)
+- Hidden group pattern for tracks: tracks with `group: "hidden"` render into an invisible DOM container (available for album art click-to-play without appearing in the player grid)
+- Track list: 4 major label engineering tracks (Counting Stars, I Know Places, Why Try, Remedy), 2 hidden tracks (Maps, Burn), 2 independent artist tracks (Down With Me, Fearless)
+
+### Changed
+- Landing page audio section: replaced Disco embed iframes with `<div id="player-root"></div>` + player scripts
+- Audio player accent color set to `#6196f8` (blue) throughout player UI
+- Player cards redesigned as compact single-row layout (artwork + title/artist + play button)
+- Squarespace asset loading for audio player uses `/s/` file storage paths; local preview paths commented out in-file
+
 ## [1.0.8] - 2026-04-02
 
 ### Fixed

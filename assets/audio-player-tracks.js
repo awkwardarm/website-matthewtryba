@@ -24,17 +24,33 @@ const TRACKS = [
     },
     {
         group: "For Major Labels: Engineering",
+        title: "Why Try",
+        artist: "Ariana Grande",
+        src: "https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/audio/Why%20Try%20-%20Ariana%20Grande%20-%20TRYBA%20MUSIC.mp3",
+        artwork: "https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/Arana%20Grande%20My%20Everything.jpg"
+    },
+    {
+        group: "For Major Labels: Engineering",
+        title: "Remedy",
+        artist: "Adele",
+        src: "https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/audio/Remedy%20-%20Adele.mp3",
+        artwork: "https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/Adele%2025.jpg"
+    },
+
+    // Hidden group — playable via album art click but not shown in the player grid
+    {
+        group: "hidden",
         title: "Maps",
         artist: "Maroon 5",
         src: "https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/audio/Maps%20-%20Maroon%205%20-%20TRYBA%20MUSIC.mp3",
         artwork: "https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/Maroon%205%20V.jpg"
     },
     {
-        group: "For Major Labels: Engineering",
-        title: "Why Try",
-        artist: "Ariana Grande",
-        src: "https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/audio/Why%20Try%20-%20Ariana%20Grande%20-%20TRYBA%20MUSIC.mp3",
-        artwork: "https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/Arana%20Grande%20My%20Everything.jpg"
+        group: "hidden",
+        title: "Burn",
+        artist: "Ellie Goulding",
+        src: "https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/audio/Burn%20-%20Ellie%20Goulding.mp3",
+        artwork: "https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/burn-ellie-goulding.jpg"
     },
 
     // Group 2: Full Production for Independent Artists

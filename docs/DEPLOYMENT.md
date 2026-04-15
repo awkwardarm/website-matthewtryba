@@ -29,8 +29,11 @@ Edit files in VS Code:
 - JavaScript changes → `assets/shared-scripts.js`
 - Page configurations → `assets/page-configs.js`
 - HTML changes → `pages-*/your-page.html`
+- Audio player styles → `assets/audio-player.css`
+- Audio player logic → `assets/audio-player.js`
+- Audio tracks → `assets/audio-player-tracks.js`
 
-**Test locally first!**
+> **Audio player files** use Squarespace File Storage (`/s/` paths), not the jsDelivr CDN. See "Updating Audio Player Files" below for the upload workflow.
 ```bash
 # Open HTML file in browser
 open pages-landing/landing-page-national.html
@@ -283,6 +286,45 @@ git push origin v1.1.0
    - Add Code Block
    - Paste HTML from landing-page-chicago.html (with local paths commented out)
    - Publish
+
+---
+
+### Updating Audio Player Files (Squarespace File Storage)
+
+The audio player (`audio-player.css`, `audio-player-tracks.js`, `audio-player.js`) is served from **Squarespace File Storage** as `/s/` paths — NOT from jsDelivr CDN. This means they must be uploaded manually whenever changed.
+
+**When to do this:**
+- Edited `audio-player-tracks.js` to add/remove tracks
+- Changed `audio-player.css` styles
+- Updated `audio-player.js` logic
+
+#### Step-by-step
+
+1. **Edit the file(s) locally** in `assets/`
+
+2. **Test locally** — uncomment `../assets/` paths in the landing page HTML, comment out `/s/` paths, and open in browser
+
+3. **Upload to Squarespace File Storage:**
+   - Go to: **Squarespace → Pages → Not Linked → (your landing page)**
+   - OR: **Settings → Developer Tools → File Storage** (if available on your plan)
+   - Upload the updated file(s): `audio-player.css`, `audio-player-tracks.js`, `audio-player.js`
+   - Squarespace will host them at `/s/audio-player.css` etc.
+
+   > **Alternative (if File Storage isn't accessible directly):** Open the landing page editor → click the Code Block containing the audio player HTML → Squarespace provides an upload option in the code block editor for referenced `/s/` assets.
+
+4. **Restore production paths** in landing page HTML — comment out `../assets/` lines, uncomment `/s/` lines
+
+5. **Hard refresh** to verify:
+   - `Cmd+Option+I` → right-click reload → "Empty Cache and Hard Reload"
+
+6. **Commit the code change to GitHub** (even though Squarespace doesn't pull CSS/JS from GitHub for `/s/` assets, keep the repo as source of truth):
+```bash
+git add assets/audio-player*.{css,js}
+git commit -m "Update audio player tracks/styles"
+git push origin main
+```
+
+> **Note:** Audio player files do NOT need a new version tag unless `shared-styles.css` or other CDN assets also changed. A plain commit + push is sufficient.
 
 ---
 

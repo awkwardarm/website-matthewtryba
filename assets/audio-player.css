@@ -63,16 +63,18 @@
     background: var(--surface-color);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    padding: 16px;
+    padding: 14px 16px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 12px;
 }
 
 .player-card .track-info {
+    flex: 1;
     display: flex;
     align-items: center;
     gap: 12px;
+    min-width: 0;
 }
 
 .track-artwork {
@@ -120,17 +122,11 @@
 /* -----------------------------------------------
    Controls
 ----------------------------------------------- */
-.player-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
 .play-btn {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: #D95923;
+    background: #6196f8;
     border: none;
     cursor: pointer;
     flex-shrink: 0;
@@ -140,7 +136,7 @@
     transition: background 0.15s, transform 0.1s;
 }
 
-.play-btn:hover { background: #f06030; }
+.play-btn:hover { background: #6196f8; }
 .play-btn:active { transform: scale(0.94); }
 
 .play-btn svg {
@@ -151,126 +147,134 @@
     margin-left: 2px; /* optical centering for triangle */
 }
 
-.progress-wrapper {
+/* -----------------------------------------------
+   Now Playing Bar — slides up from bottom on play
+   Volume hidden on touch devices via JS
+----------------------------------------------- */
+.now-playing-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 24px;
+    background: color-mix(in srgb, var(--background-color) 88%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid var(--border-color);
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.now-playing-bar.active {
+    transform: translateY(0);
+}
+
+/* Left: track info */
+.np-track {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 180px;
+    flex-shrink: 0;
+    min-width: 0;
+}
+
+.np-artwork-wrap .track-artwork {
+    width: 40px;
+    height: 40px;
+}
+
+.np-meta {
+    flex: 1;
+    min-width: 0;
+}
+
+.np-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.np-artist {
+    font-size: 0.72rem;
+    color: var(--secondary-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Center: play button + progress */
+.np-controls {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.np-play-btn {
+    flex-shrink: 0;
+}
+
+.np-progress {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 1px;
+    min-width: 0;
 }
 
-.progress-bar-track {
+.np-bar-track {
     width: 100%;
     height: 4px;
     background: var(--border-color);
     border-radius: 2px;
     cursor: pointer;
-    position: relative;
 }
 
-.progress-bar-fill {
+.np-bar-fill {
     height: 100%;
-    background: #D95923;
+    background: #6196f8;
     border-radius: 2px;
     width: 0%;
     pointer-events: none;
     transition: width 0.1s linear;
 }
 
-.time-display {
-    font-size: 0.7rem;
-    color: var(--secondary-color);
+.np-time {
     display: flex;
     justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--secondary-color);
 }
 
-/* -----------------------------------------------
-   Volume FAB — floating bottom-right (desktop only,
-   hidden on touch devices via JS)
------------------------------------------------ */
-.audio-volume-fab {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 1000;
+/* Right: volume (desktop only) */
+.np-volume {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-.audio-volume-fab.hidden {
-    opacity: 0;
-    transform: translateY(12px);
-    pointer-events: none;
-}
-
-.audio-volume-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary-color);
-    transition: background 0.15s;
-    position: relative;
-    z-index: 1;
-}
-
-.audio-volume-btn:hover {
-    background: rgba(255, 255, 255, 0.22);
-}
-
-.audio-volume-btn svg {
-    display: block;
-}
-
-.audio-volume-panel {
-    display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-bottom: none;
-    border-radius: 10px 10px 0 0;
-    padding: 14px 12px 10px;
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    pointer-events: none;
-    transition: max-height 0.25s ease, opacity 0.2s ease, padding 0.25s ease;
+    flex-shrink: 0;
 }
 
-.audio-volume-fab.open .audio-volume-panel {
-    max-height: 160px;
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.audio-volume-fab.open .audio-volume-panel {
-    padding: 14px 12px 10px;
+.np-volume svg {
+    color: var(--secondary-color);
+    flex-shrink: 0;
 }
 
 .audio-volume-slider {
     -webkit-appearance: none;
     appearance: none;
-    writing-mode: vertical-lr;
-    direction: rtl;
-    width: 4px;
-    height: 100px;
+    width: 80px;
+    height: 4px;
     border-radius: 2px;
-    background: linear-gradient(to top, #D95923 var(--vol-pct, 80%), var(--border-color) var(--vol-pct, 80%));
+    background: linear-gradient(to right, #6196f8 var(--vol-pct, 80%), var(--border-color) var(--vol-pct, 80%));
     outline: none;
     cursor: pointer;
 }
@@ -281,7 +285,7 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: #D95923;
+    background: #6196f8;
     cursor: pointer;
 }
 
@@ -289,7 +293,7 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: #D95923;
+    background: #6196f8;
     border: none;
     cursor: pointer;
 }
@@ -297,7 +301,7 @@
 .audio-volume-pct {
     font-size: 0.68rem;
     color: var(--secondary-color);
-    text-align: center;
+    text-align: right;
     width: 3ch;
     font-variant-numeric: tabular-nums;
 }
@@ -315,4 +319,36 @@
 .audio-fallback a {
     color: var(--secondary-color);
     text-decoration: underline;
+}
+
+/* -----------------------------------------------
+   Play-trigger overlay — for [data-play-title] images
+   (e.g. social proof album art that launches a track)
+----------------------------------------------- */
+.play-trigger {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.play-trigger-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.play-trigger:hover .play-trigger-icon {
+    opacity: 1;
+}
+
+.play-trigger:hover img {
+    filter: brightness(0.75);
+    transition: filter 0.2s ease;
 }

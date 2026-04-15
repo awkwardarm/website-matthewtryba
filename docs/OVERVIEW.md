@@ -44,7 +44,10 @@ website-matthewtryba/
 │   ├── shared-styles.css           # Global CSS (all pages)
 │   ├── squarespace-overrides.css   # Squarespace-specific fixes
 │   ├── shared-scripts.js           # Form validation & utilities
-│   └── page-configs.js             # Page-specific settings
+│   ├── page-configs.js             # Page-specific settings
+│   ├── audio-player.css            # Audio player styles (landing page)
+│   ├── audio-player.js             # Audio player logic (initAudioPlayer)
+│   └── audio-player-tracks.js     # Track list — single source of truth
 │
 ├── pages-landing/                   # Landing page templates
 │   ├── landing-page-national.html
@@ -75,7 +78,11 @@ website-matthewtryba/
 
 ### On Squarespace (Production)
 
-Every page on your Squarespace site loads shared assets via **Code Injection**:
+There are **two separate systems** for loading assets:
+
+#### 1. Global Site Assets — jsDelivr CDN (via Code Injection)
+
+Loaded on every page via **Settings → Advanced → Code Injection**:
 
 **Header Injection:**
 ```html
@@ -93,18 +100,43 @@ Every page on your Squarespace site loads shared assets via **Code Injection**:
 <script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.8/assets/page-configs.js"></script>
 ```
 
-### Local Development (Your Computer)
+#### 2. Page-Specific Assets — Squarespace File Storage (`/s/` paths)
 
-When previewing pages locally, the HTML files load assets from the local `../assets/` folder:
+Assets uploaded directly to Squarespace via **Settings → Advanced → File Storage** (or Developer Tools). These are referenced as `/s/filename` and are embedded directly in a page's Code Block HTML.
 
+**Audio player assets (landing page):**
 ```html
-<!-- Load Assets for Local Preview, Comment out when deploying -->
-<link rel="stylesheet" href="../assets/shared-styles.css"> 
-<script src="../assets/shared-scripts.js"></script>  
-<script src="../assets/page-configs.js"></script>
+<!-- For Squarespace -->
+<link rel="stylesheet" href="/s/audio-player.css">
+<script src="/s/audio-player-tracks.js"></script>
+<script src="/s/audio-player.js"></script>
+<!-- For local preview -->
+<link rel="stylesheet" href="../assets/audio-player.css">
+<script src="../assets/audio-player-tracks.js"></script>
+<script src="../assets/audio-player.js"></script>
 ```
 
-**Important:** Comment these out before copying to Squarespace!
+Both paths are always active. Squarespace serves `/s/` files; local preview falls back to `../assets/`. The browser ignores the path that fails to load.
+
+Files to upload to Squarespace: `audio-player.css`, `audio-player-tracks.js`, `audio-player.js`
+See [DEPLOYMENT.md](DEPLOYMENT.md) for upload instructions.
+
+### Local Development (Your Computer)
+
+Both Squarespace `/s/` paths and local `../assets/` paths are always active in the landing page. No commenting/uncommenting needed — the browser silently ignores whichever path fails to load for the current environment.
+```
+
+---
+
+## External Services
+
+| Service | Purpose | Details |
+|---|---|---|
+| **jsDelivr CDN** | Serves global site assets | `cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@{version}/assets/` |
+| **Cloudflare R2** | Audio files and artwork for the audio player | `pub-869789a451fa44dbadf9e27cd445afa0.r2.dev` — MP3s at `/audio/`, artwork at `/images/` |
+| **Squarespace** | CMS and site hosting | File Storage (`/s/`) for page-specific assets |
+| **Formbold** | Form submissions | `formbold.com/s/3nKg0` |
+| **Google Ads / Analytics** | Tracking | Tag: `AW-17389653886` |
 
 ---
 
@@ -161,5 +193,6 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 - **Update site-wide colors** → Edit `shared-styles.css` `:root` variables
 - **Change form submission** → Edit `page-configs.js` configurations
 - **Add spam filter** → Update `shared-scripts.js` spam patterns
+- **Add/remove audio tracks** → Edit `audio-player-tracks.js`, then upload updated file to Squarespace File Storage
 - **Create new page** → See [CREATING-PAGES.md](CREATING-PAGES.md)
 - **Deploy changes** → See [DEPLOYMENT.md](DEPLOYMENT.md)

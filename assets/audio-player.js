@@ -35,6 +35,12 @@ function initAudioPlayer(config) {
         return;
     }
 
+    // Shared now-playing state
+    let _activeAudio    = null;
+    let _activePlayBtn  = null;
+    let _activeTimeUpdate = null;
+    let _bar            = null; // assigned during render
+
     // -----------------------------------------------
     // Helpers
     // -----------------------------------------------
@@ -84,13 +90,62 @@ function initAudioPlayer(config) {
     }
 
     // -----------------------------------------------
+    // Activate the now-playing bar for a track
+    // -----------------------------------------------
+    function activateBar(track, audio, cardPlayBtn) {
+        if (!_bar) return;
+
+        // Detach previous timeupdate listener
+        if (_activeTimeUpdate && _activeAudio) {
+            _activeAudio.removeEventListener("timeupdate", _activeTimeUpdate);
+        }
+        _activeAudio   = audio;
+        _activePlayBtn = cardPlayBtn;
+
+        // Update track info
+        const artWrap = _bar.querySelector(".np-artwork-wrap");
+        artWrap.innerHTML = "";
+        artWrap.appendChild(buildArtwork(track.artwork, track.title));
+        _bar.querySelector(".np-title").textContent  = track.title;
+        _bar.querySelector(".np-artist").textContent = track.artist || "";
+
+        // Update duration (may already be known)
+        const npDuration = _bar.querySelector(".np-duration");
+        npDuration.textContent = audio.duration ? formatTime(audio.duration) : "0:00";
+        if (!audio.duration) {
+            audio.addEventListener("loadedmetadata", function onMeta() {
+                if (_activeAudio === audio) npDuration.textContent = formatTime(audio.duration);
+                audio.removeEventListener("loadedmetadata", onMeta);
+            });
+        }
+
+        // Bind timeupdate to bar progress
+        const npBarFill = _bar.querySelector(".np-bar-fill");
+        const npCurrent = _bar.querySelector(".np-current");
+        _activeTimeUpdate = () => {
+            const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+            npBarFill.style.width = pct + "%";
+            npCurrent.textContent = formatTime(audio.currentTime);
+        };
+        audio.addEventListener("timeupdate", _activeTimeUpdate);
+
+        // Sync bar play button
+        const npPlayBtn = _bar.querySelector(".np-play-btn");
+        npPlayBtn.innerHTML = ICON_PAUSE;
+        npPlayBtn.setAttribute("aria-label", "Pause");
+
+        // Slide bar up
+        _bar.classList.add("active");
+    }
+
+    // -----------------------------------------------
     // Build a single player card
     // -----------------------------------------------
     function buildPlayerCard(track) {
         const card = document.createElement("div");
         card.className = "player-card";
 
-        // Track info row
+        // Track info (artwork + meta), fills remaining space
         const info = document.createElement("div");
         info.className = "track-info";
         info.appendChild(buildArtwork(track.artwork, track.title));
@@ -101,33 +156,12 @@ function initAudioPlayer(config) {
         info.appendChild(meta);
         card.appendChild(info);
 
-        // Controls row
-        const controls = document.createElement("div");
-        controls.className = "player-controls";
-
+        // Play button at the end of the row
         const playBtn = document.createElement("button");
         playBtn.className = "play-btn";
         playBtn.setAttribute("aria-label", "Play");
         playBtn.innerHTML = ICON_PLAY;
-
-        const progressWrapper = document.createElement("div");
-        progressWrapper.className = "progress-wrapper";
-
-        const barTrack = document.createElement("div");
-        barTrack.className = "progress-bar-track";
-        const barFill = document.createElement("div");
-        barFill.className = "progress-bar-fill";
-        barTrack.appendChild(barFill);
-
-        const timeDisplay = document.createElement("div");
-        timeDisplay.className = "time-display";
-        timeDisplay.innerHTML = `<span class="current-time">0:00</span><span class="duration">0:00</span>`;
-
-        progressWrapper.appendChild(barTrack);
-        progressWrapper.appendChild(timeDisplay);
-        controls.appendChild(playBtn);
-        controls.appendChild(progressWrapper);
-        card.appendChild(controls);
+        card.appendChild(playBtn);
 
         // Audio element
         const audio = new Audio();
@@ -136,38 +170,28 @@ function initAudioPlayer(config) {
             audio.preload = "metadata";
         }
 
-        const currentTimeEl = timeDisplay.querySelector(".current-time");
-        const durationEl    = timeDisplay.querySelector(".duration");
-
         // Apply current global volume
         const volSlider = document.getElementById("audio-volume-slider");
         if (volSlider) audio.volume = volSlider.value / 100;
 
-        // Wire up audio events
-        audio.addEventListener("loadedmetadata", () => {
-            durationEl.textContent = formatTime(audio.duration);
-        });
-
-        audio.addEventListener("timeupdate", () => {
-            const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
-            barFill.style.width = pct + "%";
-            currentTimeEl.textContent = formatTime(audio.currentTime);
-        });
-
         audio.addEventListener("ended", () => {
             playBtn.innerHTML = ICON_PLAY;
             playBtn.setAttribute("aria-label", "Play");
-            barFill.style.width = "0%";
-            currentTimeEl.textContent = "0:00";
+            if (_bar && _activeAudio === audio) {
+                _bar.querySelector(".np-play-btn").innerHTML = ICON_PLAY;
+                _bar.querySelector(".np-play-btn").setAttribute("aria-label", "Play");
+                _bar.querySelector(".np-bar-fill").style.width = "0%";
+                _bar.querySelector(".np-current").textContent = "0:00";
+            }
         });
 
-        // Play/pause toggle — pauses any other active player
         playBtn.addEventListener("click", () => {
             if (!track.src) {
                 alert("No audio file set for this track yet.");
                 return;
             }
             if (audio.paused) {
+                // Pause all other players
                 document.querySelectorAll(".player-card").forEach(other => {
                     const otherAudio = other._audio;
                     if (otherAudio && otherAudio !== audio && !otherAudio.paused) {
@@ -179,81 +203,112 @@ function initAudioPlayer(config) {
                 audio.play();
                 playBtn.innerHTML = ICON_PAUSE;
                 playBtn.setAttribute("aria-label", "Pause");
+                activateBar(track, audio, playBtn);
             } else {
                 audio.pause();
                 playBtn.innerHTML = ICON_PLAY;
                 playBtn.setAttribute("aria-label", "Play");
+                if (_bar) {
+                    _bar.querySelector(".np-play-btn").innerHTML = ICON_PLAY;
+                    _bar.querySelector(".np-play-btn").setAttribute("aria-label", "Play");
+                }
             }
         });
 
-        // Seek on progress bar click
-        barTrack.addEventListener("click", (e) => {
-            if (!track.src || !audio.duration) return;
-            const rect = barTrack.getBoundingClientRect();
-            const pct = (e.clientX - rect.left) / rect.width;
-            audio.currentTime = pct * audio.duration;
-        });
-
         card._audio = audio;
+        card.dataset.trackTitle = track.title;
         return card;
     }
 
     // -----------------------------------------------
-    // Build volume FAB element
+    // Build now-playing bar
     // -----------------------------------------------
-    function buildVolumeControl() {
-        const fab = document.createElement("div");
-        fab.className = "audio-volume-fab";
-        fab.innerHTML = `
-            <div class="audio-volume-panel">
+    function buildNowPlayingBar(hideVolume) {
+        const bar = document.createElement("div");
+        bar.className = "now-playing-bar";
+        bar.innerHTML = `
+            <div class="np-track">
+                <div class="np-artwork-wrap"></div>
+                <div class="np-meta">
+                    <div class="np-title">—</div>
+                    <div class="np-artist"></div>
+                </div>
+            </div>
+            <div class="np-controls">
+                <button class="np-play-btn play-btn" aria-label="Play">${ICON_PLAY}</button>
+                <div class="np-progress">
+                    <div class="np-bar-track"><div class="np-bar-fill"></div></div>
+                    <div class="np-time">
+                        <span class="np-current">0:00</span>
+                        <span class="np-duration">0:00</span>
+                    </div>
+                </div>
+            </div>
+            ${hideVolume ? '' : `
+            <div class="np-volume">
+                ${ICON_VOL}
                 <input type="range" class="audio-volume-slider" id="audio-volume-slider" min="0" max="100" value="80" aria-label="Volume">
                 <span class="audio-volume-pct" id="audio-volume-pct">80%</span>
-            </div>
-            <button class="audio-volume-btn" aria-label="Volume">${ICON_VOL}</button>
+            </div>`}
         `;
 
-        const btn = fab.querySelector(".audio-volume-btn");
-
-        // Toggle open on click
-        btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            fab.classList.toggle("open");
+        // Bar play/pause button
+        const npPlayBtn = bar.querySelector(".np-play-btn");
+        npPlayBtn.addEventListener("click", () => {
+            if (!_activeAudio) return;
+            if (_activeAudio.paused) {
+                _activeAudio.play();
+                npPlayBtn.innerHTML = ICON_PAUSE;
+                npPlayBtn.setAttribute("aria-label", "Pause");
+                if (_activePlayBtn) {
+                    _activePlayBtn.innerHTML = ICON_PAUSE;
+                    _activePlayBtn.setAttribute("aria-label", "Pause");
+                }
+            } else {
+                _activeAudio.pause();
+                npPlayBtn.innerHTML = ICON_PLAY;
+                npPlayBtn.setAttribute("aria-label", "Play");
+                if (_activePlayBtn) {
+                    _activePlayBtn.innerHTML = ICON_PLAY;
+                    _activePlayBtn.setAttribute("aria-label", "Play");
+                }
+            }
         });
 
-        // Also open on hover (desktop)
-        fab.addEventListener("mouseenter", () => fab.classList.add("open"));
-        fab.addEventListener("mouseleave", () => fab.classList.remove("open"));
+        // Seek on bar progress click
+        const npBarTrack = bar.querySelector(".np-bar-track");
+        npBarTrack.addEventListener("click", (e) => {
+            if (!_activeAudio || !_activeAudio.duration) return;
+            const rect = npBarTrack.getBoundingClientRect();
+            _activeAudio.currentTime = ((e.clientX - rect.left) / rect.width) * _activeAudio.duration;
+        });
 
-        // Close when clicking elsewhere
-        document.addEventListener("click", () => fab.classList.remove("open"));
-
-        return fab;
+        return bar;
     }
 
     // -----------------------------------------------
     // Render
     // -----------------------------------------------
 
-    // Inject volume FAB into body (desktop only)
-    // Hidden initially — revealed when the player first scrolls into view.
+    // Build and inject now-playing bar (all devices; volume hidden on touch)
     const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-    if (!isTouchDevice) {
-        const vc = buildVolumeControl();
-        vc.classList.add("hidden");
-        document.body.appendChild(vc);
-
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                vc.classList.remove("hidden");
-                observer.disconnect();
-            }
-        }, { threshold: 0.1 });
-        observer.observe(root);
-    }
+    _bar = buildNowPlayingBar(isTouchDevice);
+    document.body.appendChild(_bar);
 
     // Render track groups
     const groups = groupTracks(tracks);
+
+    // Hidden group container — cards exist in DOM for click-to-play but are not visible
+    const hiddenContainer = document.createElement("div");
+    hiddenContainer.style.cssText = "position:absolute;width:0;height:0;overflow:hidden;pointer-events:none;";
+    document.body.appendChild(hiddenContainer);
+
     groups.forEach(group => {
+        if (group.label === "hidden") {
+            group.tracks.forEach(track => hiddenContainer.appendChild(buildPlayerCard(track)));
+            return;
+        }
+
         const groupEl = document.createElement("div");
         groupEl.className = "audio-group";
 
@@ -277,6 +332,27 @@ function initAudioPlayer(config) {
         root.parentNode.insertBefore(p, root.nextSibling);
     }
 
+    // Wire up any [data-play-title] elements on the page (e.g. social proof album art)
+    const ICON_PLAY_CIRCLE = `<svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="18" fill="rgba(0,0,0,0.45)"/><polygon points="14,11 28,18 14,25" fill="white"/></svg>`;
+    document.querySelectorAll("[data-play-title]").forEach(img => {
+        const wrapper = document.createElement("span");
+        wrapper.className = "play-trigger";
+        img.parentNode.insertBefore(wrapper, img);
+        wrapper.appendChild(img);
+
+        const overlay = document.createElement("span");
+        overlay.className = "play-trigger-icon";
+        overlay.innerHTML = ICON_PLAY_CIRCLE;
+        wrapper.appendChild(overlay);
+
+        wrapper.addEventListener("click", () => {
+            const title = img.dataset.playTitle;
+            const card = [...document.querySelectorAll(".player-card")]
+                .find(c => c.dataset.trackTitle === title);
+            if (card) card.querySelector(".play-btn").click();
+        });
+    });
+
     // Wire up volume slider
     const volSlider = document.getElementById("audio-volume-slider");
     const volPct    = document.getElementById("audio-volume-pct");
@@ -288,8 +364,6 @@ function initAudioPlayer(config) {
         });
         if (volPct)    volPct.textContent = val + "%";
         if (volSlider) volSlider.style.setProperty("--vol-pct", val + "%");
-        // Vertical slider: gradient runs bottom-to-top, so fill = value%
-        // (already handled by the CSS linear-gradient direction)
     }
 
     if (volSlider) {
