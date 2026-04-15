@@ -12,13 +12,19 @@
 
 
     <!-- Load Assets for Local Preview, Comment out when deploying -->
-    <!-- <link rel="stylesheet" href="../assets/shared-styles.css"> 
+    <link rel="stylesheet" href="../assets/shared-styles.css"> 
     <script src="../assets/shared-scripts.js"></script>  
-    <script src="../assets/page-configs.js"></script>  -->
+    <script src="../assets/page-configs.js"></script> 
     
     <!-- Page-specific styles if needed -->
     <style>
-        /* Add any page-specific overrides here */
+        .audio-samples {
+            margin-top: -40px;
+        }
+        .audio-samples h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
     </style>
 </head>
 <body>
@@ -65,6 +71,8 @@
         </div>
     </section>
 
+
+    
     <section class="testimonials">
         <div class="container">
             <h2>What Artists Are Saying</h2>
@@ -114,6 +122,13 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section class="audio-samples">
+        <div class="container">
+            <h2>Hear My Work</h2>
+            <div id="player-root"></div>
         </div>
     </section>
 
@@ -218,6 +233,17 @@
             document.getElementById('about-image').src = pageConfig.aboutImage;
             document.getElementById('year').textContent = new Date().getFullYear();
         });
+    </script>
+
+    <!-- Audio Player -->
+    <!-- For Squarespace: use /s/ paths -->
+    <link rel="stylesheet" href="/s/audio-player.css">
+    <!-- For local preview: use relative paths -->
+    <link rel="stylesheet" href="../assets/audio-player.css">
+    <script src="../assets/audio-player-tracks.js"></script>
+    <script src="../assets/audio-player.js"></script>
+    <script>
+        initAudioPlayer({ tracks: TRACKS });
     </script>
 </body>
 </html>

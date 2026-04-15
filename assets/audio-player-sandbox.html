@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Player Sandbox</title>
+    <link rel="stylesheet" href="./shared-styles.css">
+    <link rel="stylesheet" href="./audio-player.css">
+    <style>
+        body {
+            padding: 60px 20px;
+        }
+
+        /* -----------------------------------------------
+           Sandbox notes
+        ----------------------------------------------- */
+        .sandbox-notes {
+            max-width: 900px;
+            margin: 0 auto 60px;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px 28px;
+            font-size: 0.85rem;
+            color: var(--secondary-color);
+            line-height: 1.7;
+        }
+
+        .sandbox-notes h3 {
+            color: var(--secondary-color);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 12px;
+        }
+
+        .sandbox-notes code {
+            background: var(--border-color);
+            color: #D95923;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-size: 0.82rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- -----------------------------------------------
+         Sandbox Notes
+    ----------------------------------------------- -->
+    <div class="sandbox-notes">
+        <h3>Sandbox Notes</h3>
+        <p>
+            To swap tracks: edit the <code>TRACKS</code> array at the bottom of this file. Each track needs
+            <code>title</code>, <code>artist</code>, <code>src</code>, and optionally <code>artwork</code>.
+            Set <code>src</code> to your Cloudflare R2 public URL once uploaded.
+            The <code>group</code> field controls which section a track appears in — add/remove groups freely.
+        </p>
+        <p style="margin-top: 10px;">
+            Audio files: export MP3 320kbps. ~5–8MB each. Upload to Cloudflare R2 bucket with public access enabled.
+            URL format will be: <code>https://pub-XXXX.r2.dev/filename.mp3</code>
+        </p>
+    </div>
+
+    <!-- -----------------------------------------------
+         Player Section
+    ----------------------------------------------- -->
+    <div class="container">
+        <h2>Hear My Work</h2>
+        <div id="player-root"></div>
+    </div>
+
+    <script src="./audio-player-tracks.js"></script>
+    <script src="./audio-player.js"></script>
+    <script>
+        initAudioPlayer({
+            tracks: TRACKS,
+            fallback: { text: 'Listen on Disco', url: 'https://tryba.disco.ac' }
+        });
+    </script>
+</body>
+</html>
