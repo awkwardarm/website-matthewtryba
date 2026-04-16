@@ -164,22 +164,48 @@ Change version numbers from `@v1.0.3` to `@v1.0.4` (your new version):
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
+
   gtag('config', 'AW-17389653886');
 </script>
 
-<!-- Global CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.8/assets/shared-styles.css">
 
-<!-- Squarespace-specific overrides -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.8/assets/squarespace-overrides.css">
+<!-- Global CSS -->
+<script>window.CDN_VERSION = 'v1.0.10';</script>
+<script>
+  (function(){
+    var b = 'https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@' + window.CDN_VERSION + '/assets/';
+    ['shared-styles.css','squarespace-overrides.css','audio-player.css'].forEach(function(f){
+      document.head.insertAdjacentHTML('beforeend','<link rel="stylesheet" href="'+b+f+'">');
+    });
+  })();
+</script>
 ```
 
 #### Update Footer Injection
 
 ```html
 <!-- Global JavaScript -->
-<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.8/assets/shared-scripts.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.8/assets/page-configs.js"></script>
+<script>
+  (function(){
+    var b = 'https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@' + window.CDN_VERSION + '/assets/';
+    var scripts = ['shared-scripts.js','page-configs.js','audio-player-tracks.js','audio-player.js'];
+    var i = 0;
+    function loadNext() {
+      if (i >= scripts.length) {
+        if (typeof initAudioPlayer === 'function' && typeof TRACKS !== 'undefined') {
+          initAudioPlayer({ tracks: TRACKS });
+        }
+        if (typeof window.onCDNReady === 'function') window.onCDNReady();
+        return;
+      }
+      var s = document.createElement('script');
+      s.src = b + scripts[i++];
+      s.onload = loadNext;
+      document.body.appendChild(s);
+    }
+    loadNext();
+  })();
+</script>
 ```
 
 **Click Save!**
