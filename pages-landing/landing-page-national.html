@@ -221,22 +221,17 @@
     
     <!-- Page-specific initialization -->
     <script>
-        // Wait for DOM to be ready
-        document.addEventListener('DOMContentLoaded', function() {
+        window.onCDNReady = function() {
             const pageConfig = getPageConfig('national-landing');
             
             document.getElementById('contact-form').action = pageConfig.formAction;
             document.getElementById('form-redirect').value = pageConfig.redirectUrl;
             // document.querySelector('.g-recaptcha').setAttribute('data-sitekey', pageConfig.recaptchaSiteKey);
-            document.getElementById('hero-image').src = pageConfig.heroImage;
             document.getElementById('about-image').src = pageConfig.aboutImage;
             document.getElementById('year').textContent = new Date().getFullYear();
-        });
-        </script>
-
-    <!-- Audio Player -->
-    <script>
-        initAudioPlayer({ tracks: TRACKS });
+        };
     </script>
+
+    <!-- Audio Player initialized by Code Injection footer loader -->
 </body>
 </html>

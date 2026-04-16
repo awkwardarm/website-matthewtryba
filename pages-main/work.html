@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Work | Matthew Tryba</title>
+
+    <!-- Load Assets for Local Preview, Comment out when deploying -->
+    <!-- Squarespace loads these via Code Injection (CDN URLs with version tag) -->
+    <!-- <link rel="stylesheet" href="../assets/shared-styles.css">
+    <link rel="stylesheet" href="../assets/audio-player.css">
+    <script src="../assets/shared-scripts.js"></script>
+    <script src="../assets/page-configs.js"></script>
+    <script src="../assets/audio-player-tracks.js"></script>
+    <script src="../assets/audio-player.js"></script> -->
+
     <style>
         /*--------------------------------------------------*/
         /* 1. Global Styles & Typography (from home-page.html) */
@@ -66,17 +76,6 @@
         .work-hero { text-align: center; padding: 60px 0; background-color: var(--surface-color); }
         .work-hero p { max-width: 700px; margin-left: auto; margin-right: auto; }
         .work-hero .hero-button-wrapper { margin-top: 1rem; }
-
-        .audio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            justify-items: center;
-        }
-        .disco-embed {
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
 
         .video-wrapper {
             position: relative;
@@ -141,14 +140,7 @@
     <section id="productions">
         <div class="container">
             <h2>Listen To My Work</h2>
-            <div class="audio-grid">
-                <iframe id="disco-track-162142274" name="disco-track-162142274" allowfullscreen frameborder="0" class="disco-embed" src="https://tryba.disco.ac/e/t/162142274?s=XFs4pi8EsCzMovyWKGWj6CTq_aI%3Arw2AiwdJ&artwork=true&color=%23D95923&theme=light&by=%20&v=0.7" width="100%" height="236"></iframe>
-                <iframe id="disco-track-162142276" name="disco-track-162142276" allowfullscreen frameborder="0" class="disco-embed" src="https://tryba.disco.ac/e/t/162142276?s=DS66erIP_HanpBDGXilmfL-r9uA%3AruU0px84&artwork=true&color=%23D95923&theme=light&by=%20&v=0.7" width="100%" height="236"></iframe>
-                <iframe id="disco-track-162142275" name="disco-track-162142275" allowfullscreen frameborder="0" class="disco-embed" src="https://tryba.disco.ac/e/t/162142275?s=2e656R7ETn8UxVXmQq4qvxnxVDI%3AXAxEywDq&artwork=true&color=%23D95923&theme=light&by=%20&v=0.7" width="100%" height="236"></iframe>
-                <iframe id="disco-track-162142279" name="disco-track-162142279" allowfullscreen frameborder="0" class="disco-embed" src="https://tryba.disco.ac/e/t/162142279?s=Q_W7Y1iKwdr7oD4mHgKhhv34RkM%3AgJKsuMLC&artwork=true&color=%23D95923&theme=light&by=%20&v=0.7" width="100%" height="236"></iframe>
-                <iframe id="disco-track-162142278" name="disco-track-162142278" allowfullscreen frameborder="0" class="disco-embed" src="https://tryba.disco.ac/e/t/162142278?s=fJfb4q0doRE07Oi33Q2TmXD974o%3AD3y9W2Im&artwork=true&color=%23D95923&theme=light&by=%20&v=0.7" width="100%" height="236"></iframe>
-                <iframe id="disco-track-132045082" name="disco-track-132045082" allowfullscreen frameborder="0" class="disco-embed" src="https://tryba.disco.ac/e/t/132045082?s=bGlAC4LG8BZsMYFB4eJnvqnwoNw%3AEj0Aslmo&artwork=true&color=%23D95923&theme=light&by=%20&v=0.8" width="100%" height="236"></iframe>
-            </div>
+            <div id="player-root"></div>
         </div>
     </section>
 
@@ -190,6 +182,10 @@
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
+        // For local preview — on Squarespace, Code Injection footer loader handles this
+        if (typeof initAudioPlayer === 'function' && typeof TRACKS !== 'undefined') {
+            initAudioPlayer({ tracks: TRACKS });
+        }
     </script>
 </body>
 </html>

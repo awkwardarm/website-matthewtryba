@@ -40,6 +40,7 @@ function initAudioPlayer(config) {
     let _activePlayBtn  = null;
     let _activeTimeUpdate = null;
     let _bar            = null; // assigned during render
+    let _visibleCards   = [];   // populated after render; used for prev/next
 
     // -----------------------------------------------
     // Helpers
@@ -71,6 +72,8 @@ function initAudioPlayer(config) {
     const ICON_PAUSE = `<svg class="icon-pause" width="14" height="16" viewBox="0 0 14 16" fill="white"><rect x="0" y="0" width="5" height="16"/><rect x="9" y="0" width="5" height="16"/></svg>`;
     const ICON_NOTE  = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`;
     const ICON_VOL   = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
+    const ICON_PREV  = `<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="3" height="16"/><polygon points="15,0 4,8 15,16"/></svg>`;
+    const ICON_NEXT  = `<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="13" y="0" width="3" height="16"/><polygon points="1,0 12,8 1,16"/></svg>`;
 
     // -----------------------------------------------
     // Build artwork element
@@ -235,7 +238,9 @@ function initAudioPlayer(config) {
                 </div>
             </div>
             <div class="np-controls">
+                <button class="np-prev-btn" aria-label="Previous">${ICON_PREV}</button>
                 <button class="np-play-btn play-btn" aria-label="Play">${ICON_PLAY}</button>
+                <button class="np-next-btn" aria-label="Next">${ICON_NEXT}</button>
                 <div class="np-progress">
                     <div class="np-bar-track"><div class="np-bar-fill"></div></div>
                     <div class="np-time">
@@ -283,6 +288,19 @@ function initAudioPlayer(config) {
             _activeAudio.currentTime = ((e.clientX - rect.left) / rect.width) * _activeAudio.duration;
         });
 
+        // Prev / Next buttons
+        function skipTrack(dir) {
+            if (!_visibleCards.length) return;
+            const idx = _visibleCards.findIndex(c => c._audio === _activeAudio);
+            const next = idx === -1
+                ? 0
+                : (idx + dir + _visibleCards.length) % _visibleCards.length;
+            _visibleCards[next].querySelector(".play-btn").click();
+        }
+
+        bar.querySelector(".np-prev-btn").addEventListener("click", () => skipTrack(-1));
+        bar.querySelector(".np-next-btn").addEventListener("click", () => skipTrack(1));
+
         return bar;
     }
 
@@ -323,6 +341,9 @@ function initAudioPlayer(config) {
         groupEl.appendChild(grid);
         root.appendChild(groupEl);
     });
+
+    // Build visible card list for prev/next navigation (excludes hidden group)
+    _visibleCards = [...root.querySelectorAll(".player-card")];
 
     // Render optional fallback link
     if (fallback && fallback.url) {
