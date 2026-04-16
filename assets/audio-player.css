@@ -178,8 +178,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 180px;
-    flex-shrink: 0;
+    flex: 0 1 180px;
     min-width: 0;
 }
 
@@ -274,26 +273,64 @@
     color: var(--secondary-color);
 }
 
-/* Right: volume (desktop only) */
+/* Right: volume popup */
 .np-volume {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    position: relative;
     flex-shrink: 0;
 }
 
-.np-volume svg {
+.np-volume-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
     color: var(--secondary-color);
-    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+}
+
+.np-volume-btn:hover,
+.np-volume-btn[aria-pressed="true"] {
+    opacity: 1;
+}
+
+.np-volume-popup {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 10px;
+    background: color-mix(in srgb, var(--background-color) 95%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(6px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.np-volume-popup.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
 }
 
 .audio-volume-slider {
     -webkit-appearance: none;
     appearance: none;
-    width: 80px;
-    height: 4px;
+    writing-mode: vertical-lr;
+    direction: rtl;
+    width: 4px;
+    height: 80px;
     border-radius: 2px;
-    background: linear-gradient(to right, #6196f8 var(--vol-pct, 80%), var(--border-color) var(--vol-pct, 80%));
+    background: linear-gradient(to top, #6196f8 var(--vol-pct, 80%), var(--border-color) var(--vol-pct, 80%));
     outline: none;
     cursor: pointer;
 }
@@ -320,9 +357,31 @@
 .audio-volume-pct {
     font-size: 0.68rem;
     color: var(--secondary-color);
-    text-align: right;
-    width: 3ch;
     font-variant-numeric: tabular-nums;
+}
+
+/* Responsive now-playing bar */
+@media (max-width: 600px) {
+    .now-playing-bar {
+        gap: 12px;
+        padding: 10px 14px;
+    }
+    .np-track {
+        flex: 0 1 130px;
+    }
+}
+
+@media (max-width: 420px) {
+    .now-playing-bar {
+        gap: 8px;
+        padding: 10px;
+    }
+    .np-track {
+        flex: 0 1 100px;
+    }
+    .np-artist {
+        display: none;
+    }
 }
 
 /* -----------------------------------------------

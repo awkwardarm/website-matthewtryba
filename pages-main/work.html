@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Work | Matthew Tryba</title>
 
-    <!-- Load Assets for Local Preview, Comment out when deploying -->
-    <!-- Squarespace loads these via Code Injection (CDN URLs with version tag) -->
-    <!-- <link rel="stylesheet" href="../assets/shared-styles.css">
-    <link rel="stylesheet" href="../assets/audio-player.css">
-    <script src="../assets/shared-scripts.js"></script>
-    <script src="../assets/page-configs.js"></script>
-    <script src="../assets/audio-player-tracks.js"></script>
-    <script src="../assets/audio-player.js"></script> -->
+   <!-- Load Assets for Local Preview only -->
+    <script>
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
+            document.write('<link rel="stylesheet" href="../assets/shared-styles.css">');
+            document.write('<link rel="stylesheet" href="../assets/audio-player.css">');
+            document.write('<script src="../assets/shared-scripts.js"><\/script>');
+            document.write('<script src="../assets/page-configs.js"><\/script>');
+            document.write('<script src="../assets/audio-player-tracks.js"><\/script>');
+            document.write('<script src="../assets/audio-player.js"><\/script>');
+        }
+    </script>
 
     <style>
         /*--------------------------------------------------*/
@@ -154,12 +157,12 @@
             </div>
 
             <div class="logos">
-                <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/1683307227116-ZJNZV057VG4EWBWCORRJ/fast-x-poster.jpg?format=500w" alt="Fast X Poster">
-                <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/1659158558719-GVGJDHCKXAQ7GDIQWW8N/Screen+Shot+2022-07-27+at+4.46.01+PM.png?format=500w" alt="Batwoman Poster">
-                <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/1682706429577-M4017437RUAJQPUTNZG4/MV5BNDgyODk4MTktODE3YS00YTUzLTlmYTgtOGJmZjMzZGM5NDBlXkEyXkFqcGdeQXVyOTA3MTMyOTk%40._V1_FMjpg_UX1000_.jpg?format=500w" alt="The L Word Poster">
-                <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/1730849053225-NRPOB8ZJW2E4D1Q7PVW1/NBC+Found+Poster.jpg?format=500w" alt="Found Poster">
-                <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/012dec33-27d5-44a9-9b51-e044c242eeeb/the+doorman+poster.jpg?format=500w" alt="The Doorman Poster">
-                <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/e882b425-34f1-42c5-9cbf-c6f5b2e9f181/nancy+drew+poster.jpg?format=500w" alt="Nancy Drew Poster">
+                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/sync-highlights/fast-x-poster.webp" alt="Fast X Poster">
+                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/sync-highlights/batwoman%2Bposter.webp" alt="Batwoman Poster">
+                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/sync-highlights/the%2Bl%2Bword%2Bposter.webp" alt="The L Word Poster">
+                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/sync-highlights/NBC%2BFound%2BPoster.webp" alt="Found Poster">
+                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/sync-highlights/the%2Bdoorman%2Bposter.webp" alt="The Doorman Poster">
+                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/sync-highlights/nancy%2Bdrew%2Bposter.webp" alt="Nancy Drew Poster">
             </div>
         </div>
     </section>

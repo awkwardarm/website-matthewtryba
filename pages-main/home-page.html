@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matthew Tryba | Music Producer</title>
     
-    <!-- Load Assets for Squarespace-->
-    <link rel="stylesheet" href="/s/shared-styles.css"> <!-- Link to shared CSS -->
-    <script src="/s/page-configs.js"></script> <!-- Load page config -->
-    <script src="/s/shared-scripts.js"></script> <!-- Load shared scripts -->
+    <!-- Load Assets for Local Preview only -->
+    <script>
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
+            document.write('<link rel="stylesheet" href="../assets/shared-styles.css">');
+            document.write('<link rel="stylesheet" href="../assets/audio-player.css">');
+            document.write('<script src="../assets/shared-scripts.js"><\/script>');
+            document.write('<script src="../assets/page-configs.js"><\/script>');
+            document.write('<script src="../assets/audio-player-tracks.js"><\/script>');
+            document.write('<script src="../assets/audio-player.js"><\/script>');
+        }
+    </script>
 
-
-    <!-- Load Assets for Local Preview, Comment out when deploying -->
-    <!-- <link rel="stylesheet" href="../assets/shared-styles.css"> 
-    <script src="../assets/shared-scripts.js"></script>  
-    <script src="../assets/page-configs.js"></script>  -->
     
 <!-- Page-specific styles -->
     <style>
@@ -109,12 +111,12 @@
             <h3>ENGINEERING CREDITS ON DIAMOND, MULTI-PLATINUM, & GRAMMY WINNING RECORDS</h3>
             <p>My role was to capture the best possible sound in the studio, ensure the artists felt comfortable and creatively safe, and make the technical disappear during the creative process.</p>
             <div class="logos">
-                <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/album-art/Taylor%20Swift%201989.jpg?raw=true" alt="Taylor Swift 1989 Album Art">
-                <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/album-art/Arana%20Grande%20My%20Everything.jpg?raw=true" alt="Ariana Grande My Everything Album Art">
-                <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/album-art/1R%20Native.jpg?raw=true" alt="OneRepublic Native Album Art">
-                <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/album-art/Adele%2025.jpg?raw=true" alt="Adele 25 Album Art">
-                <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/album-art/Maroon%205%20V.jpg?raw=true" alt="Maroon 5 V Album Art">
-                <img src="https://github.com/awkwardarm/website-matthewtryba/blob/main/images/album-art/burn-ellie-goulding.jpg?raw=true" alt="Ellie Goulding Burn Single Art">
+                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/album-art/Taylor%20Swift%201989.jpg" alt="Taylor Swift 1989 Album Art" data-play-title="I Know Places">
+                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/album-art/Arana%20Grande%20My%20Everything.jpg" alt="Ariana Grande My Everything Album Art" data-play-title="Why Try">
+                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/album-art/1R%20Native.jpg" alt="OneRepublic Native Album Art" data-play-title="Counting Stars">
+                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/album-art/Adele%2025.jpg" alt="Adele 25 Album Art" data-play-title="Remedy">
+                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/album-art/Maroon%205%20V.jpg" alt="Maroon 5 V Album Art" data-play-title="Maps">
+                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/album-art/burn-ellie-goulding.jpg" alt="Ellie Goulding Burn Single Art" data-play-title="Burn">
             </div>
         </div>
     </section>
@@ -123,7 +125,7 @@
     <section class="feature-section">
         <div class="container">
             <div class="image-content">
-                <img src="https://raw.githubusercontent.com/awkwardarm/website-matthewtryba/refs/heads/main/images/profile-photos/profile-photo-IMG_5596.jpeg" alt="Matthew Tryba in his studio">
+                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/profile-photos/profile-photo-IMG_5596.jpeg" alt="Matthew Tryba in his studio">
             </div>
             <div class="text-content">
                 <h2>Your Creative Partner from Start to End </h2>
@@ -167,7 +169,7 @@
                     <p class="quote-headline">"Matthew is the best vocal producer I've found - his ear training is unmatched."</p>
                     <p class="quote-body">If you are serious about your song and want it the strongest it can be he is your guy!</p>
                     <div class="testimonial-author">
-                        <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/8586f24a-abf9-4282-b912-701a9a4eef68/hunter+m.webp" alt="Hunter M Headshot">
+                        <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/client-review-profile-photos/hunter%20m.webp" alt="Hunter M Headshot">
                         <div class="author-info">
                             <span class="name">Hunter M.</span>
                             <span class="rating">★★★★★</span>
@@ -178,7 +180,7 @@
                     <p class="quote-headline">"Matthew was a great visionary! Really brought the song I've written to life... on a song that needed direction."</p>
                     <p class="quote-body">Professional and patient. Really gave his own stamp on the song... I will be continuing to work with him on future projects!</p>
                     <div class="testimonial-author">
-                        <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/ad81a661-a4db-4df4-b882-1e6c507be5ae/Cupnoodle.jpg" alt="Cupnoodle Headshot">
+                        <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/client-review-profile-photos/cupnoodle.jpeg" alt="Cupnoodle Headshot">
                         <div class="author-info">
                             <span class="name">Cupnoodle</span>
                             <span class="rating">★★★★★</span>
@@ -189,7 +191,7 @@
                     <p class="quote-headline">"I came to Matt after being frustrated with other producers putting their own spin on my music instead of listening to what my needs were."</p>
                     <p class="quote-body">He has a great way of capitalizing on your strengths and building off of your writing style. He exceeded my expectations.</p>
                     <div class="testimonial-author">
-                        <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/320289df-a4f8-4507-9694-4330abbbda0f/lindsey+leigh.webp" alt="Lindsey Leigh Headshot">
+                        <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/client-review-profile-photos/lindsey%20leigh.webp" alt="Lindsey Leigh Headshot">
                         <div class="author-info">
                             <span class="name">Lindsey Leigh</span>
                             <span class="rating">★★★★★</span>
@@ -200,7 +202,7 @@
                     <p class="quote-headline">"I am happy to say that my voice never sounded better... He was easy to work with and great at always communicating."</p>
                     <p class="quote-body">His production was spot on... Will definitely use again.</p>
                     <div class="testimonial-author">
-                        <img src="https://images.squarespace-cdn.com/content/v1/57f01c31d482e918dc2ca91a/c0e9a213-8e9b-4637-b2c9-f922e3f78a13/matteo+s+image.jpeg" alt="Matteo S Headshot">
+                        <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/client-review-profile-photos/matteo%20s%20image.jpeg" alt="Matteo S Headshot">
                         <div class="author-info">
                             <span class="name">Matteo S.</span>
                             <span class="rating">★★★★★</span>
@@ -234,16 +236,6 @@
                         <label for="email">Email Address <span style="font-weight: normal; color: #666;">(required)</span></label>
                         <input type="email" id="email" name="email" required>
                     </div>
-                    <!-- <div class="form-group">
-                        <label for="budget">What is your approximate budget for this project? <span style="font-weight: normal; color: #666;">(required)</span></label>
-                        <select id="budget" name="budget" required>
-                            <option value="" disabled selected>Please select a range...</option>
-                            <option value="$1,500 - $3,000 per song">$1,500 - $3,000 per song</option>
-                            <option value="$3,000 - $5,000 per song">$3,000 - $5,000 per song</option>
-                            <option value="$5,000 - $10,000 per song">$5,000 - $10,000 per song</option>
-                            <option value="$10,000+ per song">$10,000+ per song</option>
-                        </select>
-                    </div> -->
                     <div class="form-group">
                         <label for="message">Message <span style="font-weight: normal; color: #666;">(required) Links to your music and socials are encouraged.</span></label>
                         <textarea id="message" name="message" rows="5" required></textarea>
@@ -257,6 +249,9 @@
     
     <!-- Font Awesome icons (free version) -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- Hidden audio player mount — required for initAudioPlayer to wire up [data-play-title] album art -->
+    <div id="player-root" style="display:none;"></div>
+
     <footer>
         <div class="container">
             <p>&copy; <span id="year"></span> TRYBA MUSIC, LLC. All Rights Reserved.</p>
@@ -265,6 +260,10 @@
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
+        // For local preview — on Squarespace, Code Injection footer loader handles this
+        if (typeof initAudioPlayer === 'function' && typeof TRACKS !== 'undefined') {
+            initAudioPlayer({ tracks: TRACKS });
+        }
     </script>
 
     <!-- Load reCAPTCHA -->

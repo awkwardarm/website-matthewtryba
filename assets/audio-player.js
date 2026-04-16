@@ -251,9 +251,13 @@ function initAudioPlayer(config) {
             </div>
             ${hideVolume ? '' : `
             <div class="np-volume">
-                ${ICON_VOL}
-                <input type="range" class="audio-volume-slider" id="audio-volume-slider" min="0" max="100" value="80" aria-label="Volume">
-                <span class="audio-volume-pct" id="audio-volume-pct">80%</span>
+                <button class="np-volume-btn" aria-label="Volume" aria-pressed="false">
+                    ${ICON_VOL}
+                </button>
+                <div class="np-volume-popup">
+                    <input type="range" class="audio-volume-slider" id="audio-volume-slider" min="0" max="100" value="80" aria-label="Volume">
+                    <span class="audio-volume-pct" id="audio-volume-pct">80%</span>
+                </div>
             </div>`}
         `;
 
@@ -390,5 +394,21 @@ function initAudioPlayer(config) {
     if (volSlider) {
         volSlider.addEventListener("input", () => updateVolume(volSlider.value));
         updateVolume(volSlider.value);
+    }
+
+    // Volume popup toggle
+    const volBtn = document.querySelector(".np-volume-btn");
+    const volPopup = document.querySelector(".np-volume-popup");
+    if (volBtn && volPopup) {
+        volBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const isOpen = volPopup.classList.toggle("open");
+            volBtn.setAttribute("aria-pressed", String(isOpen));
+        });
+        document.addEventListener("click", () => {
+            volPopup.classList.remove("open");
+            if (volBtn) volBtn.setAttribute("aria-pressed", "false");
+        });
+        volPopup.addEventListener("click", e => e.stopPropagation());
     }
 }

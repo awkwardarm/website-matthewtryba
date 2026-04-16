@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.11] - 2026-04-16
+
+### Added
+- `home-page.html`: album art in social proof section now clickable to play corresponding track via `data-play-title` attributes
+- `home-page.html`: hidden `#player-root` mount point so `initAudioPlayer` initialises fully and wires play triggers
+- `home-page.html`: audio player (`initAudioPlayer`) now called on page load for local preview
+- `landing-page-national.html`: `initAudioPlayer` call added for local preview (was silently skipped)
+
+### Changed
+- All pages: local preview asset loading replaced with a JS `if` block checking `location.hostname` / `location.protocol` — no more manual commenting before deployment
+- `audio-player.js` / `audio-player.css`: volume control converted from an inline horizontal slider to a popup panel
+  - Volume icon is now a toggle button; clicking opens a vertical slider above the now-playing bar
+  - Dismisses on outside click; `aria-pressed` reflects open/closed state
+- `audio-player.css`: now-playing bar is now fully responsive
+  - `.np-track` changed from fixed `width: 180px` to `flex: 0 1 180px` (can shrink)
+  - At ≤600px: reduced padding/gap, track area shrinks to 130px
+  - At ≤420px: further reduced padding/gap, track area shrinks to 100px, artist name hidden
+- All pages: all images (album art, profile photos, testimonial headshots) migrated from GitHub raw and Squarespace CDN to Cloudflare R2 (`pub-869789a451fa44dbadf9e27cd445afa0.r2.dev`)
+  - Album art: `images/album-art/`
+  - Profile photos: `images/profile-photos/`
+  - Review headshots: `images/client-review-profile-photos/`
+- `landing-page-national.html`: album art R2 paths updated to `images/album-art/` subfolder (previously bare `images/`)
+
 ## [1.0.10] - 2026-04-15
 
 ### Added
