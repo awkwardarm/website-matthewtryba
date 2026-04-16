@@ -22,7 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Landing page audio section: replaced Disco embed iframes with `<div id="player-root"></div>` + player scripts
 - Audio player accent color set to `#6196f8` (blue) throughout player UI
 - Player cards redesigned as compact single-row layout (artwork + title/artist + play button)
-- Squarespace asset loading for audio player uses `/s/` file storage paths; local preview paths commented out in-file
+  - Tightened card padding, artwork size, and gaps to reduce dead space
+  - 2-column grid now holds down to 360px (collapses to 1-column only below that)
+- All audio player assets (`audio-player.css`, `audio-player.js`, `audio-player-tracks.js`) served via jsDelivr CDN alongside all other site assets — no Squarespace file uploads needed
+- Landing page `<head>` contains only local preview paths (commented out); all CDN URLs managed exclusively in Squarespace Code Injection
 
 ## [1.0.8] - 2026-04-02
 
