@@ -3,6 +3,11 @@
 /* Depends on: shared-styles.css (CSS variables)    */
 /*--------------------------------------------------*/
 
+#player-root {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
 .audio-player-section {
     padding: 80px 0;
 }
@@ -157,16 +162,21 @@
     left: 0;
     right: 0;
     z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 10px 24px;
     background: color-mix(in srgb, var(--background-color) 88%, transparent);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-top: 1px solid var(--border-color);
     transform: translateY(100%);
     transition: transform 0.3s ease;
+}
+
+.np-inner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 24px;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .now-playing-bar.active {
@@ -362,7 +372,7 @@
 
 /* Responsive now-playing bar */
 @media (max-width: 600px) {
-    .now-playing-bar {
+    .np-inner {
         gap: 12px;
         padding: 10px 14px;
     }
@@ -372,7 +382,7 @@
 }
 
 @media (max-width: 420px) {
-    .now-playing-bar {
+    .np-inner {
         gap: 8px;
         padding: 10px;
     }

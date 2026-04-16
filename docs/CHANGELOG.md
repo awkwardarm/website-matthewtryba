@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.12] - 2026-04-16
+
+### Changed
+- `audio-player.js` / `audio-player.css`: now-playing bar content wrapped in `.np-inner` div
+  - Bar background/border still spans full viewport width
+  - Inner content capped at `max-width: 1100px` and centered with `margin: 0 auto` — prevents stretching on wide screens
+- `audio-player.css`: responsive breakpoint rules updated to target `.np-inner` instead of `.now-playing-bar` for padding/gap adjustments
+- `audio-player.css`: `#player-root` player grid capped at `max-width: 800px` and centered
+
 ## [1.0.11] - 2026-04-16
 
 ### Added

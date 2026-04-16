@@ -230,6 +230,7 @@ function initAudioPlayer(config) {
         const bar = document.createElement("div");
         bar.className = "now-playing-bar";
         bar.innerHTML = `
+            <div class="np-inner">
             <div class="np-track">
                 <div class="np-artwork-wrap"></div>
                 <div class="np-meta">
@@ -259,6 +260,7 @@ function initAudioPlayer(config) {
                     <span class="audio-volume-pct" id="audio-volume-pct">80%</span>
                 </div>
             </div>`}
+            </div>
         `;
 
         // Bar play/pause button
