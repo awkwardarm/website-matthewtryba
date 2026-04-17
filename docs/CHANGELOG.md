@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.16] - 2026-04-17
+
+### Added
+- `audio-player.js`: persistent now-playing bar across page navigations via `localStorage`
+  - Saves `{ trackIndex, currentTime, isPlaying }` on every page; restores bar automatically on load
+  - "Ghost mode" plays audio without a visible card grid (for home, about pages)
+  - Prev/Next skip buttons now work on all pages, not just the work/landing page
+  - Double-init guard (`window._audioPlayerInitialized`) prevents duplicate initialization
+- `about.html`: added `initAudioPlayer` call for local preview (was missing)
+
+### Fixed
+- `audio-player-tracks.js`: corrected missing `/` in artwork path for "Down With Me" track
+
 ## [1.0.15] - 2026-04-16
 
 ### Fixed

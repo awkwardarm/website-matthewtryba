@@ -23,6 +23,10 @@
 --------------------------------------------------*/
 
 function initAudioPlayer(config) {
+    // Prevent double-initialization (e.g. global injection + page footer both calling init)
+    if (window._audioPlayerInitialized) return;
+    window._audioPlayerInitialized = true;
+
     const {
         tracks,
         mountId = 'player-root',
@@ -30,17 +34,18 @@ function initAudioPlayer(config) {
     } = config;
 
     const root = document.getElementById(mountId);
-    if (!root) {
-        console.warn('initAudioPlayer: mount element not found:', mountId);
-        return;
-    }
+    const hasRoot = !!root;
 
     // Shared now-playing state
-    let _activeAudio    = null;
-    let _activePlayBtn  = null;
+    let _activeAudio      = null;
+    let _activePlayBtn    = null;
     let _activeTimeUpdate = null;
-    let _bar            = null; // assigned during render
-    let _visibleCards   = [];   // populated after render; used for prev/next
+    let _bar              = null;  // assigned during render
+    let _visibleCards     = [];    // populated after render; used by prev/next on player pages
+    let _activeTrackIndex = -1;    // index into _playableTracks; used for cross-page skip
+
+    // All non-hidden tracks in order — used for prev/next on any page
+    const _playableTracks = tracks.filter(t => t.group !== 'hidden');
 
     // -----------------------------------------------
     // Helpers
@@ -63,6 +68,32 @@ function initAudioPlayer(config) {
         const m = Math.floor(secs / 60);
         const s = Math.floor(secs % 60).toString().padStart(2, "0");
         return `${m}:${s}`;
+    }
+
+    // -----------------------------------------------
+    // Persistence — save/restore now-playing state via localStorage
+    // -----------------------------------------------
+    const STORAGE_KEY = 'tryba-player-state';
+
+    function saveState(trackIndex, audio, isPlaying) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                trackIndex,
+                currentTime: audio.currentTime,
+                isPlaying
+            }));
+        } catch (e) { /* storage unavailable */ }
+    }
+
+    function clearState() {
+        try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    }
+
+    function loadState() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
     }
 
     // -----------------------------------------------
@@ -104,6 +135,7 @@ function initAudioPlayer(config) {
         }
         _activeAudio   = audio;
         _activePlayBtn = cardPlayBtn;
+        _activeTrackIndex = _playableTracks.findIndex(t => t.src === track.src && t.title === track.title);
 
         // Update track info
         const artWrap = _bar.querySelector(".np-artwork-wrap");
@@ -125,10 +157,17 @@ function initAudioPlayer(config) {
         // Bind timeupdate to bar progress
         const npBarFill = _bar.querySelector(".np-bar-fill");
         const npCurrent = _bar.querySelector(".np-current");
+        let _lastSavedSec = -1;
         _activeTimeUpdate = () => {
             const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
             npBarFill.style.width = pct + "%";
             npCurrent.textContent = formatTime(audio.currentTime);
+            // Persist state at most once per second while playing
+            const sec = Math.floor(audio.currentTime);
+            if (sec !== _lastSavedSec) {
+                _lastSavedSec = sec;
+                saveState(_activeTrackIndex, audio, !audio.paused);
+            }
         };
         audio.addEventListener("timeupdate", _activeTimeUpdate);
 
@@ -178,6 +217,7 @@ function initAudioPlayer(config) {
         if (volSlider) audio.volume = volSlider.value / 100;
 
         audio.addEventListener("ended", () => {
+            clearState();
             playBtn.innerHTML = ICON_PLAY;
             playBtn.setAttribute("aria-label", "Play");
             if (_bar && _activeAudio === audio) {
@@ -207,6 +247,7 @@ function initAudioPlayer(config) {
                 playBtn.innerHTML = ICON_PAUSE;
                 playBtn.setAttribute("aria-label", "Pause");
                 activateBar(track, audio, playBtn);
+                saveState(_activeTrackIndex, audio, true);
             } else {
                 audio.pause();
                 playBtn.innerHTML = ICON_PLAY;
@@ -215,6 +256,7 @@ function initAudioPlayer(config) {
                     _bar.querySelector(".np-play-btn").innerHTML = ICON_PLAY;
                     _bar.querySelector(".np-play-btn").setAttribute("aria-label", "Play");
                 }
+                saveState(_activeTrackIndex, audio, false);
             }
         });
 
@@ -275,6 +317,7 @@ function initAudioPlayer(config) {
                     _activePlayBtn.innerHTML = ICON_PAUSE;
                     _activePlayBtn.setAttribute("aria-label", "Pause");
                 }
+                saveState(_activeTrackIndex, _activeAudio, true);
             } else {
                 _activeAudio.pause();
                 npPlayBtn.innerHTML = ICON_PLAY;
@@ -283,6 +326,7 @@ function initAudioPlayer(config) {
                     _activePlayBtn.innerHTML = ICON_PLAY;
                     _activePlayBtn.setAttribute("aria-label", "Play");
                 }
+                saveState(_activeTrackIndex, _activeAudio, false);
             }
         });
 
@@ -294,20 +338,141 @@ function initAudioPlayer(config) {
             _activeAudio.currentTime = ((e.clientX - rect.left) / rect.width) * _activeAudio.duration;
         });
 
-        // Prev / Next buttons
+        // Prev / Next buttons — works on any page (card grid or ghost mode)
         function skipTrack(dir) {
-            if (!_visibleCards.length) return;
-            const idx = _visibleCards.findIndex(c => c._audio === _activeAudio);
-            const next = idx === -1
-                ? 0
-                : (idx + dir + _visibleCards.length) % _visibleCards.length;
-            _visibleCards[next].querySelector(".play-btn").click();
+            if (!_playableTracks.length) return;
+            const baseIdx = _activeTrackIndex === -1 ? 0 : _activeTrackIndex;
+            const nextIdx = (baseIdx + dir + _playableTracks.length) % _playableTracks.length;
+            const nextTrack = _playableTracks[nextIdx];
+            // Find a card on the current page for this track
+            const card = [...document.querySelectorAll(".player-card")]
+                .find(c => c.dataset.trackTitle === nextTrack.title);
+            if (card) {
+                card.querySelector(".play-btn").click();
+            } else {
+                // Ghost mode: play without a card (no visible player grid on this page)
+                ghostPlay(nextTrack, nextIdx);
+            }
         }
 
         bar.querySelector(".np-prev-btn").addEventListener("click", () => skipTrack(-1));
         bar.querySelector(".np-next-btn").addEventListener("click", () => skipTrack(1));
 
         return bar;
+    }
+
+    // -----------------------------------------------
+    // Ghost play — plays a track without a card (for pages without the full player grid)
+    // -----------------------------------------------
+    function ghostPlay(track, trackIndex) {
+        // Pause any currently active audio
+        if (_activeAudio && !_activeAudio.paused) {
+            _activeAudio.pause();
+            if (_activePlayBtn) {
+                _activePlayBtn.innerHTML = ICON_PLAY;
+                _activePlayBtn.setAttribute("aria-label", "Play");
+            }
+        }
+
+        const audio = new Audio(track.src);
+        audio.preload = "metadata";
+
+        audio.addEventListener("ended", () => {
+            clearState();
+            if (_bar) {
+                _bar.querySelector(".np-play-btn").innerHTML = ICON_PLAY;
+                _bar.querySelector(".np-play-btn").setAttribute("aria-label", "Play");
+                _bar.querySelector(".np-bar-fill").style.width = "0%";
+                _bar.querySelector(".np-current").textContent = "0:00";
+            }
+        });
+
+        activateBar(track, audio, null);
+
+        audio.play().catch(() => {
+            // Autoplay blocked — bar shows in paused state
+            if (_bar) {
+                _bar.querySelector(".np-play-btn").innerHTML = ICON_PLAY;
+                _bar.querySelector(".np-play-btn").setAttribute("aria-label", "Play");
+            }
+            saveState(_activeTrackIndex, audio, false);
+        });
+    }
+
+    // -----------------------------------------------
+    // Restore now-playing state from localStorage (called after render)
+    // -----------------------------------------------
+    function restoreState() {
+        const state = loadState();
+        if (!state) return;
+
+        const { trackIndex, currentTime, isPlaying } = state;
+        const track = _playableTracks[trackIndex];
+        if (!track || !track.src) return;
+
+        // Try to find a visible card on this page for this track
+        const card = [...document.querySelectorAll(".player-card")]
+            .find(c => c.dataset.trackTitle === track.title);
+
+        if (card) {
+            // Full player mode — use the card's audio element
+            const audio = card._audio;
+            if (audio.readyState >= 1) {
+                audio.currentTime = currentTime;
+            } else {
+                audio.addEventListener("loadedmetadata", function onMeta() {
+                    audio.currentTime = currentTime;
+                    audio.removeEventListener("loadedmetadata", onMeta);
+                });
+            }
+            activateBar(track, audio, card.querySelector(".play-btn"));
+            if (isPlaying) {
+                audio.play().catch(() => {});
+                card.querySelector(".play-btn").innerHTML = ICON_PAUSE;
+                card.querySelector(".play-btn").setAttribute("aria-label", "Pause");
+            } else {
+                _bar.querySelector(".np-play-btn").innerHTML = ICON_PLAY;
+                _bar.querySelector(".np-play-btn").setAttribute("aria-label", "Play");
+            }
+        } else {
+            // Ghost mode — play without a card
+            const audio = new Audio(track.src);
+            audio.preload = "metadata";
+
+            if (audio.readyState >= 1) {
+                audio.currentTime = currentTime;
+            } else {
+                audio.addEventListener("loadedmetadata", function onMeta() {
+                    audio.currentTime = currentTime;
+                    audio.removeEventListener("loadedmetadata", onMeta);
+                });
+            }
+
+            audio.addEventListener("ended", () => {
+                clearState();
+                if (_bar) {
+                    _bar.querySelector(".np-play-btn").innerHTML = ICON_PLAY;
+                    _bar.querySelector(".np-play-btn").setAttribute("aria-label", "Play");
+                    _bar.querySelector(".np-bar-fill").style.width = "0%";
+                    _bar.querySelector(".np-current").textContent = "0:00";
+                }
+            });
+
+            activateBar(track, audio, null);
+
+            if (isPlaying) {
+                audio.play().catch(() => {
+                    if (_bar) {
+                        _bar.querySelector(".np-play-btn").innerHTML = ICON_PLAY;
+                        _bar.querySelector(".np-play-btn").setAttribute("aria-label", "Play");
+                    }
+                    saveState(_activeTrackIndex, audio, false);
+                });
+            } else {
+                _bar.querySelector(".np-play-btn").innerHTML = ICON_PLAY;
+                _bar.querySelector(".np-play-btn").setAttribute("aria-label", "Play");
+            }
+        }
     }
 
     // -----------------------------------------------
@@ -319,44 +484,46 @@ function initAudioPlayer(config) {
     _bar = buildNowPlayingBar(isTouchDevice);
     document.body.appendChild(_bar);
 
-    // Render track groups
-    const groups = groupTracks(tracks);
+    // Render track groups only if a mount element exists on this page
+    if (hasRoot) {
+        const groups = groupTracks(tracks);
 
-    // Hidden group container — cards exist in DOM for click-to-play but are not visible
-    const hiddenContainer = document.createElement("div");
-    hiddenContainer.style.cssText = "position:absolute;width:0;height:0;overflow:hidden;pointer-events:none;";
-    document.body.appendChild(hiddenContainer);
+        // Hidden group container — cards exist in DOM for click-to-play but are not visible
+        const hiddenContainer = document.createElement("div");
+        hiddenContainer.style.cssText = "position:absolute;width:0;height:0;overflow:hidden;pointer-events:none;";
+        document.body.appendChild(hiddenContainer);
 
-    groups.forEach(group => {
-        if (group.label === "hidden") {
-            group.tracks.forEach(track => hiddenContainer.appendChild(buildPlayerCard(track)));
-            return;
+        groups.forEach(group => {
+            if (group.label === "hidden") {
+                group.tracks.forEach(track => hiddenContainer.appendChild(buildPlayerCard(track)));
+                return;
+            }
+
+            const groupEl = document.createElement("div");
+            groupEl.className = "audio-group";
+
+            const label = document.createElement("p");
+            label.className = "audio-group-label";
+            label.textContent = group.label;
+            groupEl.appendChild(label);
+
+            const grid = document.createElement("div");
+            grid.className = "audio-grid";
+            group.tracks.forEach(track => grid.appendChild(buildPlayerCard(track)));
+            groupEl.appendChild(grid);
+            root.appendChild(groupEl);
+        });
+
+        // Build visible card list for prev/next navigation (excludes hidden group)
+        _visibleCards = [...root.querySelectorAll(".player-card")];
+
+        // Render optional fallback link
+        if (fallback && fallback.url) {
+            const p = document.createElement("p");
+            p.className = "audio-fallback";
+            p.innerHTML = `Audio not loading? <a href="${fallback.url}" target="_blank" rel="noopener">${fallback.text || 'Listen here'} →</a>`;
+            root.parentNode.insertBefore(p, root.nextSibling);
         }
-
-        const groupEl = document.createElement("div");
-        groupEl.className = "audio-group";
-
-        const label = document.createElement("p");
-        label.className = "audio-group-label";
-        label.textContent = group.label;
-        groupEl.appendChild(label);
-
-        const grid = document.createElement("div");
-        grid.className = "audio-grid";
-        group.tracks.forEach(track => grid.appendChild(buildPlayerCard(track)));
-        groupEl.appendChild(grid);
-        root.appendChild(groupEl);
-    });
-
-    // Build visible card list for prev/next navigation (excludes hidden group)
-    _visibleCards = [...root.querySelectorAll(".player-card")];
-
-    // Render optional fallback link
-    if (fallback && fallback.url) {
-        const p = document.createElement("p");
-        p.className = "audio-fallback";
-        p.innerHTML = `Audio not loading? <a href="${fallback.url}" target="_blank" rel="noopener">${fallback.text || 'Listen here'} →</a>`;
-        root.parentNode.insertBefore(p, root.nextSibling);
     }
 
     // Wire up any [data-play-title] elements on the page (e.g. social proof album art)
@@ -389,6 +556,8 @@ function initAudioPlayer(config) {
         document.querySelectorAll(".player-card").forEach(card => {
             if (card._audio) card._audio.volume = v;
         });
+        // Also apply to any ghost audio element (not attached to a card)
+        if (_activeAudio) _activeAudio.volume = v;
         if (volPct)    volPct.textContent = val + "%";
         if (volSlider) volSlider.style.setProperty("--vol-pct", val + "%");
     }
@@ -413,4 +582,7 @@ function initAudioPlayer(config) {
         });
         volPopup.addEventListener("click", e => e.stopPropagation());
     }
+
+    // Restore any saved playback state from a previous page
+    restoreState();
 }

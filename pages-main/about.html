@@ -88,6 +88,10 @@
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
+        // For local preview — on Squarespace, Code Injection footer loader handles this
+        if (typeof initAudioPlayer === 'function' && typeof TRACKS !== 'undefined') {
+            initAudioPlayer({ tracks: TRACKS });
+        }
     </script>
 </body>
 </html>
