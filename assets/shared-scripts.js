@@ -57,6 +57,13 @@ function validateForm() {
         }
     }
     
+    // Prevent double-submit
+    const btn = document.querySelector('#contact-form button[type="submit"]');
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+    }
+
     return true;
 }
 
