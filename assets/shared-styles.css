@@ -1,5 +1,5 @@
 /*--------------------------------------------------*/
-/* Shared Styles for All Landing Pages */
+/* Shared Styles for All Pages */
 /*--------------------------------------------------*/
 
 :root {
@@ -167,6 +167,20 @@ section {
     margin: 0 auto 1.5rem;
 }
 
+.sync-success {
+    padding: 30px 0;
+}
+
+.sync-success h3 {
+        text-align:center;
+        color: var(--secondary-color);
+        font-weight: 500;
+        margin-bottom: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+}
+
 .logos {
     display: flex;
     justify-content: center;
@@ -186,6 +200,14 @@ section {
 
 .logos img:hover {
     transform: scale(1.05);
+}
+
+/* Poster images (movie posters in sync sections) — override square album art defaults */
+#sync .logos img,
+.sync-success .logos img {
+    width: auto;
+    max-height: 170px;
+    object-fit: contain;
 }
 
 /* Testimonials Section */
@@ -224,6 +246,12 @@ section {
     margin-bottom: 1.5rem;
     position: relative;
     padding-right: 30px;
+}
+
+.thank-you-header {
+    padding: 80px 0;
+    text-align: center;
+    background-color: var(--surface-color);
 }
 
 /* Shared quote mark styles */
@@ -399,6 +427,26 @@ section {
 
 .honeypot-field {
     display: none !important;
+}
+
+/* Video Wrapper */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 /*--------------------------------------------------*/

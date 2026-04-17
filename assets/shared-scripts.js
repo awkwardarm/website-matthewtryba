@@ -2,6 +2,19 @@
  * Shared JavaScript for All Landing Pages
  */
 
+// Cloudflare R2 CDN base URL — single source of truth for all pages
+const CDN_BASE = 'https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/';
+
+/**
+ * Resolves all img[data-cdn] src attributes using CDN_BASE.
+ * Called automatically on DOMContentLoaded.
+ */
+function hydrateCdnImages() {
+    document.querySelectorAll('img[data-cdn]').forEach(img => {
+        img.src = CDN_BASE + img.dataset.cdn;
+    });
+}
+
 // Spam detection configuration
 const SPAM_CONFIG = {
     patterns: [
@@ -60,7 +73,11 @@ function initializeContactForm() {
 
 // Auto-initialize when DOM is ready
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeContactForm);
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeContactForm();
+        hydrateCdnImages();
+    });
 } else {
     initializeContactForm();
+    hydrateCdnImages();
 }

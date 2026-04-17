@@ -4,61 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | Matthew Tryba</title>
-    <style>
-        /*--------------------------------------------------*/
-        /* 1. Global Styles & Typography */
-        /*--------------------------------------------------*/
-        :root {
-            --primary-color: #0d0d0d;
-            --secondary-color: #5a5a5a;
-            --background-color: #ffffff;
-            --accent-color: #1a73e8;
-            --surface-color: #f8f9fa;
-            --border-color: #dee2e6;
-        }
-        html { scroll-behavior: smooth; }
-        body {
-            margin: 0;
-            font-family: "Futura PT", sans-serif;
-            background-color: var(--background-color);
-            color: var(--primary-color);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        h1, h2, h3 {
-            font-weight: 700;
-            line-height: 1.2;
-            color: var(--primary-color);
-        }
-        h1 { font-size: 2.8rem; margin-bottom: 1rem; text-align: center; }
-        h2 { font-size: 2.2rem; margin-bottom: 2rem; text-align: center; }
-        p {
-            font-size: 1.1rem;
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-        }
-        .btn {
-            display: inline-block;
-            padding: 12px 28px;
-            background-color: var(--accent-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-        .btn:hover { background-color: #1765c6; }
-        section { padding: 48px 0; }
 
-        /*--------------------------------------------------*/
+    <!-- Load Assets for Local Preview only -->
+    <script>
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
+            document.write('<link rel="stylesheet" href="../assets/shared-styles.css">');
+            document.write('<link rel="stylesheet" href="../assets/audio-player.css">');
+            document.write('<script src="../assets/shared-scripts.js"><\/script>');
+            document.write('<script src="../assets/page-configs.js"><\/script>');
+            document.write('<script src="../assets/audio-player-tracks.js"><\/script>');
+            document.write('<script src="../assets/audio-player.js"><\/script>');
+        }
+    </script>
+
+    <style>
+         /*--------------------------------------------------*/
         /* 2. About Page Specific Styles */
         /*--------------------------------------------------*/
         .page-hero { text-align: center; padding: 60px 0; background-color: var(--surface-color); }
@@ -74,11 +34,6 @@
         .about-layout h2 { text-align: left; }
         .about-layout p { text-align: left; }
 
-        .cta-section { background-color: var(--accent-color); color: white; text-align: center; }
-        .cta-section h2, .cta-section p { color: white; }
-        .cta-section .btn { background-color: white; color: var(--accent-color); font-weight: 700; }
-        .cta-section .btn:hover { background-color: #f0f0f0; }
-        
         footer { text-align: center; padding: 30px; font-size: 0.9rem; color: var(--secondary-color); background: var(--surface-color); }
 
         /*--------------------------------------------------*/
@@ -88,10 +43,6 @@
             .about-layout { flex-direction: column; }
             .about-layout h2 { text-align: center; }
             .about-layout p { text-align: center; }
-        }
-        @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            h2 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -107,12 +58,12 @@
         <div class="container">
             <div class="about-layout">
                 <div class="image-content">
-                    <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/profile-photos/profile-photo-IMG_5507.jpeg" alt="Matthew Tryba in his studio">
+                    <img data-cdn="images/profile-photos/profile-photo-IMG_5507.jpeg" alt="Matthew Tryba in his studio">
                 </div>
                 <div class="text-content">
                     <!-- <h2>Built on Craft</h2> -->
-                    <p>For 15 years I've worked the gamut, from Diamond certified and Grammy winning albums, to songs with independent artists made in bedrooms that have landed trailers in Hollywood. Much more than a spacebar monkey, I help wherever you are stuck, whether it's the arrangement, the sonic palette, or you just need that right piano or guitar line or bridge. </p>
-                    <p>Specializing in Pop, Adult Contemporary, and Dark Pop, I'm your partner in creating competitive recordings while protecting your creative identity and artistic fingerprint at every step. You'll never lose yourself and your voice in the process. My sound is built on a backbone of authentic vocals woven on a frame of textured drums and unique sound design.</p>
+                    <p>For 15 years I've worked on a wide range of music, from Diamond certified and Grammy winning albums, to songs with independent artists made in bedrooms that landed trailers in Hollywood. Much more than a spacebar monkey, I help wherever you are stuck, whether it's the arrangement, the sonic palette, or you just need that right piano, guitar hook, or bridge. </p>
+                    <p>Specializing in Pop, Adult Contemporary, and Dark Pop, I'm your partner in creating major label quality recordings while protecting your creative identity and artistic fingerprint at every step. You'll never lose yourself and your voice in the process. My sound is built on a backbone of authentic vocals woven on a frame of textured drums and unique sound design.</p>
                     <p>Based in Denver, Colorado and working with artists worldwide. I'm here for artists that are ready for the next level of music production.</p>
                 </div>
             </div>

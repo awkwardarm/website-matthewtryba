@@ -19,85 +19,11 @@
 
     <style>
         /*--------------------------------------------------*/
-        /* 1. Global Styles & Typography (from home-page.html) */
-        /*--------------------------------------------------*/
-        :root {
-            --primary-color: #0d0d0d;
-            --secondary-color: #5a5a5a;
-            --background-color: #ffffff;
-            --accent-color: #1a73e8;
-            --surface-color: #f8f9fa;
-            --border-color: #dee2e6;
-        }
-        html { scroll-behavior: smooth; }
-        body {
-            margin: 0;
-            font-family: "Futura PT", sans-serif;
-            background-color: var(--background-color);
-            color: var(--primary-color);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        h1, h2, h3 {
-            font-weight: 700;
-            line-height: 1.2;
-            color: var(--primary-color);
-        }
-        h1 { font-size: 2.8rem; margin-bottom: 1rem; }
-        h2 { font-size: 2.2rem; margin-bottom: 2rem; text-align: center;}
-        h3 { font-size: 1.5rem; }
-        p {
-            font-size: 1.1rem;
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-        }
-        .btn {
-            display: inline-block;
-            padding: 12px 28px;
-            background-color: var(--accent-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-        .btn:hover { background-color: #1765c6; }
-        /* Edit the below padding to move sections closer to each other */
-        section { padding: 48px 0; }
-
-        /*--------------------------------------------------*/
         /* 2. Work Page Specific Styles */
         /*--------------------------------------------------*/
         .work-hero { text-align: center; padding: 60px 0; background-color: var(--surface-color); }
         .work-hero p { max-width: 700px; margin-left: auto; margin-right: auto; }
         .work-hero .hero-button-wrapper { margin-top: 1rem; }
-
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-            background: #000;
-            margin: 20px auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
 
         .logos {
             display: flex;
@@ -106,26 +32,9 @@
             flex-wrap: wrap;
             gap: 20px;
         }
-        .logos img {
-            max-height: 170px;
-            width: auto;
-            object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease;
-        }
         .logos img:hover { transform: scale(1.05); }
 
         footer { text-align: center; padding: 30px; font-size: 0.9rem; color: var(--secondary-color); background: var(--surface-color); }
-
-        /*--------------------------------------------------*/
-        /* 3. Responsive Styles */
-        /*--------------------------------------------------*/
-        @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            h2 { font-size: 1.8rem; }
-            .logos img { max-height: 120px; }
-        }
     </style>
 </head>
 <body>
@@ -150,19 +59,19 @@
     <section id="sync" style="background-color: var(--surface-color);">
         <div class="container">
             <h2>Client Success In Film & Television</h2>
-            <p style="text-align: center; max-width: 700px; margin: -1rem auto 2rem auto;">When your music sounds this good, Hollywood notices. These placements achieved with my clients are a testament to the standard we can achieve together.</p>
+            <p style="text-align: center; max-width: 700px; margin: -1rem auto 2rem auto;">When your music sounds this good, Hollywood notices. These placements achieved with my independent artists are a testament to the standard we can achieve together.</p>
             
             <div class="video-wrapper">
                 <iframe src="https://www.youtube.com/embed/kFVZUrXk3oU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
 
             <div class="logos">
-                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/sync-highlights/fast-x-poster.webp" alt="Fast X Poster">
-                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/sync-highlights/batwoman%2Bposter.webp" alt="Batwoman Poster">
-                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/sync-highlights/the%2Bl%2Bword%2Bposter.webp" alt="The L Word Poster">
-                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/sync-highlights/NBC%2BFound%2BPoster.webp" alt="Found Poster">
-                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/sync-highlights/the%2Bdoorman%2Bposter.webp" alt="The Doorman Poster">
-                <img src="https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/images/sync-highlights/nancy%2Bdrew%2Bposter.webp" alt="Nancy Drew Poster">
+                <img data-cdn="images/sync-highlights/fast-x-poster.webp" alt="Fast X Poster">
+                <img data-cdn="images/sync-highlights/batwoman%2Bposter.webp" alt="Batwoman Poster">
+                <img data-cdn="images/sync-highlights/the%2Bl%2Bword%2Bposter.webp" alt="The L Word Poster">
+                <img data-cdn="images/sync-highlights/NBC%2BFound%2BPoster.webp" alt="Found Poster">
+                <img data-cdn="images/sync-highlights/the%2Bdoorman%2Bposter.webp" alt="The Doorman Poster">
+                <img data-cdn="images/sync-highlights/nancy%2Bdrew%2Bposter.webp" alt="Nancy Drew Poster">
             </div>
         </div>
     </section>
@@ -170,7 +79,7 @@
     <section class="cta-section">
         <div class="container">
             <h2>Ready to create your best work?</h2>
-            <p style="text-align:center;">Let's talk about how we can transform your song into a professional record that truly connects with listeners.</p>
+            <p style="text-align:center;">Let's talk.</p>
             <div style="text-align:center;">
                 <a href="/home#contact" class="btn">Contact Me</a>
             </div>

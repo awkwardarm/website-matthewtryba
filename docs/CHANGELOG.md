@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.13] - 2026-04-16
+
+### Added
+- `shared-scripts.js`: `hydrateCdnImages()` function — resolves `img[data-cdn]` attributes to full R2 CDN URLs on `DOMContentLoaded`, replacing scattered hardcoded CDN `src` values across all pages
+- `shared-scripts.js`: `CDN_BASE` constant (`https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/`) as single source of truth for R2 base URL
+
+### Changed
+- All pages: hardcoded R2 CDN `src` attributes on `<img>` tags replaced with `data-cdn` relative paths — hydrated at runtime by `hydrateCdnImages()`
+  - Affected: `about.html`, `home-page.html`, `work.html`, `landing-page-national.html`
+- `shared-styles.css`: moved page-specific styles into shared CSS — `.sync-success`, `.thank-you-header`, `.video-wrapper`, `#sync .logos img` poster overrides
+- `about.html`, `work.html`, `thank-you-home.html`, `thank-you.html`: removed large inline CSS blocks now covered by `shared-styles.css`
+- `about.html`: replaced inline global CSS block with conditional local-preview asset loader script
+- `audio-player-tracks.js`: hardcoded full R2 URLs replaced with `CDN_BASE + "..."` references
+- `home-page.html`, `work.html`, `landing-page-national.html`: minor copy edits (grammar, phrasing, removed unnecessary hyphens)
+
+### Removed
+- `pages-thank-you/thank-you-studio-denver.html`: deleted (page no longer in use)
+
 ## [1.0.12] - 2026-04-16
 
 ### Changed
