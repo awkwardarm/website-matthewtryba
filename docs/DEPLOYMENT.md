@@ -170,7 +170,7 @@ Change version numbers from `@v1.0.3` to `@v1.0.4` (your new version):
 
 
 <!-- Global CSS -->
-<script>window.CDN_VERSION = 'v1.0.10';</script>
+<script>window.CDN_VERSION = 'v1.0.13';</script>
 <script>
   (function(){
     var b = 'https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@' + window.CDN_VERSION + '/assets/';
