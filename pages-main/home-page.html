@@ -271,14 +271,13 @@
 
     <!-- Page-specific initialization -->
     <script>
-        // Wait for DOM to be ready
-        document.addEventListener('DOMContentLoaded', function() {
+        window.onCDNReady = function() {
             const pageConfig = getPageConfig('home');
             
             document.getElementById('contact-form').action = pageConfig.formAction;
             document.getElementById('form-redirect').value = pageConfig.redirectUrl;
             // document.querySelector('.g-recaptcha').setAttribute('data-sitekey', pageConfig.recaptchaSiteKey);
-        });
+        };
     </script>
 </body>
 </html>
