@@ -8,7 +8,7 @@ Your website uses a **centralized asset system** where CSS, JavaScript, and conf
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    GitHub Repository                     │
+│                    GitHub Repository                    │
 │  (version controlled source of truth)                   │
 └──────────────────┬──────────────────────────────────────┘
                    │
@@ -16,22 +16,30 @@ Your website uses a **centralized asset system** where CSS, JavaScript, and conf
                    ▼
 ┌─────────────────────────────────────────────────────────┐
 │                    jsDelivr CDN                         │
-│  (serves files globally with caching)                   │
+│  CSS, JS, audio player assets                           │
 └──────────────────┬──────────────────────────────────────┘
                    │
                    │ HTTP Request
                    ▼
 ┌─────────────────────────────────────────────────────────┐
 │              Squarespace Code Injection                 │
-│  (loads CSS/JS from CDN into every page)               │
+│  (loads all CSS/JS globally on every page)              │
 └──────────────────┬──────────────────────────────────────┘
                    │
                    │ Applied to
                    ▼
 ┌─────────────────────────────────────────────────────────┐
-│                    Your Web Pages                        │
+│                    Your Web Pages                       │
 │  (HTML content in Code Blocks)                          │
 └─────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────┐
+│                  Cloudflare R2                          │
+│  (serves audio MP3s and artwork images)                 │
+│  pub-869789a451fa44dbadf9e27cd445afa0.r2.dev            │
+└─────────────────────────────────────────────────────────┘
+       ↑ CDN_BASE in shared-scripts.js points here
+       ↑ Referenced by audio-player-tracks.js track URLs
 ```
 
 ---
@@ -78,50 +86,67 @@ website-matthewtryba/
 
 ### On Squarespace (Production)
 
-There are **two separate systems** for loading assets:
-
-#### 1. Global Site Assets — jsDelivr CDN (via Code Injection)
-
-Loaded on every page via **Settings → Advanced → Code Injection**:
+All assets — including the audio player — are loaded globally on every page via **Settings → Advanced → Code Injection**. A single `CDN_VERSION` value controls which version of all files is loaded.
 
 **Header Injection:**
 ```html
-<!-- Global CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.8/assets/shared-styles.css">
-
-<!-- Squarespace-specific overrides -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.8/assets/squarespace-overrides.css">
+<!-- Set CDN version and inject CSS -->
+<script>window.CDN_VERSION = 'v1.0.13';</script>
+<script>
+  (function(){
+    var b = 'https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@' + window.CDN_VERSION + '/assets/';
+    ['shared-styles.css','squarespace-overrides.css','audio-player.css'].forEach(function(f){
+      document.head.insertAdjacentHTML('beforeend','<link rel="stylesheet" href="'+b+f+'">');
+    });
+  })();
+</script>
 ```
 
 **Footer Injection:**
 ```html
-<!-- Global JavaScript -->
-<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.8/assets/shared-scripts.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.8/assets/page-configs.js"></script>
+<!-- Load JS in order, then initialize audio player -->
+<script>
+  (function(){
+    var b = 'https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@' + window.CDN_VERSION + '/assets/';
+    var scripts = ['shared-scripts.js','page-configs.js','audio-player-tracks.js','audio-player.js'];
+    var i = 0;
+    function loadNext() {
+      if (i >= scripts.length) {
+        if (typeof initAudioPlayer === 'function' && typeof TRACKS !== 'undefined') {
+          initAudioPlayer({ tracks: TRACKS });
+        }
+        if (typeof window.onCDNReady === 'function') window.onCDNReady();
+        return;
+      }
+      var s = document.createElement('script');
+      s.src = b + scripts[i++];
+      s.onload = loadNext;
+      document.body.appendChild(s);
+    }
+    loadNext();
+  })();
+</script>
 ```
 
-#### 2. Page-Specific Assets — Squarespace File Storage (`/s/` paths)
+To deploy a new version, update `CDN_VERSION` in the header injection. There is no per-page script loading for the audio player — it initializes globally wherever a `#player-root` element exists.
 
-Assets uploaded directly to Squarespace via **Settings → Advanced → File Storage** (or Developer Tools). These are referenced as `/s/filename` and are embedded directly in a page's Code Block HTML.
+### Audio Files and Artwork — Cloudflare R2
 
-**Audio player assets (landing page):**
-```html
-<!-- For Squarespace (jsDelivr CDN) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.9/assets/audio-player.css">
-<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.9/assets/audio-player-tracks.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@v1.0.9/assets/audio-player.js"></script>
-<!-- For local preview (comment out CDN lines above and uncomment these) -->
-<!-- <link rel="stylesheet" href="../assets/audio-player.css"> -->
-<!-- <script src="../assets/audio-player-tracks.js"></script> -->
-<!-- <script src="../assets/audio-player.js"></script> -->
+Audio MP3s and album artwork are stored in **Cloudflare R2** (not GitHub). The base URL is defined once in `shared-scripts.js`:
+
+```javascript
+const CDN_BASE = 'https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/';
 ```
 
-All audio player assets now use jsDelivr CDN — same pattern as `shared-styles.css`. Bump the version tag in these URLs whenever the audio player files change.
+Track URLs in `audio-player-tracks.js` use `CDN_BASE` as a prefix:
+- Audio files: `CDN_BASE + 'audio/Song-Title.mp3'`
+- Artwork: `CDN_BASE + 'images/album-art/Cover.jpg'`
+
+Uploading new audio or artwork goes directly to R2 — no version bump needed.
 
 ### Local Development (Your Computer)
 
-Comment out the CDN lines and uncomment the `../assets/` lines in the landing page `<head>` for local preview. Re-comment before pasting into Squarespace.
-```
+The landing page HTML auto-detects `localhost` / `file:` protocol and loads local `../assets/` files via `document.write`. No manual commenting/uncommenting needed.
 
 ---
 
@@ -129,9 +154,9 @@ Comment out the CDN lines and uncomment the `../assets/` lines in the landing pa
 
 | Service | Purpose | Details |
 |---|---|---|
-| **jsDelivr CDN** | Serves global site assets | `cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@{version}/assets/` |
-| **Cloudflare R2** | Audio files and artwork for the audio player | `pub-869789a451fa44dbadf9e27cd445afa0.r2.dev` — MP3s at `/audio/`, artwork at `/images/` |
-| **Squarespace** | CMS and site hosting | File Storage (`/s/`) for page-specific assets |
+| **jsDelivr CDN** | Serves all CSS/JS assets (versioned) | `cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@{version}/assets/` |
+| **Cloudflare R2** | Audio MP3s and artwork images | `pub-869789a451fa44dbadf9e27cd445afa0.r2.dev` — MP3s at `/audio/`, artwork at `/images/` |
+| **Squarespace** | CMS and site hosting | Code Injection for global asset loading |
 | **Formbold** | Form submissions | `formbold.com/s/3nKg0` |
 | **Google Ads / Analytics** | Tracking | Tag: `AW-17389653886` |
 
@@ -190,6 +215,6 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 - **Update site-wide colors** → Edit `shared-styles.css` `:root` variables
 - **Change form submission** → Edit `page-configs.js` configurations
 - **Add spam filter** → Update `shared-scripts.js` spam patterns
-- **Add/remove audio tracks** → Edit `audio-player-tracks.js`, then upload updated file to Squarespace File Storage
+- **Add/remove audio tracks** → Edit `audio-player-tracks.js`, commit with a new version tag, update `CDN_VERSION` in Squarespace Code Injection; upload new MP3/artwork files directly to Cloudflare R2
 - **Create new page** → See [CREATING-PAGES.md](CREATING-PAGES.md)
 - **Deploy changes** → See [DEPLOYMENT.md](DEPLOYMENT.md)
