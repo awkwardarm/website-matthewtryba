@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.17] - 2026-04-18
+
+### Fixed
+- `audio-player.js`: mobile playback state now restores correctly after page navigation
+  - `saveState()` accepts an optional `currentTimeOverride` to preserve position when audio metadata hasn't loaded yet (avoids saving `0:00` when autoplay is blocked)
+  - Card mode: play button only switches to pause icon after `play()` resolves successfully; `.catch()` now saves paused state with the original position
+  - Ghost mode: `.catch()` passes the saved `currentTime` instead of `audio.currentTime` (which is `0` before metadata loads), preserving seek position on mobile
+
 ## [1.0.16] - 2026-04-17
 
 ### Added

@@ -75,11 +75,11 @@ function initAudioPlayer(config) {
     // -----------------------------------------------
     const STORAGE_KEY = 'tryba-player-state';
 
-    function saveState(trackIndex, audio, isPlaying) {
+    function saveState(trackIndex, audio, isPlaying, currentTimeOverride) {
         try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify({
                 trackIndex,
-                currentTime: audio.currentTime,
+                currentTime: currentTimeOverride !== undefined ? currentTimeOverride : audio.currentTime,
                 isPlaying
             }));
         } catch (e) { /* storage unavailable */ }
@@ -427,9 +427,15 @@ function initAudioPlayer(config) {
             }
             activateBar(track, audio, card.querySelector(".play-btn"));
             if (isPlaying) {
-                audio.play().catch(() => {});
-                card.querySelector(".play-btn").innerHTML = ICON_PAUSE;
-                card.querySelector(".play-btn").setAttribute("aria-label", "Pause");
+                audio.play().then(() => {
+                    card.querySelector(".play-btn").innerHTML = ICON_PAUSE;
+                    card.querySelector(".play-btn").setAttribute("aria-label", "Pause");
+                }).catch(() => {
+                    // Autoplay blocked (mobile); show paused state and preserve position
+                    _bar.querySelector(".np-play-btn").innerHTML = ICON_PLAY;
+                    _bar.querySelector(".np-play-btn").setAttribute("aria-label", "Play");
+                    saveState(trackIndex, audio, false, currentTime);
+                });
             } else {
                 _bar.querySelector(".np-play-btn").innerHTML = ICON_PLAY;
                 _bar.querySelector(".np-play-btn").setAttribute("aria-label", "Play");
@@ -466,7 +472,8 @@ function initAudioPlayer(config) {
                         _bar.querySelector(".np-play-btn").innerHTML = ICON_PLAY;
                         _bar.querySelector(".np-play-btn").setAttribute("aria-label", "Play");
                     }
-                    saveState(_activeTrackIndex, audio, false);
+                    // Autoplay blocked (mobile); preserve original position
+                    saveState(_activeTrackIndex, audio, false, currentTime);
                 });
             } else {
                 _bar.querySelector(".np-play-btn").innerHTML = ICON_PLAY;
