@@ -10,6 +10,8 @@
     --accent-color: #1a73e8;
     --surface-color: #f8f9fa;
     --border-color: #dee2e6;
+    --accent-secondary: #f5a623;
+    --gradient-primary: linear-gradient(135deg, #e8732a, #f5a623);
 
     /* Dark Mode - Comment out to disable */
     /* --primary-color: #ffffff;
@@ -47,7 +49,7 @@ h1, h2, h3 {
 
 h1 { font-size: 2.8rem; margin-bottom: 1rem; }
 h2 { 
-    font-size: 2.2rem; 
+    font-size: 3.5rem; 
     margin-bottom: 2rem; 
     text-align: center;
     font-weight: 700;
@@ -61,6 +63,12 @@ p {
     margin-bottom: 1rem;
 }
 
+@keyframes btn-aura-pulse {
+    0%   { box-shadow: 0 0 10px 3px rgba(26, 115, 232, 0.6), 0 0 20px 8px rgba(255, 255, 255, 0.25); }
+    50%  { box-shadow: 0 0 22px 8px rgba(26, 115, 232, 0.85), 0 0 36px 14px rgba(255, 255, 255, 0.45); }
+    100% { box-shadow: 0 0 10px 3px rgba(26, 115, 232, 0.6), 0 0 20px 8px rgba(255, 255, 255, 0.25); }
+}
+
 .btn {
     display: inline-block;
     padding: 12px 28px;
@@ -69,7 +77,7 @@ p {
     text-decoration: none;
     border-radius: 5px;
     font-weight: 500;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     border: none;
     cursor: pointer;
     font-size: 1.1rem;
@@ -77,6 +85,20 @@ p {
 
 .btn:hover {
     background-color: #1765c6;
+    animation: btn-aura-pulse 1.6s ease-in-out infinite;
+    transform: translateY(-1px);
+}
+
+/* No aura on non-contact buttons */
+.btn-secondary:hover,
+a.btn[href="/about"]:hover {
+    animation: none;
+    box-shadow: none;
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
 }
 
 section {
@@ -226,9 +248,16 @@ section {
     background-color: var(--surface-color);
     border: 1px solid var(--border-color);
     border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     padding: 10px;
     display: flex;
     flex-direction: column;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
 }
 
 .testimonial-card .quote-headline {
@@ -389,6 +418,140 @@ section {
     border: 1px solid var(--border-color);
 }
 
+/* Contact Form Section (landing page national style) */
+.page-section.contact {
+    background-color: var(--surface-color);
+}
+
+.page-section.contact .container {
+    max-width: 1100px;
+    padding: 0 15px;
+}
+
+.page-section.contact .col-lg-8 {
+    max-width: 100%;
+    padding: 0 15px;
+}
+
+.page-section.contact h2.mt-0 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.page-section.contact .divider {
+    border: none;
+    height: 2px;
+    background-color: var(--border-color);
+    margin: 1.5rem 0;
+}
+
+.page-section.contact .form-subtitle {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+}
+
+#contact-form-container {
+    max-width: 700px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: "Futura PT", sans-serif;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+}
+
+/* Animate first visible form field to invite interaction */
+@keyframes field-invite {
+    0%, 100% {
+        border-color: var(--border-color);
+        box-shadow: 0 0 0 0 rgba(100, 181, 246, 0);
+    }
+    50% {
+        border-color: #64b5f6;
+        box-shadow: 0 0 0 5px rgba(100, 181, 246, 0.35);
+    }
+}
+
+.form-control--invite {
+    animation: field-invite 2.2s ease-in-out infinite;
+}
+
+.form-control--invite:focus {
+    animation: none;
+}
+
+/* Row and column utilities for contact form layout */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.row > * {
+    padding-left: 15px;
+    padding-right: 15px;
+    flex: 1 1 100%;
+    max-width: 100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mb-5 {
+    margin-bottom: 3rem;
+}
+
+/* Contact form responsive fix — prevent squishing on smaller screens */
+.page-section.contact .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.page-section.contact .row > * {
+    padding-left: 0;
+    padding-right: 0;
+    flex: 1 1 100%;
+    max-width: 100%;
+}
+
+#contact-form-container {
+    width: 100%;
+    max-width: 700px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+@media (max-width: 768px) {
+    .page-section.contact .container {
+        padding: 0 10px;
+    }
+    
+    #contact-form-container {
+        padding: 20px 15px;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
+
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -418,6 +581,24 @@ section {
     outline: none;
     border-color: var(--accent-color);
     box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+}
+
+/* Animated highlight for first form field (Full Name) */
+.form-group:first-child input,
+.form-group:first-child textarea {
+    animation: formFieldHighlight 2s ease-in-out infinite;
+    border-color: var(--accent-color) !important;
+}
+
+@keyframes formFieldHighlight {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(26, 115, 232, 0);
+        border-color: var(--border-color);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(26, 115, 232, 0.15);
+        border-color: var(--accent-color);
+    }
 }
 
 #form-status {
@@ -539,31 +720,92 @@ section {
 footer {
     text-align: center;
     padding: 20px;
+    padding-bottom: 80px; /* clear the fixed now-playing bar */
     font-size: 0.9rem;
     color: var(--secondary-color);
+}
+
+footer .footer-tagline {
+    font-style: italic;
+    font-size: 1rem;
+    margin-bottom: 4px;
+    color: var(--secondary-color);
+}
+
+footer .footer-copyright {
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .g-recaptcha {
     margin-bottom: 20px;
 }
 
+/* Services Grid */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    text-align: center;
+}
+
+/* Service Cards — matching testimonial card styling */
+.service-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.service-card svg {
+    color: var(--accent-color);
+    margin: 0 auto .75em;
+}
+
+.service-card h3 {
+    text-align: center;
+    margin-bottom: 0.85rem;
+}
+
+.service-card p {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+}
+
 /* Responsive Styles */
 @media (max-width: 900px) {
-    .testimonial-grid {
-        grid-template-columns: 1fr;
-    }
-    .feature-section .container {
-        flex-direction: column;
-    }
-    .feature-section.about .image-content {
-        order: 1;
-    }
-    .feature-section .text-content {
-        order: 2;
-    }
-    .feature-section h2 {
-        text-align: center;
-    }
+      .testimonial-grid {
+         grid-template-columns: 1fr;
+      }
+      .services-grid {
+         grid-template-columns: 1fr;
+      }
+      .feature-section .container {
+         flex-direction: column;
+      }
+      .feature-section.about .image-content {
+         order: 1;
+      }
+      .feature-section .text-content {
+         order: 2;
+      }
+      .feature-section h2 {
+         text-align: center;
+      }
 }
 
 @media (max-width: 768px) {

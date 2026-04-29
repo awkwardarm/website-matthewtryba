@@ -7,7 +7,7 @@
 
     <!-- Load Assets for Local Preview only -->
     <script>
-        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:' || location.protocol === 'vscode-file:') {
             document.write('<link rel="stylesheet" href="../assets/shared-styles.css">');
             document.write('<link rel="stylesheet" href="../assets/audio-player.css">');
             document.write('<script src="../assets/shared-scripts.js"><\/script>');
@@ -82,7 +82,9 @@
 
     <footer>
         <div class="container">
-            <p>&copy; <span id="year"></span> TRYBA MUSIC, LLC. All Rights Reserved. <a href="/home" style="color: var(--secondary-color);">Home</a></p>
+            <p class="footer-tagline">You are the art.</p>
+            <p>&copy; <span id="year"></span> TRYBA MUSIC, LLC.</p>
+            <p class="footer-copyright">All Rights Reserved.</p>
         </div>
     </footer>
 

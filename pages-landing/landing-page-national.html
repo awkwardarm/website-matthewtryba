@@ -7,7 +7,7 @@
     
     <!-- Load Assets for Local Preview only -->
     <script>
-        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:' || location.protocol === 'vscode-file:') {
             document.write('<link rel="stylesheet" href="../assets/shared-styles.css">');
             document.write('<link rel="stylesheet" href="../assets/audio-player.css">');
             document.write('<script src="../assets/shared-scripts.js"><\/script>');
@@ -20,6 +20,13 @@
     
     <!-- Page-specific styles if needed -->
     <style>
+        @keyframes field-invite {
+            0%, 100% { border-color: #dee2e6; box-shadow: 0 0 0 0 rgba(100, 181, 246, 0); }
+            50% { border-color: #64b5f6; box-shadow: 0 0 0 5px rgba(100, 181, 246, 0.35); }
+        }
+        .form-control--invite { animation: field-invite 4s ease-in-out infinite; }
+        .form-control--invite:focus { animation: none; }
+
         .audio-samples {
             margin-top: -40px;
         }
@@ -206,7 +213,11 @@
     </section>
 
     <footer>
-        <p>&copy; <span id="year"></span> TRYBA MUSIC, LLC. All Rights Reserved.</p>
+        <div class="container">
+            <p class="footer-tagline">You are the art.</p>
+            <p>&copy; <span id="year"></span> TRYBA MUSIC, LLC.</p>
+            <p class="footer-copyright">All Rights Reserved.</p>
+        </div>
     </footer>
 
     <!-- Load reCAPTCHA -->

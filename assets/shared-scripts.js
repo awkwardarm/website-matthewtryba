@@ -78,13 +78,48 @@ function initializeContactForm() {
     }
 }
 
+/**
+ * Adds a pulsing invite animation to the first visible input in each form.
+ * The animation stops once the field is focused.
+ */
+function initializeFormInviteAnimation() {
+    document.querySelectorAll('form').forEach(form => {
+        const firstField = form.querySelector(
+            'input:not([type="hidden"]):not([tabindex="-1"]), textarea'
+        );
+        if (!firstField) return;
+        firstField.classList.add('form-control--invite');
+        firstField.addEventListener('focus', () => {
+            firstField.classList.remove('form-control--invite');
+        }, { once: true });
+    });
+}
+
+/**
+ * Renders the shared footer into the page's <footer> element.
+ * Single source of truth for footer content across all pages.
+ */
+function renderSharedFooter() {
+    const footer = document.querySelector('footer');
+    if (!footer) return;
+    footer.innerHTML = `
+        <div class="container">
+            <p class="footer-tagline">You are the art.</p>
+            <p>&copy; ${new Date().getFullYear()} TRYBA MUSIC, LLC. All Rights Reserved.</p>
+        </div>`;
+}
+
 // Auto-initialize when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         initializeContactForm();
         hydrateCdnImages();
+        initializeFormInviteAnimation();
+        renderSharedFooter();
     });
 } else {
     initializeContactForm();
     hydrateCdnImages();
+    initializeFormInviteAnimation();
+    renderSharedFooter();
 }

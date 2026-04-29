@@ -7,7 +7,7 @@
     
     <!-- Load Assets for Local Preview only -->
     <script>
-        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:' || location.protocol === 'vscode-file:') {
             document.write('<link rel="stylesheet" href="../assets/shared-styles.css">');
             document.write('<link rel="stylesheet" href="../assets/audio-player.css">');
             document.write('<script src="../assets/shared-scripts.js"><\/script>');
@@ -20,6 +20,13 @@
     
 <!-- Page-specific styles -->
     <style>
+        @keyframes field-invite {
+            0%, 100% { border-color: #dee2e6; box-shadow: 0 0 0 0 rgba(100, 181, 246, 0); }
+            50% { border-color: #64b5f6; box-shadow: 0 0 0 5px rgba(100, 181, 246, 0.35); }
+        }
+        .form-control--invite { animation: field-invite 2.2s ease-in-out infinite; }
+        .form-control--invite:focus { animation: none; }
+
         /* Home page specific overrides */
         section { padding: 20px 0; } /* Override default 80px padding */
         
@@ -39,58 +46,10 @@
             margin-top: 2rem;
         }
 
-        /* Services Section (Home page only) */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;            
-            text-align: center;
-        }
-        .service-card {
-            background: var(--surface-color);
-            padding: 30px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-        .service-card svg { 
-            color: var(--accent-color); 
-            margin-bottom: 1rem; 
-        }
-        .service-card h3 { 
-            margin-bottom: 1rem; 
-        }
-
-        /* Contact Form Section (different styling from landing pages) */
-        .contact-form-section { 
-            background-color: var(--surface-color); 
-        }
-        .contact-form-section h2 { 
-            text-align: center; 
-        }
-        .contact-form-section .form-subtitle { 
-            text-align: center; 
-            max-width: 600px; 
-            margin: 0 auto 2rem auto; 
-        }
-        .form-container { 
-            max-width: 700px; 
-            margin: 0 auto; 
-        }
-        .form-submit-btn { 
-            width: 100%; 
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 1100px) {
-            .services-grid { 
-                grid-template-columns: repeat(2, 1fr); 
-            }
-        }
-        @media (max-width: 900px) {
-            .services-grid { 
-                grid-template-columns: 1fr; 
-            }
-        }
+        
+                  /* Responsive Styles */
+                  @media (max-width: 1100px) {
+                  }
     </style>
 </head>
 <body>
@@ -214,38 +173,46 @@
     </section>
 
 
-    <section id="contact" class="contact-form-section">
-        <div class="container">
-            <h2>Tell Me About Your Project</h2>
-            <p class="form-subtitle">I personally read every message and respond within one business day.</p>
-            <div class="form-container">
-                <form action="" method="POST" id="contact-form">
-                    <input type="hidden" name="_redirect" value="" id="form-redirect">
-                    
-                    <!-- Honeypot field using a standard name that Formbold might recognize as honeypot -->
-                    <div class="form-group honeypot-field">
-                        <label for="_honeypot">Leave this field empty</label>
-                        <input type="text" id="_honeypot" name="_honeypot" autocomplete="off" tabindex="-1">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="name">Full Name <span style="font-weight: normal; color: #666;">(required)</span></label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address <span style="font-weight: normal; color: #666;">(required)</span></label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message <span style="font-weight: normal; color: #666;">(required) Links to your music and socials are encouraged.</span></label>
-                        <textarea id="message" name="message" rows="5" required></textarea>
-                    </div>
-                    <!-- <div class="g-recaptcha" data-sitekey="6LehErsrAAAAANJRw4ksp2u26JgHkqQZ6yCoW24a"></div> -->
-                    <button type="submit" class="btn form-submit-btn">Submit</button>
-                </form>
-            </div>
-        </div>
-    </section>
+    <section id="contact" class="page-section contact">
+              <div class="container px-4 px-lg-5">
+                  <div class="row gx-4 gx-lg-5 justify-content-center">
+                      <div class="col-lg-8 col-xl-6 text-center">
+                          <h2 class="mt-0">Tell Me About Your Project</h2>
+                          <hr class="divider" />
+                          <p class="form-subtitle">I personally read every message and respond within one business day.</p>
+                      </div>
+                  </div>
+                  <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
+                      <div id="contact-form-container">
+                          <form action="" method="POST" id="contact-form">
+                              <input type="hidden" name="_redirect" value="" id="form-redirect">
+                             
+                              <!-- Honeypot field using a standard name that Formbold might recognize as honeypot -->
+                              <div class="form-group honeypot-field">
+                                  <label for="_honeypot">Leave this field empty</label>
+                                  <input type="text" id="_honeypot" name="_honeypot" autocomplete="off" tabindex="-1">
+                              </div>
+                             
+                              <div class="form-group">
+                                  <label for="name">Full Name <span style="font-weight: normal; color: #666;">(required)</span></label>
+                                  <input type="text" id="name" name="name" class="form-control" required>
+                              </div>
+                              <div class="form-group">
+                                  <label for="email">Email Address <span style="font-weight: normal; color: #666;">(required)</span></label>
+                                  <input type="email" id="email" name="email" class="form-control" required>
+                              </div>
+                              <div class="form-group">
+                                  <label for="message">Message <span style="font-weight: normal; color: #666;">(required) Links to your music and socials are encouraged.</span></label>
+                                  <textarea id="message" name="message" rows="5" class="form-control" required></textarea>
+                              </div>
+                              <!-- <div class="g-recaptcha" data-sitekey="6LehErsrAAAAANJRw4ksp2u26JgHkqQZ6yCoW24a"></div> -->
+                              <button type="submit" class="btn" style="width: 100%;">Submit</button>
+                              <p id="form-status"></p>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </section>
     
     <!-- Font Awesome icons (free version) -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
@@ -254,7 +221,9 @@
 
     <footer>
         <div class="container">
-            <p>&copy; <span id="year"></span> TRYBA MUSIC, LLC. All Rights Reserved.</p>
+            <p class="footer-tagline">You are the art.</p>
+            <p>&copy; <span id="year"></span> TRYBA MUSIC, LLC.</p>
+            <p class="footer-copyright">All Rights Reserved.</p>
         </div>
     </footer>
 
@@ -281,3 +250,4 @@
     </script>
 </body>
 </html>
+

@@ -72,6 +72,13 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.player-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
 }
 
 .player-card .track-info {
@@ -89,6 +96,12 @@
     object-fit: cover;
     background: var(--border-color);
     flex-shrink: 0;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.track-artwork:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
 }
 
 .track-artwork.placeholder {
@@ -138,10 +151,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.15s, transform 0.1s;
+    transition: background 0.15s, transform 0.1s, box-shadow 0.15s ease;
+    color: white;
 }
 
-.play-btn:hover { background: #6196f8; }
+.play-btn:hover {
+    background: #6196f8;
+    box-shadow: 0 2px 8px rgba(97, 150, 248, 0.4);
+}
+
 .play-btn:active { transform: scale(0.94); }
 
 .play-btn svg {
