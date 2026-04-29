@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.18] - 2026-04-29
+
+### Added
+- Hero section animated gradient background with subtle `heroGradientShift` keyframe animation
+- Hero CTA button gradient background with glow effect and `btn-aura-pulse` animation
+- Hero text reveal animation (`heroTextReveal`) — h1 and subheadline fade in with slide-up effect
+- Scroll-triggered animations via `initializeScrollAnimations()` using Intersection Observer
+- Form invite animation — pulsing border on first input field (`initializeFormInviteAnimation()`)
+- Contact form entrance animation — triggers when form scrolls into view (`initializeContactFormAnimation()`)
+- Shared footer component — `renderSharedFooter()` renders consistent footer across all pages
+- Golden shadow pulse animation for service cards and testimonial cards (`.scroll-animate-golden`)
+- Scroll indicator SVG in landing page hero section
+- `vscode-file:` protocol check for local preview asset loading
+- New CSS variables: `--accent-secondary`, `--gradient-primary`
+
+### Changed
+- Increased h2 font size from 2.2rem to 3.5rem
+- Enhanced `.btn` hover states with gradient background, glow, and transform effects
+- Added `scroll-animate` and `scroll-animate-golden` classes to sections, cards, and headings across pages
+- Hero content wrapped in `.container` with `z-index: 1` for proper layering over gradient overlay
+- Various formatting and indentation cleanup across all edited files
+
+### Fixed
+- Form control invite animation now stops on focus to prevent distraction
+
 ## [1.0.17] - 2026-04-18
 
 ### Fixed
