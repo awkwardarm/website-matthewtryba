@@ -3,24 +3,24 @@
 /*--------------------------------------------------*/
 
 :root {
-    /* Light Mode (default) - Comment out to disable */
-    --primary-color: #0d0d0d;
-    --secondary-color: #5a5a5a;
-    --background-color: #ffffff;
-    --accent-color: #1a73e8;
-    --surface-color: #f8f9fa;
-    --border-color: #dee2e6;
-    --accent-secondary: #f5a623;
-    --gradient-primary: linear-gradient(135deg, #e8732a, #f5a623);
+     /* Light Mode (default) - Comment out to disable */
+     --primary-color: #0d0d0d;
+     --secondary-color: #5a5a5a;
+     --background-color: #ffffff;
+     --accent-color: #1a73e8;
+     --surface-color: #f8f9fa;
+     --border-color: #dee2e6;
+     --accent-secondary: #f5a623;
+     --gradient-primary: linear-gradient(135deg, #e8732a, #f5a623);
 
-    /* Dark Mode - Comment out to disable */
-    /* --primary-color: #ffffff;
-    --secondary-color: #cccccc;
-    --background-color: #0d0d0d;
-    --accent-color: #1a73e8;
-    --surface-color: #1a1a1a;
-    --border-color: #333333;
-} */
+     /* Dark Mode - Comment out to disable */
+     /* --primary-color: #ffffff;
+     --secondary-color: #cccccc;
+     --background-color: #0d0d0d;
+     --accent-color: #1a73e8;
+     --surface-color: #1a1a1a;
+     --border-color: #333333;
+ } */
 
 html {
     scroll-behavior: smooth;
@@ -32,7 +32,7 @@ body {
     background-color: var(--background-color);
     color: var(--primary-color);
     line-height: 1.3;
-    -webkit-font-smoothing: antialiased;
+     -webkit-font-smoothing: antialiased;
 }
 
 .container {
@@ -66,7 +66,7 @@ p {
 @keyframes btn-aura-pulse {
     0%   { box-shadow: 0 0 10px 3px rgba(26, 115, 232, 0.6), 0 0 20px 8px rgba(255, 255, 255, 0.25); }
     50%  { box-shadow: 0 0 22px 8px rgba(26, 115, 232, 0.85), 0 0 36px 14px rgba(255, 255, 255, 0.45); }
-    100% { box-shadow: 0 0 10px 3px rgba(26, 115, 232, 0.6), 0 0 20px 8px rgba(255, 255, 255, 0.25); }
+     100% { box-shadow: 0 0 10px 3px rgba(26, 115, 232, 0.6), 0 0 20px 8px rgba(255, 255, 255, 0.25); }
 }
 
 .btn {
@@ -77,16 +77,28 @@ p {
     text-decoration: none;
     border-radius: 5px;
     font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     border: none;
     cursor: pointer;
     font-size: 1.1rem;
 }
 
+/* Hero CTA button — gradient + glow effect */
+.hero .btn {
+    background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
+    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+}
+
+.hero .btn:hover {
+    background: linear-gradient(135deg, #1557b0 0%, #1a73e8 100%);
+    box-shadow: 0 6px 25px rgba(26, 115, 232, 0.5), 0 0 30px rgba(26, 115, 232, 0.2);
+    transform: translateY(-3px) scale(1.02);
+}
+
 .btn:hover {
     background-color: #1765c6;
     animation: btn-aura-pulse 1.6s ease-in-out infinite;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
 
 /* No aura on non-contact buttons */
@@ -110,6 +122,36 @@ section {
     padding-top: 20px;
     padding-bottom: 20px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8edf3 50%, #f5f7fa 100%);
+}
+
+/* Subtle animated gradient overlay */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(211, 225, 244, 0.19) 0%, rgba(245, 166, 35, 
+    0.03) 50%, rgb(1, 14, 30) 100%);
+    background-size: 400% 400%;
+    animation: heroGradientShift 15s ease infinite;
+    z-index: 0;
+}
+
+@keyframes heroGradientShift {
+     0% { background-position: 0% 50%; }
+     50% { background-position: 100% 50%; }
+     100% { background-position: 0% 50%; }
+}
+
+/* Ensure hero content sits above the gradient overlay */
+.hero .container {
+    position: relative;
+    z-index: 1;
 }
 
 .hero .container {
@@ -134,6 +176,50 @@ section {
     color: var(--secondary-color);
     max-width: 650px;
     margin: 0 auto 2rem auto;
+}
+
+/* Text Reveal Animation for Hero Content */
+.hero h1,
+.hero .hero-subheadline {
+    opacity: 0;
+    animation: heroTextReveal 0.8s ease-out forwards;
+}
+
+.hero h1 {
+    animation-delay: 0.2s;
+}
+
+.hero .hero-subheadline {
+    animation-delay: 0.5s;
+}
+
+@keyframes heroTextReveal {
+     0% {
+        opacity: 0;
+        transform: translateY(25px);
+     }
+     100% {
+        opacity: 1;
+        transform: translateY(0);
+     }
+}
+
+.hero .scroll-indicator span {
+    font-size: 0.75rem;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+@keyframes scrollBounce {
+     0%, 100% {
+        transform: translateY(0);
+        opacity: 0.6;
+     }
+     50% {
+        transform: translateY(10px);
+        opacity: 1;
+     }
 }
 
 .hero-bullets {
@@ -479,14 +565,14 @@ section {
 
 /* Animate first visible form field to invite interaction */
 @keyframes field-invite {
-    0%, 100% {
+     0%, 100% {
         border-color: var(--border-color);
         box-shadow: 0 0 0 0 rgba(100, 181, 246, 0);
-    }
-    50% {
+     }
+     50% {
         border-color: #64b5f6;
         box-shadow: 0 0 0 5px rgba(100, 181, 246, 0.35);
-    }
+     }
 }
 
 .form-control--invite {
@@ -538,18 +624,57 @@ section {
     max-width: 700px;
     margin-left: auto !important;
     margin-right: auto !important;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+#contact-form-container:hover {
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.13), 0 4px 15px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+/* Entrance animation for contact form — triggers once when scrolled into view */
+@keyframes formEntrance {
+     0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.98);
+     }
+     100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+     }
+}
+
+/* Pulsing shadow effect — activates after entrance animation completes */
+@keyframes formPulse {
+     0%, 100% {
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(26, 115, 232, 0);
+     }
+     50% {
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 20px 3px rgba(26, 115, 232, 0.12);
+     }
+}
+
+/* Class applied via JS when form enters viewport */
+#contact-form-container.form-entrance-active {
+    animation: formEntrance 0.7s ease-out forwards;
+}
+
+#contact-form-container.form-pulse-active {
+    animation: formPulse 3s ease-in-out infinite;
 }
 
 @media (max-width: 768px) {
-    .page-section.contact .container {
+     .page-section.contact .container {
         padding: 0 10px;
-    }
-    
-    #contact-form-container {
+     }
+     
+     #contact-form-container {
         padding: 20px 15px;
         margin-left: 0 !important;
         margin-right: 0 !important;
-    }
+     }
 }
 
 .form-group {
@@ -591,14 +716,14 @@ section {
 }
 
 @keyframes formFieldHighlight {
-    0%, 100% {
+     0%, 100% {
         box-shadow: 0 0 0 0 rgba(26, 115, 232, 0);
         border-color: var(--border-color);
-    }
-    50% {
+     }
+     50% {
         box-shadow: 0 0 0 6px rgba(26, 115, 232, 0.15);
         border-color: var(--accent-color);
-    }
+     }
 }
 
 #form-status {
@@ -702,18 +827,18 @@ section {
     width: 75%;
     height: 100%;
     background: linear-gradient(
-        60deg, 
+         60deg, 
         transparent, 
         rgba(255, 255, 255, 0.2),
         transparent
-    );
+     );
     animation: shimmer 4s infinite;
 }
 
 @keyframes shimmer {
-    100% {
+     100% {
         left: 150%;
-    }
+     }
 }
 
 /* Footer */
@@ -788,27 +913,103 @@ footer .footer-copyright {
 
 /* Responsive Styles */
 @media (max-width: 900px) {
-      .testimonial-grid {
+       .testimonial-grid {
          grid-template-columns: 1fr;
-      }
-      .services-grid {
+       }
+       .services-grid {
          grid-template-columns: 1fr;
-      }
-      .feature-section .container {
+       }
+       .feature-section .container {
          flex-direction: column;
-      }
-      .feature-section.about .image-content {
+       }
+       .feature-section.about .image-content {
          order: 1;
-      }
-      .feature-section .text-content {
+       }
+       .feature-section .text-content {
          order: 2;
-      }
-      .feature-section h2 {
+       }
+       .feature-section h2 {
          text-align: center;
-      }
+       }
 }
 
 @media (max-width: 768px) {
-    h1 { font-size: 2.2rem; }
-    h2 { font-size: 1.8rem; }
+     h1 { font-size: 2.2rem; }
+     h2 { font-size: 1.8rem; }
+}
+
+/*--------------------------------------------------*/
+/* Scroll-Triggered Animations                        */
+/*--------------------------------------------------*/
+
+/* Base animated state — elements start invisible */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: transform, opacity;
+}
+
+.scroll-animate.animate-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+}
+
+/* Golden shadow pulse for cards */
+@keyframes goldenShadowPulse {
+    0% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 0 0 0 rgba(245, 166, 35, 0);
+    }
+    50% {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 0 20px 5px rgba(245, 166, 35, 0.2);
+    }
+    100% {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 0 10px 2px rgba(245, 166, 35, 0.1);
+    }
+}
+
+/* Card animated state with golden shadow */
+.scroll-animate-golden {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: transform, opacity;
+}
+
+.scroll-animate-golden.animate-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+  animation: goldenShadowPulse 1.2s ease-out 0.4s forwards;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+       .scroll-animate,
+       .scroll-animate-golden {
+    transform: translateY(20px);
+       }
+}
+
+/* Hover re-animation for golden shadow cards */
+.scroll-animate-golden.animate-visible:hover {
+  animation: goldenShadowPulse 1.2s ease-in-out !important;
+}
+
+/* Accessibility: respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .scroll-animate,
+    .scroll-animate-golden {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+    }
+    @keyframes goldenShadowPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); }
+    }
+    .scroll-animate-golden.animate-visible:hover {
+    animation: none !important;
+    }
 }
