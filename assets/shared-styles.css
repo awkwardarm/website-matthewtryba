@@ -1,53 +1,122 @@
+/**
+ * ============================================================
+ * SHARED STYLES — Base Styles for All Pages
+ * ============================================================
+ * 
+ * PURPOSE:
+ *     This file contains the global CSS foundation shared across
+ *     all pages of the website. It provides:
+ * 
+ *        1. CSS custom properties (variables) for theming
+ *        2. Dark mode toggle (comment/uncomment)
+ *        3. Base element styles (html, body, headings, paragraphs)
+ *        4. Button styles with hover/active states
+ *        5. Section layouts (hero, social proof, testimonials, etc.)
+ *        6. Form styles and animations
+ *        7. Footer styles
+ *        8. Scroll-triggered animation classes
+ *        9. Responsive breakpoints
+ * 
+ * DEPENDENCIES:
+ *     None — This is the first CSS file loaded.
+ *     All other CSS files reference its variables.
+ */
+
 /*--------------------------------------------------*/
-/* Shared Styles for All Pages */
+/* SHARED STYLES — Base styles for all pages         */
 /*--------------------------------------------------*/
 
+/* ============================================================
+   CSS VARIABLES — Design Tokens
+   ============================================================
+   All colors, spacing, and typography values are defined
+   here as CSS custom properties. Change these to re-theme
+   the entire site.
+   
+   LIGHT MODE (default):
+       --primary-color: #0d0d0d         — Text/headings (near-black)
+       --secondary-color: #5a5a5a       — Body text (gray)
+       --background-color: #ffffff      — Page background
+       --accent-color: #1a73e8          — Buttons, links (blue)
+       --surface-color: #f8f9fa         — Card backgrounds (light gray)
+       --border-color: #dee2e6          — Borders, dividers
+       --accent-secondary: #f5a623      — Secondary accent (orange)
+       --gradient-primary: ...          — Primary gradient
+   
+   DARK MODE (uncomment to enable):
+       --primary-color: #ffffff         — Text/headings (white)
+       --secondary-color: #cccccc       — Body text (light gray)
+       --background-color: #0d0d0d      — Page background (near-black)
+       --surface-color: #1a1a1a         — Card backgrounds (dark gray)
+       --border-color: #333333          — Borders (dark gray)
+   
+   TO TOGGLE DARK MODE:
+       Comment out the light mode block (lines 7-14)
+       Uncomment the dark mode block (lines 17-23)
+   ============================================================
+   */
 :root {
-     /* Light Mode (default) - Comment out to disable */
-     --primary-color: #0d0d0d;
-     --secondary-color: #5a5a5a;
-     --background-color: #ffffff;
-     --accent-color: #1a73e8;
-     --surface-color: #f8f9fa;
-     --border-color: #dee2e6;
-     --accent-secondary: #f5a623;
-     --gradient-primary: linear-gradient(135deg, #e8732a, #f5a623);
+      /* Light Mode (default) - Comment out to disable */
+      --primary-color: #0d0d0d;
+      --secondary-color: #5a5a5a;
+      --background-color: #ffffff;
+      --accent-color: #1a73e8;
+      --surface-color: #f8f9fa;
+      --border-color: #dee2e6;
+      --accent-secondary: #f5a623;
+      --gradient-primary: linear-gradient(135deg, #e8732a, #f5a623);
 
-     /* Dark Mode - Comment out to disable */
-     /* --primary-color: #ffffff;
-     --secondary-color: #cccccc;
-     --background-color: #0d0d0d;
-     --accent-color: #1a73e8;
-     --surface-color: #1a1a1a;
-     --border-color: #333333;
- } */
+      /* Dark Mode - Comment out to disable */
+      /* --primary-color: #ffffff;
+      --secondary-color: #cccccc;
+      --background-color: #0d0d0d;
+      --accent-color: #1a73e8;
+      --surface-color: #1a1a1a;
+      --border-color: #333333;
+  } */
 
+/* ============================================================
+   BASE ELEMENTS — html, body, headings, paragraphs
+   ============================================================
+   These styles apply to root HTML elements globally.
+   All pages inherit these base styles.
+   ============================================================
+   */
+
+/* Smooth scrolling for anchor links */
 html {
     scroll-behavior: smooth;
 }
 
+/* Body: font, colors, line-height, font smoothing */
 body {
     margin: 0;
     font-family: "Futura PT", sans-serif;
     background-color: var(--background-color);
     color: var(--primary-color);
     line-height: 1.3;
-     -webkit-font-smoothing: antialiased;
+      -webkit-font-smoothing: antialiased;
 }
 
+/* Container: centered max-width wrapper */
+/* Used by most page sections for content alignment */
 .container {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 10px;
 }
 
+/* Headings: shared styles for h1-h3 */
 h1, h2, h3 {
     font-weight: 700;
     line-height: 1.2;
     color: var(--primary-color);
 }
 
+/* h1: Hero heading size */
 h1 { font-size: 2.8rem; margin-bottom: 1rem; }
+
+/* h2: Section heading size (centered, bold) */
 h2 { 
     font-size: 3.5rem; 
     margin-bottom: 2rem; 
@@ -55,20 +124,34 @@ h2 {
     font-weight: 700;
     color: var(--primary-color);
 }
+
+/* h3: Subsection heading size */
 h3 { font-size: 1.5rem; }
 
+/* Paragraphs: secondary color, spacing */
 p {
     font-size: 1.1rem;
     color: var(--secondary-color);
     margin-bottom: 1rem;
 }
 
+/* ============================================================
+   BUTTONS — .btn, .hero .btn, .btn-secondary
+   ============================================================
+   Base button with hover/active states.
+   Hero buttons have gradient + glow effects.
+   Secondary buttons disable aura animation.
+   ============================================================
+   */
+
+/* Button pulse animation keyframes */
 @keyframes btn-aura-pulse {
-    0%   { box-shadow: 0 0 10px 3px rgba(26, 115, 232, 0.6), 0 0 20px 8px rgba(255, 255, 255, 0.25); }
-    50%  { box-shadow: 0 0 22px 8px rgba(26, 115, 232, 0.85), 0 0 36px 14px rgba(255, 255, 255, 0.45); }
-     100% { box-shadow: 0 0 10px 3px rgba(26, 115, 232, 0.6), 0 0 20px 8px rgba(255, 255, 255, 0.25); }
+     0%    { box-shadow: 0 0 10px 3px rgba(26, 115, 232, 0.6), 0 0 20px 8px rgba(255, 255, 255, 0.25); }
+     50%   { box-shadow: 0 0 22px 8px rgba(26, 115, 232, 0.85), 0 0 36px 14px rgba(255, 255, 255, 0.45); }
+      100% { box-shadow: 0 0 10px 3px rgba(26, 115, 232, 0.6), 0 0 20px 8px rgba(255, 255, 255, 0.25); }
 }
 
+/* Base button styles */
 .btn {
     display: inline-block;
     padding: 12px 28px;
@@ -89,35 +172,48 @@ p {
     box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
 }
 
+/* Hero button hover: reverse gradient + lift */
 .hero .btn:hover {
     background: linear-gradient(135deg, #1557b0 0%, #1a73e8 100%);
     box-shadow: 0 6px 25px rgba(26, 115, 232, 0.5), 0 0 30px rgba(26, 115, 232, 0.2);
     transform: translateY(-3px) scale(1.02);
 }
 
+/* Default button hover: color change + aura pulse */
 .btn:hover {
     background-color: #1765c6;
     animation: btn-aura-pulse 1.6s ease-in-out infinite;
     transform: translateY(-2px);
 }
 
-/* No aura on non-contact buttons */
+/* No aura on non-contact buttons (e.g., About link) */
 .btn-secondary:hover,
 a.btn[href="/about"]:hover {
     animation: none;
     box-shadow: none;
 }
 
+/* Button pressed state */
 .btn:active {
     transform: translateY(0);
     box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
 }
 
+/* ============================================================
+   SECTIONS — Base section + Hero section
+   ============================================================
+   .hero: Landing page hero with profile photo, headline,
+          subheadline, bullet points, CTA button.
+          Includes animated gradient overlay.
+   ============================================================
+   */
+
+/* Default section padding (80px top/bottom) */
 section {
     padding: 80px 0;
 }
 
-/* Hero Section */
+/* Hero section: gradient background, centered content */
 .hero {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -127,7 +223,8 @@ section {
     background: linear-gradient(135deg, #f8f9fa 0%, #e8edf3 50%, #f5f7fa 100%);
 }
 
-/* Subtle animated gradient overlay */
+/* Animated gradient overlay (pseudo-element) */
+/* Shifts background position over 15s loop */
 .hero::before {
     content: '';
     position: absolute;
@@ -136,16 +233,17 @@ section {
     right: 0;
     bottom: 0;
     background: linear-gradient(135deg, rgba(211, 225, 244, 0.19) 0%, rgba(245, 166, 35, 
-    0.03) 50%, rgb(1, 14, 30) 100%);
+     0.03) 50%, rgb(1, 14, 30) 100%);
     background-size: 400% 400%;
     animation: heroGradientShift 15s ease infinite;
     z-index: 0;
 }
 
+/* Hero gradient shift keyframes */
 @keyframes heroGradientShift {
-     0% { background-position: 0% 50%; }
-     50% { background-position: 100% 50%; }
-     100% { background-position: 0% 50%; }
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
 }
 
 /* Ensure hero content sits above the gradient overlay */
@@ -154,16 +252,19 @@ section {
     z-index: 1;
 }
 
+/* Hero container: flex column, centered */
 .hero .container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+/* Hero content wrapper: max-width constraint */
 .hero-content {
     max-width: 800px;
 }
 
+/* Hero profile image: rounded, shadow */
 .hero img {
     max-width: 250px;
     border-radius: 4%;
@@ -171,6 +272,7 @@ section {
     box-shadow: 1 10px 30px rgba(0,0,0,0.1);
 }
 
+/* Hero subheadline: secondary color, centered */
 .hero-subheadline {
     font-size: 1.3rem;
     color: var(--secondary-color);
@@ -178,7 +280,8 @@ section {
     margin: 0 auto 2rem auto;
 }
 
-/* Text Reveal Animation for Hero Content */
+/* Text reveal animation for hero content */
+/* H1 fades in at 0.2s, subheadline at 0.5s */
 .hero h1,
 .hero .hero-subheadline {
     opacity: 0;
@@ -193,17 +296,19 @@ section {
     animation-delay: 0.5s;
 }
 
+/* Hero text reveal keyframes (slide up + fade in) */
 @keyframes heroTextReveal {
-     0% {
+      0% {
         opacity: 0;
         transform: translateY(25px);
-     }
-     100% {
+      }
+      100% {
         opacity: 1;
         transform: translateY(0);
-     }
+      }
 }
 
+/* Scroll indicator text (below hero) */
 .hero .scroll-indicator span {
     font-size: 0.75rem;
     color: var(--secondary-color);
@@ -211,17 +316,19 @@ section {
     letter-spacing: 2px;
 }
 
+/* Scroll indicator bounce animation */
 @keyframes scrollBounce {
-     0%, 100% {
+      0%, 100% {
         transform: translateY(0);
         opacity: 0.6;
-     }
-     50% {
+      }
+      50% {
         transform: translateY(10px);
         opacity: 1;
-     }
+      }
 }
 
+/* Hero bullet list (checkmarks + text) */
 .hero-bullets {
     list-style: none;
     padding: 0;
@@ -245,16 +352,27 @@ section {
     flex-shrink: 0;
 }
 
+/* Hero CTA button spacing */
 .hero-cta-button {
     margin-top: 2rem;
 }
 
-/* Social Proof Section */
+/* ============================================================
+   SOCIAL PROOF — Logos, sync section
+   ============================================================
+   .social-proof: Section showing artist/label logos
+   .logos: Flex wrap container for logo images
+   .sync-success: Alternative logo section styling
+   ============================================================
+   */
+
+/* Social proof section: light background */
 .social-proof {
     padding: 20px 0;
     background-color: var(--surface-color);
 }
 
+/* Social proof heading: uppercase, small */
 .social-proof h3 {
     text-align: center;
     color: var(--secondary-color);
@@ -265,6 +383,7 @@ section {
     font-size: 0.9rem;
 }
 
+/* Social proof subtext: italic, muted */
 .social-proof p {
     text-align: center;
     color: var(--secondary-color);
@@ -275,6 +394,7 @@ section {
     margin: 0 auto 1.5rem;
 }
 
+/* Sync success section (alternative layout) */
 .sync-success {
     padding: 30px 0;
 }
@@ -289,6 +409,7 @@ section {
         font-size: 0.9rem;
 }
 
+/* Logos grid: flex wrap, centered */
 .logos {
     display: flex;
     justify-content: center;
@@ -297,6 +418,7 @@ section {
     gap: 30px;
 }
 
+/* Logo images: square, rounded, shadow */
 .logos img {
     max-height: 120px;
     width: 120px;
@@ -306,6 +428,7 @@ section {
     transition: transform 0.3s ease;
 }
 
+/* Logo hover: scale up */
 .logos img:hover {
     transform: scale(1.05);
 }
@@ -318,18 +441,31 @@ section {
     object-fit: contain;
 }
 
-/* Testimonials Section */
+/* ============================================================
+   TESTIMONIALS — Quote cards, author info
+   ============================================================
+   .testimonials: Section wrapper
+   .testimonial-card: Individual quote card
+   .quote-headline: Bold opening line (with quote mark)
+   .quote-body: Body text (with closing quote mark)
+   .testimonial-author: Author photo + name
+   ============================================================
+   */
+
+/* Testimonials section: white background */
 .testimonials {
     padding: 20px 0;
     background-color: var(--background-color);
 }
 
+/* Testimonial grid: 2 columns */
 .testimonial-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 }
 
+/* Testimonial card: bordered, shadow, hover lift */
 .testimonial-card {
     background-color: var(--surface-color);
     border: 1px solid var(--border-color);
@@ -341,11 +477,13 @@ section {
     flex-direction: column;
 }
 
+/* Testimonial card hover: lift + deeper shadow */
 .testimonial-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 30px rgba(0,0,0,0.1);
 }
 
+/* Quote headline: bold, left quote mark */
 .testimonial-card .quote-headline {
     font-size: 1.25rem;
     font-weight: 700;
@@ -355,6 +493,7 @@ section {
     padding-left: 30px;
 }
 
+/* Quote body: italic, right quote mark */
 .testimonial-card .quote-body {
     font-style: italic;
     color: var(--secondary-color);
@@ -363,13 +502,16 @@ section {
     padding-right: 30px;
 }
 
+/* Thank you header (separate section) */
 .thank-you-header {
     padding: 80px 0;
     text-align: center;
     background-color: var(--surface-color);
 }
 
-/* Shared quote mark styles */
+/* Shared quote mark styles (pseudo-elements) */
+/* .quote-headline::before → Opening quote (left) */
+/* .quote-body::after → Closing quote (right) */
 .quote-headline::before,
 .quote-body::after {
     content: '"';
@@ -392,6 +534,7 @@ section {
     bottom: 0;
 }
 
+/* Testimonial author: photo + name row */
 .testimonial-author {
     margin-top: auto;
     padding-top: 1rem;
@@ -418,7 +561,15 @@ section {
     font-size: 1rem;
 }
 
-/* CTA Section */
+/* ============================================================
+   CTA SECTION — Call-to-action banner
+   ============================================================
+   .cta-section: Blue background banner with white text
+                 and contrasting button.
+   ============================================================
+   */
+
+/* CTA section: blue background, centered */
 .cta-section {
     background-color: var(--accent-color);
     padding: 20px 0;
@@ -443,6 +594,7 @@ section {
     margin-bottom: 2rem;
 }
 
+/* CTA button: white background, blue text */
 .cta-section .btn {
     background-color: white;
     color: var(--accent-color);
@@ -454,32 +606,45 @@ section {
     background-color: #f0f0f0;
 }
 
-/* Feature Section */
+/* ============================================================
+   FEATURE SECTION — Two-column layout (image + text)
+   ============================================================
+   .feature-section: Flex row (image | text)
+   .feature-section.about: Swaps order (text | image)
+   ============================================================
+   */
+
+/* Feature section: light background */
 .feature-section {
     padding: 20px 0;
 }
 
+/* Feature container: flex row, gap */
 .feature-section .container {
     display: flex;
     align-items: center;
     gap: 60px;
 }
 
+/* About feature: swap image/text order */
 .feature-section.about .image-content {
     order: 2;
 }
 
+/* Equal flex for text and image columns */
 .feature-section .text-content,
 .feature-section .image-content {
     flex: 1;
 }
 
+/* Feature images: full width, rounded */
 .feature-section .image-content img {
     width: 100%;
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
+/* About heading: centered, large */
 .about-heading {
     text-align: center;
     font-size: 2rem;
@@ -489,12 +654,24 @@ section {
     width: 100%;
 }
 
-/* Contact Form Section */
+/* ============================================================
+   CONTACT FORM SECTION — Form styles + animations
+   ============================================================
+   .contact: Section wrapper
+   #contact-form-container: Form card styling
+   .form-control: Input/textarea styles
+   .form-group: Field wrapper + label
+   Animations: formEntrance (scroll), formPulse (idle)
+   ============================================================
+   */
+
+/* Contact section: light background */
 .contact {
     padding: 5px 0;
     background-color: var(--surface-color);
 }
 
+/* Contact form card: white, rounded, shadow */
 #contact-form-container {
     max-width: 600px;
     margin: 0 auto;
@@ -504,7 +681,7 @@ section {
     border: 1px solid var(--border-color);
 }
 
-/* Contact Form Section (landing page national style) */
+/* Landing page national style (override) */
 .page-section.contact {
     background-color: var(--surface-color);
 }
@@ -537,6 +714,7 @@ section {
     margin: 0 auto 2rem auto;
 }
 
+/* Contact form card (landing page override) */
 #contact-form-container {
     max-width: 700px;
     margin: 0 auto;
@@ -546,6 +724,7 @@ section {
     border: 1px solid var(--border-color);
 }
 
+/* Form inputs: full width, Futura font */
 .form-control {
     width: 100%;
     padding: 12px;
@@ -557,24 +736,28 @@ section {
     box-sizing: border-box;
 }
 
+/* Form focus: blue border + glow */
 .form-control:focus {
     outline: none;
     border-color: var(--accent-color);
     box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
 }
 
-/* Animate first visible form field to invite interaction */
+/* Field invite animation keyframes (pulse border) */
+/* Used by .form-control--invite class */
 @keyframes field-invite {
-     0%, 100% {
+      0%, 100% {
         border-color: var(--border-color);
         box-shadow: 0 0 0 0 rgba(100, 181, 246, 0);
-     }
-     50% {
+      }
+      50% {
         border-color: #64b5f6;
         box-shadow: 0 0 0 5px rgba(100, 181, 246, 0.35);
-     }
+      }
 }
 
+/* Field invite: applies pulse animation */
+/* Removed on focus (user clicked) */
 .form-control--invite {
     animation: field-invite 2.2s ease-in-out infinite;
 }
@@ -583,7 +766,7 @@ section {
     animation: none;
 }
 
-/* Row and column utilities for contact form layout */
+/* Row/column utilities (Bootstrap-like grid) */
 .row {
     display: flex;
     flex-wrap: wrap;
@@ -606,7 +789,7 @@ section {
     margin-bottom: 3rem;
 }
 
-/* Contact form responsive fix — prevent squishing on smaller screens */
+/* Contact form responsive fix */
 .page-section.contact .row {
     margin-left: 0;
     margin-right: 0;
@@ -619,6 +802,7 @@ section {
     max-width: 100%;
 }
 
+/* Contact form card (final override) */
 #contact-form-container {
     width: 100%;
     max-width: 700px;
@@ -629,31 +813,34 @@ section {
     transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
+/* Contact form hover: lift + deeper shadow */
 #contact-form-container:hover {
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.13), 0 4px 15px rgba(0, 0, 0, 0.08);
     transform: translateY(-2px);
 }
 
-/* Entrance animation for contact form — triggers once when scrolled into view */
+/* Form entrance animation keyframes (slide up + fade in) */
+/* Applied by JS when form scrolls into view */
 @keyframes formEntrance {
-     0% {
+      0% {
         opacity: 0;
         transform: translateY(40px) scale(0.98);
-     }
-     100% {
+      }
+      100% {
         opacity: 1;
         transform: translateY(0) scale(1);
-     }
+      }
 }
 
-/* Pulsing shadow effect — activates after entrance animation completes */
+/* Form pulse animation keyframes (infinite glow) */
+/* Applied by JS after entrance animation completes */
 @keyframes formPulse {
-     0%, 100% {
+      0%, 100% {
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(26, 115, 232, 0);
-     }
-     50% {
+      }
+      50% {
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 20px 3px rgba(26, 115, 232, 0.12);
-     }
+      }
 }
 
 /* Class applied via JS when form enters viewport */
@@ -661,26 +848,30 @@ section {
     animation: formEntrance 0.7s ease-out forwards;
 }
 
+/* Class applied via JS after entrance completes */
 #contact-form-container.form-pulse-active {
     animation: formPulse 3s ease-in-out infinite;
 }
 
+/* Contact form mobile responsive */
 @media (max-width: 768px) {
-     .page-section.contact .container {
+      .page-section.contact .container {
         padding: 0 10px;
-     }
+      }
      
-     #contact-form-container {
+      #contact-form-container {
         padding: 20px 15px;
         margin-left: 0 !important;
         margin-right: 0 !important;
-     }
+      }
 }
 
+/* Form group: bottom spacing */
 .form-group {
     margin-bottom: 1.5rem;
 }
 
+/* Form label: block, bold, primary color */
 .form-group label {
     display: block;
     margin-bottom: 8px;
@@ -688,6 +879,7 @@ section {
     color: var(--primary-color);
 }
 
+/* Form inputs/select/textarea: shared styles */
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -700,6 +892,7 @@ section {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Form focus: blue border + glow */
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
@@ -709,33 +902,46 @@ section {
 }
 
 /* Animated highlight for first form field (Full Name) */
+/* Pulse border to invite user interaction */
 .form-group:first-child input,
 .form-group:first-child textarea {
     animation: formFieldHighlight 2s ease-in-out infinite;
     border-color: var(--accent-color) !important;
 }
 
+/* First field highlight keyframes */
 @keyframes formFieldHighlight {
-     0%, 100% {
+      0%, 100% {
         box-shadow: 0 0 0 0 rgba(26, 115, 232, 0);
         border-color: var(--border-color);
-     }
-     50% {
+      }
+      50% {
         box-shadow: 0 0 0 6px rgba(26, 115, 232, 0.15);
         border-color: var(--accent-color);
-     }
+      }
 }
 
+/* Form status message: centered below form */
 #form-status {
     margin-top: 1rem;
     text-align: center;
 }
 
+/* Honeypot field: hidden (for spam detection) */
 .honeypot-field {
     display: none !important;
 }
 
-/* Video Wrapper */
+/* ============================================================
+   VIDEO WRAPPER — Responsive iframe container
+   ============================================================
+   .video-wrapper: 16:9 aspect ratio container for embeds
+                   (YouTube, Vimeo, etc.)
+   Uses padding-bottom trick for responsive height.
+   ============================================================
+   */
+
+/* Video wrapper: 16:9 ratio, rounded, shadow */
 .video-wrapper {
     position: relative;
     padding-bottom: 56.25%; /* 16:9 aspect ratio */
@@ -747,6 +953,8 @@ section {
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
+
+/* Iframe: fill wrapper */
 .video-wrapper iframe {
     position: absolute;
     top: 0;
@@ -755,16 +963,21 @@ section {
     height: 100%;
 }
 
-/*--------------------------------------------------*/
-/* Form Enhancements */
-/*--------------------------------------------------*/
+/* ============================================================
+   FORM ENHANCEMENTS — Checkbox positioning
+   ============================================================
+   Styles for Squarespace form checkbox fields.
+   Positions checkbox below email field with custom label.
+   ============================================================
+   */
 
-/* Email field checkbox positioning */
+/* Email field checkbox: relative positioning */
 .form-item.field.email {
     position: relative !important;
     padding-bottom: 25px !important;
 }
 
+/* Checkbox option: absolute below input */
 .form-item.field.email .option {
     position: absolute !important;
     bottom: 0 !important;
@@ -775,17 +988,19 @@ section {
     width: 100% !important;
 }
 
+/* Checkbox input: flex-shrink */
 .form-item.field.email .option input[type="checkbox"] {
     margin-right: -10px !important;
     flex-shrink: 0;
 }
 
-/* Custom checkbox label text */
+/* Checkbox label: hide text, replace with ::after */
 .form-item.field.email .option label {
     font-size: 0 !important;
     line-height: 0 !important;
 }
 
+/* Custom checkbox label text */
 .form-item.field.email .option label:after {
     content: "Required: consent to receive download link.";
     color: black !important;
@@ -794,10 +1009,15 @@ section {
     white-space: normal;
 }
 
-/*--------------------------------------------------*/
-/* Shimmer Pill Button */
-/*--------------------------------------------------*/
+/* ============================================================
+   SHIMMER PILL BUTTON — CTA with shine effect
+   ============================================================
+   .pill-button: Rounded dark button with animated
+                 shimmer overlay (sliding highlight).
+   ============================================================
+   */
 
+/* Pill button: dark bg, white border, rounded */
 .pill-button {
     position: relative;
     overflow: hidden;
@@ -814,11 +1034,13 @@ section {
     transition: all 0.3s ease;
 }
 
+/* Pill hover: invert colors */
 .pill-button:hover {
     background-color: #FFFFFF;
     color: rgb(23, 23, 23) !important;
 }
 
+/* Shimmer overlay: sliding highlight */
 .pill-button::before {
     content: '';
     position: absolute;
@@ -827,21 +1049,32 @@ section {
     width: 75%;
     height: 100%;
     background: linear-gradient(
-         60deg, 
+          60deg, 
         transparent, 
         rgba(255, 255, 255, 0.2),
         transparent
-     );
+      );
     animation: shimmer 4s infinite;
 }
 
+/* Shimmer keyframes (slide left to right) */
 @keyframes shimmer {
-     100% {
+      100% {
         left: 150%;
-     }
+      }
 }
 
-/* Footer */
+/* ============================================================
+   FOOTER — Shared footer styles
+   ============================================================
+   footer: Centered text, bottom padding (clears
+           now-playing bar space).
+   .footer-tagline: "You are the art." italic
+   .footer-copyright: Copyright line, smaller
+   ============================================================
+   */
+
+/* Footer: centered, bottom padding for now-playing bar */
 footer {
     text-align: center;
     padding: 20px;
@@ -850,6 +1083,7 @@ footer {
     color: var(--secondary-color);
 }
 
+/* Footer tagline: italic, slightly larger */
 footer .footer-tagline {
     font-style: italic;
     font-size: 1rem;
@@ -857,6 +1091,7 @@ footer .footer-tagline {
     color: var(--secondary-color);
 }
 
+/* Footer copyright: italic, smaller */
 footer .footer-copyright {
     font-style: italic;
     font-size: 0.8rem;
@@ -865,11 +1100,20 @@ footer .footer-copyright {
     margin-bottom: 0;
 }
 
+/* reCAPTCHA spacing */
 .g-recaptcha {
     margin-bottom: 20px;
 }
 
-/* Services Grid */
+/* ============================================================
+   SERVICES GRID — Service cards
+   ============================================================
+   .services-grid: 3-column grid (responsive → 1 col)
+   .service-card: Bordered card with icon, heading, text
+   ============================================================
+   */
+
+/* Services grid: 3 columns, centered */
 .services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -877,7 +1121,7 @@ footer .footer-copyright {
     text-align: center;
 }
 
-/* Service Cards — matching testimonial card styling */
+/* Service card: matching testimonial card styling */
 .service-card {
     background-color: var(--surface-color);
     border: 1px solid var(--border-color);
@@ -891,6 +1135,7 @@ footer .footer-copyright {
     text-align: center;
 }
 
+/* Service card icon: accent color, centered */
 .service-card svg {
     color: var(--accent-color);
     margin: 0 auto .75em;
@@ -906,41 +1151,67 @@ footer .footer-copyright {
     margin-bottom: 0;
 }
 
+/* Service card hover: lift + deeper shadow */
 .service-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 30px rgba(0,0,0,0.1);
 }
 
-/* Responsive Styles */
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================
+   900px: Stack testimonial grid, services grid, feature
+          section. Center headings.
+   768px: Reduce heading sizes, form padding.
+   ============================================================
+   */
+
+/* Responsive: stack grids at 900px */
 @media (max-width: 900px) {
-       .testimonial-grid {
+        .testimonial-grid {
          grid-template-columns: 1fr;
-       }
-       .services-grid {
+        }
+        .services-grid {
          grid-template-columns: 1fr;
-       }
-       .feature-section .container {
+        }
+        .feature-section .container {
          flex-direction: column;
-       }
-       .feature-section.about .image-content {
+        }
+        .feature-section.about .image-content {
          order: 1;
-       }
-       .feature-section .text-content {
+        }
+        .feature-section .text-content {
          order: 2;
-       }
-       .feature-section h2 {
+        }
+        .feature-section h2 {
          text-align: center;
-       }
+        }
 }
 
+/* Responsive: smaller headings at 768px */
 @media (max-width: 768px) {
      h1 { font-size: 2.2rem; }
      h2 { font-size: 1.8rem; }
 }
 
-/*--------------------------------------------------*/
-/* Scroll-Triggered Animations                        */
-/*--------------------------------------------------*/
+/* ============================================================
+   SCROLL-TRIGGERED ANIMATIONS
+   ============================================================
+   .scroll-animate: Base fade-in-up animation
+   .scroll-animate-golden: Fade-in-up + golden shadow pulse
+   .animate-visible: Applied by JS when element enters viewport
+   goldenShadowPulse: Keyframes for golden glow effect
+   ============================================================
+   
+   HOW IT WORKS:
+       1. Elements start with opacity: 0, translateY(30px)
+       2. When scrolled into view, JS adds .animate-visible
+       3. Element transitions to opacity: 1, translateY(0)
+       4. For .scroll-animate-golden: golden shadow pulse triggers
+       5. When scrolled out, .animate-visible is removed
+       6. When scrolled back in, animation re-triggers
+   ============================================================
+   */
 
 /* Base animated state — elements start invisible */
 .scroll-animate {
@@ -950,23 +1221,25 @@ footer .footer-copyright {
   will-change: transform, opacity;
 }
 
+/* Visible state — applied by JS on scroll */
 .scroll-animate.animate-visible {
   opacity: 1;
   transform: translateY(0);
   will-change: auto;
 }
 
-/* Golden shadow pulse for cards */
+/* Golden shadow pulse keyframes */
+/* Used by .scroll-animate-golden for card glow effect */
 @keyframes goldenShadowPulse {
-    0% {
+     0% {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 0 0 0 rgba(245, 166, 35, 0);
-    }
-    50% {
+     }
+     50% {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 0 20px 5px rgba(245, 166, 35, 0.2);
-    }
-    100% {
+     }
+     100% {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 0 10px 2px rgba(245, 166, 35, 0.1);
-    }
+     }
 }
 
 /* Card animated state with golden shadow */
@@ -977,6 +1250,7 @@ footer .footer-copyright {
   will-change: transform, opacity;
 }
 
+/* Golden card visible state — triggers pulse animation */
 .scroll-animate-golden.animate-visible {
   opacity: 1;
   transform: translateY(0);
@@ -984,32 +1258,34 @@ footer .footer-copyright {
   animation: goldenShadowPulse 1.2s ease-out 0.4s forwards;
 }
 
-/* Mobile adjustments */
+/* Mobile adjustments: smaller slide distance */
 @media (max-width: 768px) {
-       .scroll-animate,
-       .scroll-animate-golden {
+        .scroll-animate,
+        .scroll-animate-golden {
     transform: translateY(20px);
-       }
+        }
 }
 
 /* Hover re-animation for golden shadow cards */
+/* Triggers pulse again on hover */
 .scroll-animate-golden.animate-visible:hover {
   animation: goldenShadowPulse 1.2s ease-in-out !important;
 }
 
 /* Accessibility: respect reduced motion preference */
+/* Disables all scroll animations for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
-    .scroll-animate,
-    .scroll-animate-golden {
+     .scroll-animate,
+     .scroll-animate-golden {
     opacity: 1;
     transform: none;
     transition: none;
     will-change: auto;
-    }
-    @keyframes goldenShadowPulse {
-    0%, 100% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); }
-    }
-    .scroll-animate-golden.animate-visible:hover {
+     }
+     @keyframes goldenShadowPulse {
+     0%, 100% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); }
+     }
+     .scroll-animate-golden.animate-visible:hover {
     animation: none !important;
-    }
+     }
 }

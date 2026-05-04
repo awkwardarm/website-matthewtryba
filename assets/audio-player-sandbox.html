@@ -1,19 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--
+        ============================================================
+        Audio Player Sandbox — Development Testing Page
+        ============================================================
+        PURPOSE:
+            This file serves as an isolated testing environment for the audio player component.
+            Use it to preview, test, and debug the player in isolation before integrating
+            into actual landing pages.
+        
+        HOW TO USE:
+            1. Open this file in a browser to test the audio player
+            2. Edit the TRACKS array (defined in audio-player-tracks.js) to add/remove test tracks
+            3. Once satisfied, the same initialization code is copied into actual pages
+        
+        DEPENDENCIES:
+            - ./shared-styles.css      : Global CSS variables and base styles
+            - ./audio-player.css       : Audio player specific component styles
+            - ./audio-player-tracks.js : Track configuration data (TRACKS array)
+            - ./audio-player.js        : Audio player component logic
+        
+        FILE STRUCTURE:
+            <head>
+                - Meta tags for charset and viewport
+                - Links to shared and component stylesheets
+                - Inline sandbox notes styling
+            <body>
+                - .sandbox-notes : Instructions for editing tracks
+                - .container > h2  : Page heading ("Hear My Work")
+                - #player-root     : Mount point where the audio player renders
+                - Script tags to load tracks config and player init
+    ============================================================
+    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Player Sandbox</title>
+    
+    <!-- Load shared styles first (provides CSS variables like --primary-color, --background-color, etc.) -->
     <link rel="stylesheet" href="./shared-styles.css">
+    <!-- Load audio player component styles (overrides/adds to shared styles) -->
     <link rel="stylesheet" href="./audio-player.css">
     <style>
+        /* ------------------------------------------------
+           Sandbox body padding — adds breathing room
+           around the player during testing
+        ------------------------------------------------ */
         body {
             padding: 60px 20px;
         }
 
-        /* -----------------------------------------------
-           Sandbox notes
-        ----------------------------------------------- */
+        /* ------------------------------------------------
+           Sandbox Notes Panel
+           
+           Displays instructions for editing track data.
+           This panel is ONLY visible in the sandbox —
+           it does NOT appear on production pages.
+           
+           STRUCTURE:
+               .sandbox-notes          : Container panel
+               .sandbox-notes h3       : Section heading
+               .sandbox-notes code     : Inline code references
+        ------------------------------------------------ */
         .sandbox-notes {
             max-width: 900px;
             margin: 0 auto 60px;
@@ -45,9 +93,13 @@
 </head>
 <body>
 
-    <!-- -----------------------------------------------
-         Sandbox Notes
-    ----------------------------------------------- -->
+    <!-- ------------------------------------------------
+        Sandbox Notes Panel
+        ------------------------------------------------
+        This section provides inline documentation for
+        developers to understand how to configure tracks.
+        It is NOT present on production pages.
+    ------------------------------------------------ -->
     <div class="sandbox-notes">
         <h3>Sandbox Notes</h3>
         <p>
@@ -62,17 +114,43 @@
         </p>
     </div>
 
-    <!-- -----------------------------------------------
-         Player Section
-    ----------------------------------------------- -->
+    <!-- ------------------------------------------------
+        Audio Player Section
+        ------------------------------------------------
+        This is the main container where the audio player
+        component will be rendered. The <div id="player-root">
+        serves as the mount point for initAudioPlayer().
+        
+        STRUCTURE:
+            .container              : Standard page wrapper
+            h2                      : Section heading
+            #player-root            : Mount point for player
+    ------------------------------------------------ -->
     <div class="container">
         <h2>Hear My Work</h2>
         <div id="player-root"></div>
     </div>
 
+    <!-- 
+        SCRIPT LOADING ORDER (important):
+            1. audio-player-tracks.js  → Defines the TRACKS array
+            2. audio-player.js         → Defines initAudioPlayer() function
+            3. Inline script           → Calls initAudioPlayer() with config
+    -->
     <script src="./audio-player-tracks.js"></script>
     <script src="./audio-player.js"></script>
     <script>
+        // Initialize the audio player with track data and fallback options
+        // 
+        // CONFIG OPTIONS:
+        //   tracks    : Array of track objects (from TRACKS in audio-player-tracks.js)
+        //   fallback  : Object with { text, url } for fallback link if audio fails
+        //
+        // WHAT THIS DOES:
+        //   1. Creates the "Now Playing" bar (fixed at bottom of screen)
+        //   2. Renders track cards grouped by their "group" field
+        //   3. Sets up audio playback, volume control, seek functionality
+        //   4. Persists playback state across page navigations via localStorage
         initAudioPlayer({
             tracks: TRACKS,
             fallback: { text: 'Listen on Disco', url: 'https://tryba.disco.ac' }

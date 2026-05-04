@@ -1,21 +1,80 @@
-/*
-  ==============================================================
-  SQUARESPACE BLOCK-SPECIFIC OVERRIDES
-  These styles target specific Squarespace block IDs
-  ==============================================================
-*/
+/**
+ * ============================================================
+ * SQUARESPACE OVERRIDES — Block-Specific Style Fixes
+ * ============================================================
+ * 
+ * PURPOSE:
+ *     This file contains CSS overrides specifically for
+ *     Squarespace-generated block IDs. Squarespace assigns
+ *     unique IDs to each content block, and these styles
+ *     target those IDs to fix layout/styling issues.
+ * 
+ * WHEN TO USE:
+ *     Only when you need to override Squarespace's default
+ *     styling for a specific block. Most styles belong in
+ *     shared-styles.css — use this file ONLY for block-specific
+ *     fixes.
+ * 
+ * HOW TO FIND BLOCK IDS:
+ *     1. View page source in browser (Cmd+U / Ctrl+U)
+ *     2. Search for "block-" in the HTML
+ *     3. Copy the full ID (e.g., yui_3_17_2_1_1756615968375_12574)
+ * 
+ * BLOCKS MODIFIED:
+ *     #block-yui_3_17_2_1_1756615968375_12574
+ *          Tools page contact form
+ *          Fixes: checkbox positioning, label text, spacing
+ * ============================================================
+ */
 
 /*
-  TOOLS PAGE FORM
-  Block ID: #block-yui_3_17_2_1_1756615968375_12574
-*/
+ * ============================================================
+ * TOOLS PAGE FORM OVERRIDES
+ * ============================================================
+ * Block ID: #block-yui_3_17_2_1_1756615968375_12574
+ * Purpose: Fix checkbox positioning and label text for the
+ *          email field consent checkbox.
+ * 
+ * WHAT THIS FIXES:
+ *     1. Hides default checkbox label (font-size: 0)
+ *     2. Replaces label text with custom "Required: consent..."
+ *         message using ::after pseudo-element
+ *     3. Positions checkbox below email field using absolute
+ *         positioning
+ *     4. Aligns checkbox horizontally with flexbox
+ * 
+ * STRUCTURE:
+ *     #block-... .form-item.field.email .option label
+ *          → Hide default label text
+ *     #block-... .form-item.field.email .option label:after
+ *          → Inject custom consent text
+ *     #block-... .form-item.field.email .option
+ *          → Position checkbox row
+ *     #block-... .form-item.field.email .option input
+ *          → Adjust checkbox spacing
+ *     #block-... .form-item.field.email
+ *          → Force relative positioning container
+ * ============================================================
+ */
 
-/* Checkbox text customization */
+/* ------------------------------------------------
+   Checkbox Label — Hide default text
+   ------------------------------------------------
+   Sets font-size to 0 to hide Squarespace's default
+   checkbox label text. Custom text is injected via
+   ::after pseudo-element below.
+   ------------------------------------------------ */
 #block-yui_3_17_2_1_1756615968375_12574 .form-item.field.email .option label {
     font-size: 0 !important;
     line-height: 0 !important;
 }
 
+/* ------------------------------------------------
+   Checkbox Label — Inject custom consent text
+   ------------------------------------------------
+   Uses ::after pseudo-element to display the consent
+   message. This replaces the hidden default text.
+   ------------------------------------------------ */
 #block-yui_3_17_2_1_1756615968375_12574 .form-item.field.email .option label:after {
     content: "Required: consent to receive download link.";
     color: black !important;
@@ -24,7 +83,13 @@
     white-space: normal;
 }
 
-/* Checkbox spacing and position */
+/* ------------------------------------------------
+   Checkbox Spacing — Position below email field
+   ------------------------------------------------
+   Uses flexbox to align checkbox and label.
+   Positions the option row 10px below the email
+   input using margin-top.
+   ------------------------------------------------ */
 #block-yui_3_17_2_1_1756615968375_12574 .form-item.field.email .option {
     display: flex;
     align-items: center;
@@ -33,17 +98,35 @@
     margin-left: 15px !important;
 }
 
+/* ------------------------------------------------
+   Checkbox Input — Adjust spacing
+   ------------------------------------------------
+   Negative margin-right pulls checkbox closer to
+   the custom label text.
+   ------------------------------------------------ */
 #block-yui_3_17_2_1_1756615968375_12574 .form-item.field.email .option input[type="checkbox"] {
     margin-right: -10px !important;
     flex-shrink: 0;
 }
 
-/* Force checkbox position (aggressive fix) */
+/* ------------------------------------------------
+   Checkbox Position — Force relative container
+   ------------------------------------------------
+   Sets the email field wrapper to position: relative
+   so the absolutely positioned option row has a
+   reference point.
+   ------------------------------------------------ */
 #block-yui_3_17_2_1_1756615968375_12574 .form-item.field.email {
     position: relative !important;
     padding-bottom: 25px !important;
 }
 
+/* ------------------------------------------------
+   Checkbox Option — Absolute position below input
+   ------------------------------------------------
+   Positions the checkbox row absolutely at the
+   bottom of the email field container.
+   ------------------------------------------------ */
 #block-yui_3_17_2_1_1756615968375_12574 .form-item.field.email .option {
     position: absolute !important;
     bottom: 0 !important;
@@ -52,6 +135,22 @@
 }
 
 /*
-  Add additional block-specific overrides below as needed
-  Format: #block-XXXXX { ... }
-*/
+ * ============================================================
+ * ADDING NEW OVERRIDES
+ * ============================================================
+ * 
+ * To add block-specific overrides:
+ *     1. Find the Squarespace block ID (view page source)
+ *     2. Add a comment header with block name and ID
+ *     3. Write your CSS rules targeting #block-XXXXX
+ *     4. Include comments explaining what each rule fixes
+ * 
+ * TEMPLATE:
+ *      /* [BLOCK NAME]
+ *        Block ID: #block-XXXXX
+ *        Purpose: What this override fixes
+ *       */
+ *      #block-XXXXX { ... }
+ * 
+ * ============================================================
+ */

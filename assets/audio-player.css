@@ -1,22 +1,66 @@
+/**
+ * ============================================================
+ * AUDIO PLAYER COMPONENT — Styles
+ * ============================================================
+ * 
+ * PURPOSE:
+ *     Styles for the custom audio player component. This file
+ *     provides all visual styling for the track grid, player
+ *     cards, now-playing bar, and volume controls.
+ * 
+ * DEPENDENCIES:
+ *     - shared-styles.css (line 5): Defines CSS variables
+ *       used throughout: --surface-color, --border-color,
+ *       --primary-color, --secondary-color, --background-color
+ * 
+ 
+ * KEY COMPONENTS:
+ *     .audio-player-section    : Outer wrapper for player
+ *     .audio-group             : Section grouping tracks
+ *     .audio-group-label       : Section header text
+ *     .audio-grid              : 2-column track grid
+ *     .player-card             : Individual track card
+ *     .now-playing-bar         : Fixed bottom playback bar
+ *     .play-trigger            : Hover overlay on album art
+ * ============================================================
+ */
+
 /*--------------------------------------------------*/
-/* Audio Player Component Styles                    */
-/* Depends on: shared-styles.css (CSS variables)    */
+/* Audio Player Component Styles                     */
+/* Depends on: shared-styles.css (CSS variables)     */
 /*--------------------------------------------------*/
 
+/* 
+    #player-root: The mount point where the audio player
+    component is rendered. Centered with max-width constraint.
+*/
 #player-root {
     max-width: 800px;
     margin: 0 auto;
 }
 
+/* 
+    .audio-player-section: Outer wrapper providing vertical
+    breathing room around the entire player component.
+*/
 .audio-player-section {
     padding: 80px 0;
 }
 
+/* 
+    .audio-player-section h2: Section heading (e.g., "Hear My Work")
+    Centered with small subtitle spacing below.
+*/
 .audio-player-section h2 {
     text-align: center;
     margin-bottom: 12px;
 }
 
+/* 
+    .audio-player-subtitle: Small uppercase subtitle text
+    below the heading. Uses secondary color and letter-spacing
+    for a refined, minimal aesthetic.
+*/
 .audio-player-subtitle {
     text-align: center;
     font-size: 0.85rem;
@@ -26,17 +70,28 @@
     letter-spacing: 0.12em;
 }
 
-/* -----------------------------------------------
-   Groups
------------------------------------------------ */
+/* ------------------------------------------------
+   GROUPS — Section headers that divide tracks
+   ------------------------------------------------
+   When tracks share the same `group` value, they
+   appear under a shared section header.
+   
+   STRUCTURE:
+       .audio-group              : Section wrapper
+       .audio-group-label        : Section heading text
+   ------------------------------------------------ */
 .audio-group {
     margin-bottom: 48px;
 }
 
 .audio-group:last-child {
-    margin-bottom: 0;
+    margin-bottom: 0;  /* No trailing space on last group */
 }
 
+/* 
+   .audio-group-label: The section header text (e.g., "For Major Labels: Engineering")
+   Styled as uppercase with wide letter-spacing and a bottom border separator.
+*/
 .audio-group-label {
     font-size: 0.7rem;
     text-transform: uppercase;
@@ -48,9 +103,15 @@
     border-bottom: 1px solid var(--border-color);
 }
 
-/* -----------------------------------------------
-   Grid
------------------------------------------------ */
+/* ------------------------------------------------
+   GRID — Two-column responsive layout for tracks
+   ------------------------------------------------
+   Tracks are displayed in a 2-column CSS grid.
+   On very small screens (<360px), collapses to 1 column.
+   
+   STRUCTURE:
+       .audio-grid              : Grid container
+   ------------------------------------------------ */
 .audio-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -58,12 +119,26 @@
 }
 
 @media (max-width: 360px) {
-    .audio-grid { grid-template-columns: 1fr; }
+     .audio-grid { grid-template-columns: 1fr; }  /* Single column on tiny screens */
 }
 
-/* -----------------------------------------------
-   Player card
------------------------------------------------ */
+/* ------------------------------------------------
+   PLAYER CARD — Individual track row
+   ------------------------------------------------
+   Each track is displayed as a card with:
+       [Album Art] [Track Title / Artist] [Play Button]
+   
+   The card has a subtle hover effect (lift + shadow).
+   
+   STRUCTURE (built by JS):
+       .player-card               : Card wrapper
+       .track-info                : Left side (artwork + meta)
+           .track-artwork         : Album cover image
+           .track-meta            : Title/artist text
+               .track-title       : Song name
+               .track-artist      : Artist name
+       .play-btn                  : Play/pause button (right side)
+   ------------------------------------------------ */
 .player-card {
     background: var(--surface-color);
     border: 1px solid var(--border-color);
@@ -76,11 +151,16 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
+/* Card hover effect: lift + shadow */
 .player-card:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     transform: translateY(-2px);
 }
 
+/* 
+   .track-info: Flex container holding artwork and text meta.
+   Fills remaining space between artwork and play button.
+*/
 .player-card .track-info {
     flex: 1;
     display: flex;
@@ -89,6 +169,11 @@
     min-width: 0;
 }
 
+/* 
+   .track-artwork: Album cover image thumbnail.
+   40x40px square with rounded corners.
+   Hover effect: subtle scale + shadow.
+*/
 .track-artwork {
     width: 40px;
     height: 40px;
@@ -99,11 +184,16 @@
     transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
+/* Artwork hover: scale up slightly + shadow */
 .track-artwork:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     transform: scale(1.05);
 }
 
+/* 
+   .track-artwork.placeholder: Fallback when no artwork URL
+   is provided. Shows a music note icon instead.
+*/
 .track-artwork.placeholder {
     display: flex;
     align-items: center;
@@ -114,11 +204,19 @@
     opacity: 0.3;
 }
 
+/* 
+   .track-meta: Container for track title and artist text.
+   Flex:1 to fill remaining space in track-info.
+*/
 .track-meta {
     flex: 1;
     min-width: 0;
 }
 
+/* 
+   .track-title: Song title text.
+   Single-line with ellipsis overflow truncation.
+*/
 .track-title {
     font-size: 0.85rem;
     font-weight: 600;
@@ -128,6 +226,10 @@
     text-overflow: ellipsis;
 }
 
+/* 
+   .track-artist: Artist name below title.
+   Smaller, secondary color. Single-line ellipsis.
+*/
 .track-artist {
     font-size: 0.72rem;
     color: var(--secondary-color);
@@ -137,9 +239,12 @@
     text-overflow: ellipsis;
 }
 
-/* -----------------------------------------------
-   Controls
------------------------------------------------ */
+/* ------------------------------------------------
+   CONTROLS — Play/Pause button
+   ------------------------------------------------
+   Circular blue button with play/pause icon.
+   Positioned at the right end of each player card.
+   ------------------------------------------------ */
 .play-btn {
     width: 30px;
     height: 30px;
@@ -160,20 +265,53 @@
     box-shadow: 0 2px 8px rgba(97, 150, 248, 0.4);
 }
 
-.play-btn:active { transform: scale(0.94); }
+.play-btn:active { transform: scale(0.94); }  /* Pressed state */
 
+/* Ensure SVG icons display properly in button */
 .play-btn svg {
     display: block;
 }
 
+/* Play triangle icon — optical centering adjustment */
 .play-btn .icon-play {
     margin-left: 2px; /* optical centering for triangle */
 }
 
-/* -----------------------------------------------
-   Now Playing Bar — slides up from bottom on play
-   Volume hidden on touch devices via JS
------------------------------------------------ */
+/* ------------------------------------------------
+   NOW PLAYING BAR — Fixed bottom playback control
+   ------------------------------------------------
+   This bar slides up from the bottom of the screen
+   when a track starts playing. It shows:
+   
+       [Track Info] [Prev] [Play/Pause] [Next] [Progress Bar] [Volume]
+   
+   The bar uses backdrop blur for a frosted glass effect.
+   Volume controls are hidden on touch devices.
+   
+   STRUCTURE (built by buildNowPlayingBar() in JS):
+       .now-playing-bar              : Fixed bottom bar
+           .np-inner                  : Inner wrapper
+               .np-track              : Left — track info
+                   .np-artwork-wrap   : Album art
+                   .np-meta           : Title/artist
+                       .np-title      : Song title
+                       .np-artist     : Artist name
+               .np-controls           : Center — playback
+                   .np-prev-btn       : Previous track
+                   .np-play-btn       : Play/pause
+                   .np-next-btn       : Next track
+                   .np-progress         : Progress + time
+                       .np-bar-track  : Clickable progress track
+                           .np-bar-fill   : Filled portion
+                       .np-time         : Time display
+                           .np-current  : Current time
+                           .np-duration : Total duration
+               .np-volume             : Right — volume
+                   .np-volume-btn     : Toggle button
+                   .np-volume-popup   : Volume slider panel
+                       .audio-volume-slider    : Range input
+                       .audio-volume-pct       : Percentage text
+   ------------------------------------------------ */
 .now-playing-bar {
     position: fixed;
     bottom: 0;
@@ -182,12 +320,13 @@
     z-index: 1000;
     background: color-mix(in srgb, var(--background-color) 88%, transparent);
     backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+     -webkit-backdrop-filter: blur(14px);
     border-top: 1px solid var(--border-color);
-    transform: translateY(100%);
+    transform: translateY(100%);  /* Hidden by default (off-screen) */
     transition: transform 0.3s ease;
 }
 
+/* Inner wrapper for consistent padding */
 .np-inner {
     display: flex;
     align-items: center;
@@ -197,11 +336,12 @@
     margin: 0 auto;
 }
 
+/* Show the bar when active class is applied */
 .now-playing-bar.active {
     transform: translateY(0);
 }
 
-/* Left: track info */
+/* --- Left: Track Info --- */
 .np-track {
     display: flex;
     align-items: center;
@@ -210,16 +350,19 @@
     min-width: 0;
 }
 
+/* Artwork wrapper in now-playing bar */
 .np-artwork-wrap .track-artwork {
     width: 40px;
     height: 40px;
 }
 
+/* Meta container (title + artist) in now-playing bar */
 .np-meta {
     flex: 1;
     min-width: 0;
 }
 
+/* Track title in now-playing bar */
 .np-title {
     font-size: 0.82rem;
     font-weight: 600;
@@ -229,6 +372,7 @@
     text-overflow: ellipsis;
 }
 
+/* Artist name in now-playing bar */
 .np-artist {
     font-size: 0.72rem;
     color: var(--secondary-color);
@@ -237,7 +381,7 @@
     text-overflow: ellipsis;
 }
 
-/* Center: play button + progress */
+/* --- Center: Play Controls + Progress --- */
 .np-controls {
     flex: 1;
     display: flex;
@@ -246,10 +390,12 @@
     min-width: 0;
 }
 
+/* Play/pause button in now-playing bar */
 .np-play-btn {
     flex-shrink: 0;
 }
 
+/* Previous track button */
 .np-prev-btn,
 .np-next-btn {
     background: none;
@@ -269,6 +415,7 @@
     opacity: 1;
 }
 
+/* Progress bar container (vertical column) */
 .np-progress {
     flex: 1;
     display: flex;
@@ -277,6 +424,7 @@
     min-width: 0;
 }
 
+/* Clickable track background for seek functionality */
 .np-bar-track {
     width: 100%;
     height: 4px;
@@ -285,15 +433,17 @@
     cursor: pointer;
 }
 
+/* Filled portion showing playback progress */
 .np-bar-fill {
     height: 100%;
     background: #6196f8;
     border-radius: 2px;
-    width: 0%;
-    pointer-events: none;
+    width: 0%;  /* Updated dynamically via JS */
+    pointer-events: none;  /* Clicks go to parent .np-bar-track */
     transition: width 0.1s linear;
 }
 
+/* Time display row (current / duration) */
 .np-time {
     display: flex;
     justify-content: space-between;
@@ -301,12 +451,13 @@
     color: var(--secondary-color);
 }
 
-/* Right: volume popup */
+/* --- Right: Volume Popup --- */
 .np-volume {
     position: relative;
     flex-shrink: 0;
 }
 
+/* Volume toggle button */
 .np-volume-btn {
     background: none;
     border: none;
@@ -324,6 +475,11 @@
     opacity: 1;
 }
 
+/* 
+   Volume popup panel — slides up from volume button.
+   Contains a vertical slider and percentage display.
+   Hidden by default, shown when .open class is added.
+*/
 .np-volume-popup {
     position: absolute;
     bottom: calc(100% + 10px);
@@ -335,7 +491,7 @@
     padding: 12px 10px;
     background: color-mix(in srgb, var(--background-color) 95%, transparent);
     backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+     -webkit-backdrop-filter: blur(14px);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     opacity: 0;
@@ -344,14 +500,20 @@
     transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
+/* Show popup when open */
 .np-volume-popup.open {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
 }
 
+/* 
+   Vertical volume slider.
+   Uses writing-mode: vertical-lr for vertical orientation.
+   Gradient background shows fill level via --vol-pct custom property.
+*/
 .audio-volume-slider {
-    -webkit-appearance: none;
+     -webkit-appearance: none;
     appearance: none;
     writing-mode: vertical-lr;
     direction: rtl;
@@ -363,8 +525,9 @@
     cursor: pointer;
 }
 
+/* Slider thumb (webkit) */
 .audio-volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
+     -webkit-appearance: none;
     appearance: none;
     width: 14px;
     height: 14px;
@@ -373,6 +536,7 @@
     cursor: pointer;
 }
 
+/* Slider thumb (moz) */
 .audio-volume-slider::-moz-range-thumb {
     width: 14px;
     height: 14px;
@@ -382,25 +546,33 @@
     cursor: pointer;
 }
 
+/* Volume percentage text display */
 .audio-volume-pct {
     font-size: 0.68rem;
     color: var(--secondary-color);
     font-variant-numeric: tabular-nums;
 }
 
+/* ------------------------------------------------
+   NOW PLAYING BAR — Responsive adjustments
+   ------------------------------------------------
+   Adjusts layout for smaller screens:
+       - 600px: Reduce gaps and padding
+       - 420px: Further reduce, hide artist name
+   ------------------------------------------------ */
 /* Responsive now-playing bar */
 @media (max-width: 600px) {
-    .np-inner {
+     .np-inner {
         gap: 12px;
         padding: 10px 14px;
-    }
+     }
     .np-track {
         flex: 0 1 130px;
     }
 }
 
 @media (max-width: 420px) {
-    .np-inner {
+     .np-inner {
         gap: 8px;
         padding: 10px;
     }
@@ -408,13 +580,16 @@
         flex: 0 1 100px;
     }
     .np-artist {
-        display: none;
+        display: none;  /* Hide artist on very small screens */
     }
 }
 
-/* -----------------------------------------------
-   Fallback link
------------------------------------------------ */
+/* ------------------------------------------------
+   FALLBACK LINK — Audio not loading message
+   ------------------------------------------------
+   Shown below the player when audio fails to load.
+   Links to an alternative listening platform.
+   ------------------------------------------------ */
 .audio-fallback {
     text-align: center;
     margin-top: 40px;
@@ -427,10 +602,18 @@
     text-decoration: underline;
 }
 
-/* -----------------------------------------------
-   Play-trigger overlay — for [data-play-title] images
-   (e.g. social proof album art that launches a track)
------------------------------------------------ */
+/* ------------------------------------------------
+   PLAY TRIGGER OVERLAY — Album art hover effect
+   ------------------------------------------------
+   Used on [data-play-title] elements (e.g., social
+   proof album art cards) to show a play icon on hover.
+   Clicking the image triggers playback for that track.
+   
+   STRUCTURE (built by JS):
+       .play-trigger                : Wrapper around image
+           img                      : Original album art
+           .play-trigger-icon       : Play circle overlay
+   ------------------------------------------------ */
 .play-trigger {
     position: relative;
     display: inline-block;
@@ -439,21 +622,24 @@
     overflow: hidden;
 }
 
+/* Play icon overlay — visible on hover */
 .play-trigger-icon {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
+    opacity: 0;  /* Hidden by default */
     transition: opacity 0.2s ease;
     pointer-events: none;
 }
 
+/* Show play icon on hover */
 .play-trigger:hover .play-trigger-icon {
     opacity: 1;
 }
 
+/* Darken image on hover for contrast */
 .play-trigger:hover img {
     filter: brightness(0.75);
     transition: filter 0.2s ease;
