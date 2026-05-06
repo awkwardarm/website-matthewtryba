@@ -40,10 +40,24 @@ Complete guide to managing and deploying the Matthew Tryba website.
 2. Try making a small CSS change following [DEPLOYMENT.md](DEPLOYMENT.md)
 3. When ready to add a page, use [CREATING-PAGES.md](CREATING-PAGES.md)
 
+---
 
+## Local Preview (Desktop + Mobile)
+
+**Start a local server:**
 ```bash
-
+cd /Users/matthewtryba/Documents/GitHub/website-matthewtryba
+python3 -m http.server 8080
 ```
+
+**Desktop:** Open `http://localhost:8080/pages-landing/landing-page-national.html`
+
+**Mobile on the same Wi-Fi network:**
+1. Find your Mac's local IP: `System Settings → Wi-Fi → Details` (default: `192.168.136.184`)
+2. On your phone, open: `http://192.168.136.184:8080/pages-landing/landing-page-national.html`
+
+> Assets load automatically on any non-production host — no extra config needed.
+
 ---
 
 ## Common Questions
