@@ -1274,25 +1274,12 @@ footer .footer-copyright {
     transform: none;
 }
 
-/* Sending state — disables breathe, shows animated dots */
+/* Sending state — disables breathe, cursor shows not-allowed */
 .btn--sending {
     animation: none !important;
     cursor: not-allowed;
     opacity: 0.85;
 }
-
-@keyframes dot-fade {
-    0%, 60%, 100% { opacity: 0; }
-    30% { opacity: 1; }
-}
-
-.sending-dots span {
-    animation: dot-fade 1.4s ease-in-out infinite;
-    opacity: 0;
-}
-.sending-dots span:nth-child(1) { animation-delay: 0s; }
-.sending-dots span:nth-child(2) { animation-delay: 0.23s; }
-.sending-dots span:nth-child(3) { animation-delay: 0.46s; }
 
 /* Hover re-animation for golden shadow cards */
 /* Triggers pulse again on hover */

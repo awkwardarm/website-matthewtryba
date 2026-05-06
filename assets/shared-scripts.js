@@ -137,7 +137,12 @@ function validateForm() {
     if (btn) {
         btn.disabled = true;
         btn.classList.add('btn--sending');
-        btn.innerHTML = 'Sending<span class="sending-dots"><span>.</span><span>.</span><span>.</span></span>';
+        btn.textContent = 'Sending.';
+        let dotCount = 1;
+        setInterval(() => {
+            dotCount = (dotCount % 3) + 1;
+            btn.textContent = 'Sending' + '.'.repeat(dotCount);
+        }, 500);
      }
 
     return true;
