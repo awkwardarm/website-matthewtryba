@@ -215,8 +215,8 @@ section {
 
 /* Hero section: gradient background, centered content */
 .hero {
-    padding-top: 2px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     text-align: center;
     position: relative;
     overflow: hidden;
