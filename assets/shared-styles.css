@@ -151,6 +151,15 @@ p {
       100% { box-shadow: 0 0 10px 3px rgba(26, 115, 232, 0.6), 0 0 20px 8px rgba(255, 255, 255, 0.25); }
 }
 
+@keyframes btn-idle-breathe {
+    0%, 100% {
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2);
+    }
+    50% {
+        box-shadow: 0 4px 28px rgba(26, 115, 232, 0.55);
+    }
+}
+
 /* Base button styles */
 .btn {
     display: inline-block;
@@ -160,16 +169,17 @@ p {
     text-decoration: none;
     border-radius: 5px;
     font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     border: none;
     cursor: pointer;
     font-size: 1.1rem;
+    animation: btn-idle-breathe 2.8s ease-in-out infinite;
 }
 
 /* Hero CTA button — gradient + glow effect */
 .hero .btn {
     background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
-    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+    animation: btn-idle-breathe 2.8s ease-in-out infinite;
 }
 
 /* Hero button hover: reverse gradient + lift */
@@ -179,7 +189,7 @@ p {
     transform: translateY(-3px) scale(1.02);
 }
 
-/* Default button hover: color change + aura pulse */
+/* Default button hover: color change + aura pulse (overrides idle breathe) */
 .btn:hover {
     background-color: #1765c6;
     animation: btn-aura-pulse 1.6s ease-in-out infinite;
@@ -280,32 +290,10 @@ section {
     margin: 0 auto 2rem auto;
 }
 
-/* Text reveal animation for hero content */
-/* H1 fades in at 0.2s, subheadline at 0.5s */
+/* Hero text is always visible — no entrance animation */
 .hero h1,
 .hero .hero-subheadline {
-    opacity: 0;
-    animation: heroTextReveal 0.8s ease-out forwards;
-}
-
-.hero h1 {
-    animation-delay: 0.2s;
-}
-
-.hero .hero-subheadline {
-    animation-delay: 0.5s;
-}
-
-/* Hero text reveal keyframes (slide up + fade in) */
-@keyframes heroTextReveal {
-      0% {
-        opacity: 0;
-        transform: translateY(25px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    opacity: 1;
 }
 
 /* Scroll indicator text (below hero) */
@@ -1266,6 +1254,46 @@ footer .footer-copyright {
         }
 }
 
+/* Class for buttons that fade in with cards */
+.scroll-animate-btn-pop {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: transform, opacity;
+}
+
+.scroll-animate-btn-pop.animate-visible {
+    opacity: 1;
+    transform: translateY(0);
+    will-change: auto;
+}
+
+/* Hero buttons — always visible */
+.scroll-animate-btn-pop-hero {
+    opacity: 1;
+    transform: none;
+}
+
+/* Sending state — disables breathe, shows animated dots */
+.btn--sending {
+    animation: none !important;
+    cursor: not-allowed;
+    opacity: 0.85;
+}
+
+@keyframes dot-fade {
+    0%, 60%, 100% { opacity: 0; }
+    30% { opacity: 1; }
+}
+
+.sending-dots span {
+    animation: dot-fade 1.4s ease-in-out infinite;
+    opacity: 0;
+}
+.sending-dots span:nth-child(1) { animation-delay: 0s; }
+.sending-dots span:nth-child(2) { animation-delay: 0.23s; }
+.sending-dots span:nth-child(3) { animation-delay: 0.46s; }
+
 /* Hover re-animation for golden shadow cards */
 /* Triggers pulse again on hover */
 .scroll-animate-golden.animate-visible:hover {
@@ -1288,5 +1316,13 @@ footer .footer-copyright {
      .scroll-animate-golden.animate-visible:hover {
     animation: none !important;
      }
-}
+     .scroll-animate-btn-pop {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+     }
+     .btn-pop-visible .btn {
+    animation: none !important;
+     }
 }

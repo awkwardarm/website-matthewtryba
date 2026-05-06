@@ -7,7 +7,7 @@
      
      <!-- Load Assets for Local Preview only -->
      <script>
-        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:' || location.protocol === 'vscode-file:') {
+        if (location.hostname !== 'www.matthewtryba.com' && location.hostname !== 'matthewtryba.com') {
             document.write('<link rel="stylesheet" href="../assets/shared-styles.css">');
             document.write('<link rel="stylesheet" href="../assets/audio-player.css">');
             document.write('<script src="../assets/shared-scripts.js"><\/script>');
@@ -41,9 +41,8 @@
           <div class="container">
               <!-- <img src="" alt="Matthew Tryba in his studio" id="hero-image"> -->
               <div class="hero-content">
-                  <h1 class="scroll-animate">Major Label Sound for Independent Artists</h1>
-                  <p class="hero-subheadline scroll-animate">I'm Matthew Tryba, a music producer in Denver, Colorado and I help you write and record songs with proven RIAA Diamond certified quality. I specialize in Pop, Adult Contemporary, and Dark Pop.</p>
-     
+                  <h1>Major Label Sound for Independent Artists</h1>
+                  <p class="hero-subheadline">I'm Matthew Tryba, a music producer in Denver, Colorado and I help you write and record songs with proven RIAA Diamond certified quality. I specialize in Pop, Adult Contemporary, and Dark Pop.</p>
                   <ul class="hero-bullets">
                      <li>
                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
@@ -58,7 +57,7 @@
                          <span>Benefit from a seasoned multi-instrumentalist, arranger, and vocal producer.</span>
                      </li>
                  </ul>
-                 <div class="hero-cta-button scroll-animate">
+                 <div class="hero-cta-button">
                      <a href="#contact" class="btn">Get Started</a>
                  </div>
              </div>
@@ -88,7 +87,7 @@
          <div class="container">
              <h2 class="scroll-animate">What Artists Are Saying</h2>
              <div class="testimonial-grid">
-                <div class="testimonial-card scroll-animate-golden">
+                <div class="testimonial-card">
                       <p class="quote-headline">"Matthew is the best vocal producer I've found - his ear training is unmatched."</p>
                       <p class="quote-body">If you are serious about your song and want it the strongest it can be he is your guy!</p>
                       <div class="testimonial-author">
@@ -99,7 +98,7 @@
                           </div>
                       </div>
                   </div>
-                  <div class="testimonial-card scroll-animate-golden">
+                  <div class="testimonial-card">
                       <p class="quote-headline">"Matthew was a great visionary! Really brought the song I've written to life... on a song that needed direction."</p>
                       <p class="quote-body">Professional and patient. Really gave his own stamp on the song... I will be continuing to work with him on future projects!</p>
                       <div class="testimonial-author">
@@ -139,26 +138,26 @@
       <section class="audio-samples">
           <div class="container">
               <h2 class="scroll-animate">Hear My Work</h2>
-              <div id="player-root"></div>
+              <div id="player-root" class="scroll-animate"></div>
           </div>
       </section>
 
       <section class="cta-section">
           <div class="container">
               <h2 class="scroll-animate">Ready to take your music to the next level?</h2>
-              <p class="scroll-animate">Let's talk about your project. No pressure, no commitment, just a conversation about your music and goals.</p>
-              <div class="scroll-animate">
+              <p>Let's talk about your project. No pressure, no commitment, just a conversation about your music and goals.</p>
+              <div class="scroll-animate-btn-pop">
                   <a href="#contact" class="btn">Contact Me</a>
               </div>
           </div>
       </section>
 
       <section class="feature-section dream-outcome">
-          <h2 class="scroll-animate">From The Sound In Your Head To The Final Master</h2>
+          <h2>From The Sound In Your Head To The Final Master</h2>
           <div class="container">
               <div class="text-content">
-                  <p class="scroll-animate">I know how hard it is to get the sound in your head to come out of the speakers. You have a song idea but you're struggling to translate that emotion and creative energy into a professional recording that resonates.</p>
-                  <p class="scroll-animate">My entire process is designed to bridge that gap. We'll work together to hone your vision, making sure every creative choice serves the song and emotion. You can stop worrying about the technical and musical hurdles and focus on what you do best, being an artist. I'll handle the rest and I'll hold it to a standard that speaks for itself.</p>
+                  <p>I know how hard it is to get the sound in your head to come out of the speakers. You have a song idea but you're struggling to translate that emotion and creative energy into a professional recording that resonates.</p>
+                  <p>My entire process is designed to bridge that gap. We'll work together to hone your vision, making sure every creative choice serves the song and emotion. You can stop worrying about the technical and musical hurdles and focus on what you do best, being an artist. I'll handle the rest and I'll hold it to a standard that speaks for itself.</p>
               </div>
           </div>
       </section>
@@ -167,8 +166,8 @@
           <h2 class="about-heading scroll-animate">More Than A Producer - A Partner In Your Sound</h2>
           <div class="container">
               <div class="text-content">
-                  <p class="scroll-animate">Hey, I'm Matthew Tryba. My career began as an engineer for some of music's biggest names, including Ryan Tedder of OneRepublic. This gave me a masterclass in what separates a good song from a global hit. I worked on the RIAA Diamond certified hit "Counting Stars," the Grammy winning albums "1989" for Taylor Swift and "25" for Adele, and on multi-platinum records for Ariana Grande and Maroon 5.</p>
-                  <p class="scroll-animate">Now, I bring that same major label process and sonic excellence to every independent artist I work with. I'm a multi-instrumentalist, a singer, and a songwriter. My most important role is being your creative partner dedicated to realizing your artistic vision.</p>
+                  <p>Hey, I'm Matthew Tryba. My career began as an engineer for some of music's biggest names, including Ryan Tedder of OneRepublic. This gave me a masterclass in what separates a good song from a global hit. I worked on the RIAA Diamond certified hit "Counting Stars," the Grammy winning albums "1989" for Taylor Swift and "25" for Adele, and on multi-platinum records for Ariana Grande and Maroon 5.</p>
+                  <p>Now, I bring that same major label process and sonic excellence to every independent artist I work with. I'm a multi-instrumentalist, a singer, and a songwriter. My most important role is being your creative partner dedicated to realizing your artistic vision.</p>
               </div>
               <div class="image-content">
                   <img data-cdn="images/profile-photos/profile-photo-IMG_5596.jpeg" alt="Matthew Tryba mixing music" id="about-image">
@@ -182,7 +181,7 @@
                   <div class="col-lg-8 col-xl-6 text-center">
                       <h2 class="mt-0 scroll-animate">Tell Me About Your Project</h2>
                       <hr class="divider" />
-                      <p class="form-subtitle scroll-animate">I personally read every message and respond within one business day.</p>
+                      <p class="form-subtitle">I personally read every message and respond within one business day.</p>
                   </div>
               </div>
               <div class="row gx-4 gx-lg-5 justify-content-center mb-5">

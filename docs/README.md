@@ -40,6 +40,10 @@ Complete guide to managing and deploying the Matthew Tryba website.
 2. Try making a small CSS change following [DEPLOYMENT.md](DEPLOYMENT.md)
 3. When ready to add a page, use [CREATING-PAGES.md](CREATING-PAGES.md)
 
+
+```bash
+
+```
 ---
 
 ## Common Questions

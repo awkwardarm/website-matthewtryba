@@ -136,7 +136,8 @@ function validateForm() {
     const btn = document.querySelector('#contact-form button[type="submit"]');
     if (btn) {
         btn.disabled = true;
-        btn.textContent = 'Sending...';
+        btn.classList.add('btn--sending');
+        btn.innerHTML = 'Sending<span class="sending-dots"><span>.</span><span>.</span><span>.</span></span>';
      }
 
     return true;
@@ -303,7 +304,9 @@ function initializeFormInviteAnimation() {
  *    - When scrolled out: class removed
  *    - When scrolled back in: class re-added (re-trigger)
  * 
- * Golden ratio trigger: 38.2% from top of viewport
+ * Golden ratio triggers:
+ *    - Cards (.scroll-animate, .scroll-animate-golden): 61.8% from top (bottom golden ratio)
+ *    - Buttons (.scroll-animate-btn-pop): 38.2% from top (top golden ratio)
  * 
  * Mobile adjustments: Reduced translateY (20px vs 30px)
  * Accessibility: Respects prefers-reduced-motion
@@ -373,37 +376,33 @@ function initializeFormInviteAnimation() {
          document.head.appendChild(style);
            }
 
-           // Get all elements that should have scroll animations
-       const animatedElements = document.querySelectorAll('.scroll-animate, .scroll-animate-golden');
+           // All animated elements: cards + buttons
+           const animatedElements = document.querySelectorAll('.scroll-animate, .scroll-animate-golden, .scroll-animate-btn-pop');
 
-           // IMMEDIATE: Add animate-visible to all elements right away.
-           // This ensures elements are visible in desktop preview and on page load.
-       animatedElements.forEach(el => {
-         el.classList.add('animate-visible');
+           // IMMEDIATE: Add animate-visible to everything except .scroll-animate-btn-pop
+           // (those fade in via the observer like cards).
+           // Hero buttons (.scroll-animate-btn-pop-hero) are always visible via CSS.
+           animatedElements.forEach(el => {
+             if (!el.classList.contains('scroll-animate-btn-pop')) {
+               el.classList.add('animate-visible');
+             }
            });
 
-           // Scroll-triggered re-animation: Use Intersection Observer to re-trigger
-           // the animation when elements scroll back into view after being hidden.
-       const GOLDEN_RATIO_TRIGGER = 0.382;
-       const observerOptions = {
-         threshold: 0,
-         rootMargin: `${GOLDEN_RATIO_TRIGGER * 100}%px 0px -${(1 - GOLDEN_RATIO_TRIGGER) * 100}%px 0px`
-           };
-
-       const observer = new IntersectionObserver((entries) => {
+       const cardObserver = new IntersectionObserver((entries) => {
          entries.forEach(entry => {
            if (entry.isIntersecting) {
              entry.target.classList.add('animate-visible');
-               } else {
-                // Remove class when element scrolls out of view, so it re-animates on return
+           } else {
              entry.target.classList.remove('animate-visible');
-               }
-              });
-           }, observerOptions);
+           }
+         });
+       }, {
+         threshold: 0,
+         rootMargin: `0px 0px -10% 0px`
+       });
 
-           // Observe all animated elements for scroll-triggered re-animation
        animatedElements.forEach(el => {
-         observer.observe(el);
+         cardObserver.observe(el);
            });
           }
 

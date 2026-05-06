@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.21] - 2026-05-06
+
+### Added
+- Idle breathing animation (`btn-idle-breathe`) on all `.btn` elements — subtle glow pulse at rest
+- Sending state animation on submit button — animated dots (`Sending...`) while form submits
+- `.btn--sending` class disables idle breathe and sets `cursor: not-allowed` during submission
+
+### Changed
+- Removed scroll-triggered button pop effect (unreliable on mobile) — buttons now simply breathe
+- Removed `heroTextReveal` animation — hero section is now fully static for reliability on mobile
+- Removed `box-shadow` from `.btn` transition to prevent it from fighting keyframe animations
+- Local asset loader now checks `!== production domain` instead of `=== localhost`, enabling mobile network preview
+- Scroll animate trigger moved to 90% from top (10% bottom margin) so cards animate sooner
+- Stripped `scroll-animate` from all `<p>` elements — only headings and cards animate in
+
+### Fixed
+- Hero headline invisible on mobile due to CSS animation timing race on slow networks
+- `rootMargin` had invalid `%px` units in IntersectionObserver — corrected to valid `%` values
+- Invalid RGB value `rgba(26, 115, 256, 0)` corrected to `rgba(26, 115, 232, 0)`
+- Stray orphan `}` in `shared-styles.css` that was breaking CSS parsing
+
+## [1.0.20] - 2026-05-06
+
+### Changed
+- fixed padding on hero section to be symmetrical.
+
 ## [1.0.19] - 2026-05-06
 
 ### Changed
