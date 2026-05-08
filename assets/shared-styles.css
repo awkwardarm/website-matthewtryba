@@ -242,23 +242,26 @@ p {
     box-shadow: 0 6px 25px rgba(26, 115, 232, 0.4);
 }
 
-/* No aura on secondary buttons, but keep pulse */
+/* No aura or pulse on static buttons */
 .btn-secondary::after,
-a.btn[href="/about"]::after {
+.btn-secondary::before {
     display: none !important;
 }
 
-/* Secondary button text color white */
-.btn-secondary,
-a.btn[href="/about"] {
+/* Secondary button styling - static */
+.btn-secondary {
+    background-color: var(--accent-color);
     color: white !important;
+    border: 1px solid var(--border-color);
+    animation: none !important;
 }
 
-.btn-secondary:hover,
-a.btn[href="/about"]:hover {
+.btn-secondary:hover {
     animation: none;
-    box-shadow: none;
+    box-shadow: none !important;
+    background-color: #1765c6;
 }
+
 
 /* Button pressed state */
 .btn:active {
@@ -280,36 +283,14 @@ section {
     padding: 80px 0;
 }
 
-/* Hero section: clean light background, centered content */
+/* Hero section: professional subtle light blue gradient background */
 .hero {
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
     position: relative;
     overflow: hidden;
-    background-color: #ffffff;
-}
-
-/* Subtle animated background (pseudo-element) */
-/* Replaced dark fade with very subtle light-blue/white gradient shift */
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
-    background-size: 200% 200%;
-    animation: heroGradientShift 10s ease infinite;
-    z-index: 0;
-}
-
-/* Hero gradient shift keyframes */
-@keyframes heroGradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    background: linear-gradient(350deg, #c6cefa6a 0%, #ffffff 100%);
 }
 
 /* Ensure hero content sits above the gradient overlay */
@@ -328,6 +309,14 @@ section {
 /* Hero content wrapper: max-width constraint */
 .hero-content {
     max-width: 800px;
+}
+
+/* Hero buttons layout (used on home page) */
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 2rem;
 }
 
 /* Hero profile image: rounded, shadow */
@@ -810,7 +799,13 @@ section {
     animation: none;
 }
 
+@keyframes field-invite {
+    0%, 100% { border-color: #dee2e6; box-shadow: 0 0 0 0 rgba(100, 181, 246, 0); }
+    50% { border-color: #64b5f6; box-shadow: 0 0 0 5px rgba(100, 181, 246, 0.35); }
+}
+
 /* Row/column utilities (Bootstrap-like grid) */
+
 .row {
     display: flex;
     flex-wrap: wrap;

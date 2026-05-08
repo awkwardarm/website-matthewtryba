@@ -16,46 +16,6 @@
             document.write('<script src="/assets/audio-player.js"><\/script>');
         }
     </script>
-
-    
-<!-- Page-specific styles -->
-    <style>
-        @keyframes field-invite {
-            0%, 100% { border-color: #dee2e6; box-shadow: 0 0 0 0 rgba(100, 181, 246, 0); }
-            50% { border-color: #64b5f6; box-shadow: 0 0 0 5px rgba(100, 181, 246, 0.35); }
-        }
-        .form-control--invite { animation: field-invite 2.2s ease-in-out infinite; }
-        .form-control--invite:focus { animation: none; }
-
-        /* Home page specific overrides */
-        section { padding: 20px 0; } /* Override default 80px padding */
-        
-        .btn-secondary {
-            background-color: transparent;
-            color: white;
-            border: 1px solid var(--border-color);
-        }
-        .btn-secondary:hover {
-            background-color: var(--surface-color);
-        }
-        
-        .hero-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 2rem;
-        }
-
-        .hero-buttons .btn:not(.btn-secondary),
-        #contact-form button[type="submit"] {
-            animation: btn-idle-pulse 3s ease-in-out infinite;
-        }
-
-        
-                  /* Responsive Styles */
-                  @media (max-width: 1100px) {
-                  }
-    </style>
 </head>
 <body>
 
@@ -97,7 +57,7 @@
                 <h2>Your Creative Partner from Start to End </h2>
                 <p>I'm a multi-instrumentalist and vocalst who's an expert in all stages of recording: from songwriting and arrangement to production and mixing. My major label work acheived Diamond success and won Grammys and I bring that experience to every independent artist project.</p>
                 <div style="text-align:center;">
-                    <a href="/about" class="btn">Learn More About Me</a>
+                    <a href="/about" class="btn btn-secondary">Learn More About Me</a>
                 </div>
             </div>
         </div>
@@ -130,6 +90,7 @@
     <section class="testimonials">
         <div class="container">
             <h2 class="scroll-animate">What Artists Are Saying</h2>
+
             <div class="testimonial-grid">
                 <div class="testimonial-card scroll-animate-golden">
                     <p class="quote-headline">"Matthew is the best vocal producer I've found - his ear training is unmatched."</p>
@@ -198,11 +159,11 @@
                               </div>
                              
                               <div class="form-group">
-                                  <label for="name">Full Name <span style="font-weight: normal; color: #666;">(required)</span></label>
+                                  <label for="name">Name <span style="font-weight: normal; color: #666;">(required)</span></label>
                                   <input type="text" id="name" name="name" class="form-control" required>
                               </div>
                               <div class="form-group">
-                                  <label for="email">Email Address <span style="font-weight: normal; color: #666;">(required)</span></label>
+                                  <label for="email">Email <span style="font-weight: normal; color: #666;">(required)</span></label>
                                   <input type="email" id="email" name="email" class="form-control" required>
                               </div>
                               <div class="form-group">
@@ -254,4 +215,3 @@
     </script>
 </body>
 </html>
-
