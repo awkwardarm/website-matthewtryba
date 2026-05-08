@@ -1,7 +1,7 @@
 /**
- * ============================================================
+ * \===========================================================
  * SHARED STYLES — Base Styles for All Pages
- * ============================================================
+ * \===========================================================
  * 
  * PURPOSE:
  *     This file contains the global CSS foundation shared across
@@ -26,9 +26,9 @@
 /* SHARED STYLES — Base styles for all pages         */
 /*--------------------------------------------------*/
 
-/* ============================================================
+/* \===========================================================
    CSS VARIABLES — Design Tokens
-   ============================================================
+   \===========================================================
    All colors, spacing, and typography values are defined
    here as CSS custom properties. Change these to re-theme
    the entire site.
@@ -53,7 +53,7 @@
    TO TOGGLE DARK MODE:
        Comment out the light mode block (lines 7-14)
        Uncomment the dark mode block (lines 17-23)
-   ============================================================
+   \===========================================================
    */
 :root {
       /* Light Mode (default) - Comment out to disable */
@@ -72,15 +72,15 @@
       --background-color: #0d0d0d;
       --accent-color: #1a73e8;
       --surface-color: #1a1a1a;
-      --border-color: #333333;
-  } */
+      --border-color: #333333; */
+  }
 
-/* ============================================================
+/* \===========================================================
    BASE ELEMENTS — html, body, headings, paragraphs
-   ============================================================
+   \===========================================================
    These styles apply to root HTML elements globally.
    All pages inherit these base styles.
-   ============================================================
+   \===========================================================
    */
 
 /* Smooth scrolling for anchor links */
@@ -135,68 +135,125 @@ p {
     margin-bottom: 1rem;
 }
 
-/* ============================================================
+/* \===========================================================
    BUTTONS — .btn, .hero .btn, .btn-secondary
-   ============================================================
+   \===========================================================
    Base button with hover/active states.
    Hero buttons have gradient + glow effects.
    Secondary buttons disable aura animation.
-   ============================================================
+   
+   ANIMATION STRATEGY:
+   - Pulse (idle): Applied to ::before to keep main element free for hover.
+   - Aura (hover): Applied to ::after for glow effect.
+   - Transform/Color (hover): Applied directly to the .btn class.
+   \===========================================================
    */
 
-/* Button pulse animation keyframes */
-@keyframes btn-aura-pulse {
-     0%    { box-shadow: 0 0 10px 3px rgba(26, 115, 232, 0.6), 0 0 20px 8px rgba(255, 255, 255, 0.25); }
-     50%   { box-shadow: 0 0 22px 8px rgba(26, 115, 232, 0.85), 0 0 36px 14px rgba(255, 255, 255, 0.45); }
-      100% { box-shadow: 0 0 10px 3px rgba(26, 115, 232, 0.6), 0 0 20px 8px rgba(255, 255, 255, 0.25); }
-}
-
-@keyframes btn-idle-breathe {
+/* 
+   Pulse animation for the button itself (idle breathing)
+   TWEAK HERE: Increase scale (e.g., 1.01) or shadow (e.g., 25px) to make it more obvious.
+*/
+@keyframes btn-idle-pulse {
     0%, 100% {
-        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2);
+        box-shadow: 0 4px 12px rgba(178, 181, 240, 0.671);
+        transform: scale(1.);
     }
     50% {
-        box-shadow: 0 4px 28px rgba(26, 115, 232, 0.55);
+        box-shadow: 0 4px 24px rgba(35, 124, 220, 0.864);
+        transform: scale(1.003);
     }
+}
+
+/* Aura pulse animation for the glow effect on hover */
+@keyframes btn-aura-pulse {
+     0%, 100% { box-shadow: 0 0 10px 3px rgba(26, 115, 232, 0.4), 0 0 20px 8px rgba(255, 255, 255, 0.15); }
+     50%   { box-shadow: 0 0 22px 8px rgba(33, 119, 231, 0.7), 0 0 36px 14px rgba(255, 255, 255, 0.254); }
 }
 
 /* Base button styles */
 .btn {
     display: inline-block;
+    position: relative;
     padding: 12px 28px;
     background-color: var(--accent-color);
     color: white;
     text-decoration: none;
     border-radius: 5px;
     font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     border: none;
     cursor: pointer;
     font-size: 1.1rem;
-    animation: btn-idle-breathe 2.8s ease-in-out infinite;
+    z-index: 1;
 }
 
-/* Hero CTA button — gradient + glow effect */
+/* 
+   Idle Pulse Pseudo-element: Separated to allow concurrent hover animations.
+   TWEAK SPEED HERE: Change '4s' to '3s' for faster, or '5s' for slower breathing.
+*/
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 5px;
+    z-index: -1;
+    animation: btn-idle-pulse 3s ease-in-out infinite;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+/* Hover Aura Pseudo-element: Intense glow on hover */
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 5px;
+    z-index: -1;
+    opacity: 0;
+    animation: btn-aura-pulse 1.6s ease-in-out infinite;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+/* Hero CTA button — gradient styling */
 .hero .btn {
     background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
-    animation: btn-idle-breathe 2.8s ease-in-out infinite;
+}
+
+/* General button hover */
+.btn:hover {
+    background-color: #1765c6;
+    transform: translateY(-3px);
+}
+
+/* Show aura on hover */
+.btn:hover::after {
+    opacity: 1;
+}
+
+/* Keep pulse active on hover as requested */
+.btn:hover::before {
+    opacity: 1;
 }
 
 /* Hero button hover: reverse gradient + lift */
 .hero .btn:hover {
     background: linear-gradient(135deg, #1557b0 0%, #1a73e8 100%);
-    box-shadow: 0 6px 25px rgba(26, 115, 232, 0.5), 0 0 30px rgba(26, 115, 232, 0.2);
-    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 25px rgba(26, 115, 232, 0.4);
 }
 
-/* Default button hover: color change + aura pulse (overrides idle breathe) */
-.btn:hover {
-    background-color: #1765c6;
-    animation: btn-aura-pulse 1.6s ease-in-out infinite;
-    transform: translateY(-2px);
+/* No aura on secondary buttons, but keep pulse */
+.btn-secondary::after,
+a.btn[href="/about"]::after {
+    display: none !important;
 }
 
-/* No aura on non-contact buttons (e.g., About link) */
+/* Secondary button text color white */
+.btn-secondary,
+a.btn[href="/about"] {
+    color: white !important;
+}
+
 .btn-secondary:hover,
 a.btn[href="/about"]:hover {
     animation: none;
@@ -209,13 +266,13 @@ a.btn[href="/about"]:hover {
     box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
 }
 
-/* ============================================================
+/* \===========================================================
    SECTIONS — Base section + Hero section
-   ============================================================
+   \===========================================================
    .hero: Landing page hero with profile photo, headline,
           subheadline, bullet points, CTA button.
           Includes animated gradient overlay.
-   ============================================================
+   \===========================================================
    */
 
 /* Default section padding (80px top/bottom) */
@@ -223,18 +280,18 @@ section {
     padding: 80px 0;
 }
 
-/* Hero section: gradient background, centered content */
+/* Hero section: clean light background, centered content */
 .hero {
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e8edf3 50%, #f5f7fa 100%);
+    background-color: #ffffff;
 }
 
-/* Animated gradient overlay (pseudo-element) */
-/* Shifts background position over 15s loop */
+/* Subtle animated background (pseudo-element) */
+/* Replaced dark fade with very subtle light-blue/white gradient shift */
 .hero::before {
     content: '';
     position: absolute;
@@ -242,10 +299,9 @@ section {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(211, 225, 244, 0.19) 0%, rgba(245, 166, 35, 
-     0.03) 50%, rgb(1, 14, 30) 100%);
-    background-size: 400% 400%;
-    animation: heroGradientShift 15s ease infinite;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
+    background-size: 200% 200%;
+    animation: heroGradientShift 10s ease infinite;
     z-index: 0;
 }
 
@@ -279,7 +335,7 @@ section {
     max-width: 250px;
     border-radius: 4%;
     margin-bottom: -0.5rem;
-    box-shadow: 1 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
 /* Hero subheadline: secondary color, centered */
@@ -345,13 +401,13 @@ section {
     margin-top: 2rem;
 }
 
-/* ============================================================
+/* \===========================================================
    SOCIAL PROOF — Logos, sync section
-   ============================================================
+   \===========================================================
    .social-proof: Section showing artist/label logos
    .logos: Flex wrap container for logo images
    .sync-success: Alternative logo section styling
-   ============================================================
+   \===========================================================
    */
 
 /* Social proof section: light background */
@@ -429,15 +485,15 @@ section {
     object-fit: contain;
 }
 
-/* ============================================================
+/* \===========================================================
    TESTIMONIALS — Quote cards, author info
-   ============================================================
+   \===========================================================
    .testimonials: Section wrapper
    .testimonial-card: Individual quote card
    .quote-headline: Bold opening line (with quote mark)
    .quote-body: Body text (with closing quote mark)
    .testimonial-author: Author photo + name
-   ============================================================
+   \===========================================================
    */
 
 /* Testimonials section: white background */
@@ -549,12 +605,12 @@ section {
     font-size: 1rem;
 }
 
-/* ============================================================
+/* \===========================================================
    CTA SECTION — Call-to-action banner
-   ============================================================
+   \===========================================================
    .cta-section: Blue background banner with white text
                  and contrasting button.
-   ============================================================
+   \===========================================================
    */
 
 /* CTA section: blue background, centered */
@@ -594,12 +650,12 @@ section {
     background-color: #f0f0f0;
 }
 
-/* ============================================================
+/* \===========================================================
    FEATURE SECTION — Two-column layout (image + text)
-   ============================================================
+   \===========================================================
    .feature-section: Flex row (image | text)
    .feature-section.about: Swaps order (text | image)
-   ============================================================
+   \===========================================================
    */
 
 /* Feature section: light background */
@@ -642,15 +698,15 @@ section {
     width: 100%;
 }
 
-/* ============================================================
+/* \===========================================================
    CONTACT FORM SECTION — Form styles + animations
-   ============================================================
+   \===========================================================
    .contact: Section wrapper
    #contact-form-container: Form card styling
    .form-control: Input/textarea styles
    .form-group: Field wrapper + label
    Animations: formEntrance (scroll), formPulse (idle)
-   ============================================================
+   \===========================================================
    */
 
 /* Contact section: light background */
@@ -920,13 +976,13 @@ section {
     display: none !important;
 }
 
-/* ============================================================
+/* \===========================================================
    VIDEO WRAPPER — Responsive iframe container
-   ============================================================
+   \===========================================================
    .video-wrapper: 16:9 aspect ratio container for embeds
                    (YouTube, Vimeo, etc.)
    Uses padding-bottom trick for responsive height.
-   ============================================================
+   \===========================================================
    */
 
 /* Video wrapper: 16:9 ratio, rounded, shadow */
@@ -951,12 +1007,12 @@ section {
     height: 100%;
 }
 
-/* ============================================================
+/* \===========================================================
    FORM ENHANCEMENTS — Checkbox positioning
-   ============================================================
+   \===========================================================
    Styles for Squarespace form checkbox fields.
    Positions checkbox below email field with custom label.
-   ============================================================
+   \===========================================================
    */
 
 /* Email field checkbox: relative positioning */
@@ -997,12 +1053,12 @@ section {
     white-space: normal;
 }
 
-/* ============================================================
+/* \===========================================================
    SHIMMER PILL BUTTON — CTA with shine effect
-   ============================================================
+   \===========================================================
    .pill-button: Rounded dark button with animated
                  shimmer overlay (sliding highlight).
-   ============================================================
+   \===========================================================
    */
 
 /* Pill button: dark bg, white border, rounded */
@@ -1052,14 +1108,14 @@ section {
       }
 }
 
-/* ============================================================
+/* \===========================================================
    FOOTER — Shared footer styles
-   ============================================================
+   \===========================================================
    footer: Centered text, bottom padding (clears
            now-playing bar space).
    .footer-tagline: "You are the art." italic
    .footer-copyright: Copyright line, smaller
-   ============================================================
+   \===========================================================
    */
 
 /* Footer: centered, bottom padding for now-playing bar */
@@ -1093,12 +1149,12 @@ footer .footer-copyright {
     margin-bottom: 20px;
 }
 
-/* ============================================================
+/* \===========================================================
    SERVICES GRID — Service cards
-   ============================================================
+   \===========================================================
    .services-grid: 3-column grid (responsive → 1 col)
    .service-card: Bordered card with icon, heading, text
-   ============================================================
+   \===========================================================
    */
 
 /* Services grid: 3 columns, centered */
@@ -1145,13 +1201,13 @@ footer .footer-copyright {
     box-shadow: 0 8px 30px rgba(0,0,0,0.1);
 }
 
-/* ============================================================
+/* \===========================================================
    RESPONSIVE BREAKPOINTS
-   ============================================================
+   \===========================================================
    900px: Stack testimonial grid, services grid, feature
           section. Center headings.
    768px: Reduce heading sizes, form padding.
-   ============================================================
+   \===========================================================
    */
 
 /* Responsive: stack grids at 900px */
@@ -1182,14 +1238,14 @@ footer .footer-copyright {
      h2 { font-size: 1.8rem; }
 }
 
-/* ============================================================
+/* \===========================================================
    SCROLL-TRIGGERED ANIMATIONS
-   ============================================================
+   \===========================================================
    .scroll-animate: Base fade-in-up animation
    .scroll-animate-golden: Fade-in-up + golden shadow pulse
    .animate-visible: Applied by JS when element enters viewport
    goldenShadowPulse: Keyframes for golden glow effect
-   ============================================================
+   \===========================================================
    
    HOW IT WORKS:
        1. Elements start with opacity: 0, translateY(30px)
@@ -1198,7 +1254,7 @@ footer .footer-copyright {
        4. For .scroll-animate-golden: golden shadow pulse triggers
        5. When scrolled out, .animate-visible is removed
        6. When scrolled back in, animation re-triggers
-   ============================================================
+   \===========================================================
    */
 
 /* Base animated state — elements start invisible */
@@ -1312,5 +1368,4 @@ footer .footer-copyright {
      .btn-pop-visible .btn {
     animation: none !important;
      }
-}
 }

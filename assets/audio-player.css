@@ -1,7 +1,7 @@
 /**
- * ============================================================
+ * \==========================================================
  * AUDIO PLAYER COMPONENT — Styles
- * ============================================================
+ * \==========================================================
  * 
  * PURPOSE:
  *     Styles for the custom audio player component. This file
@@ -22,7 +22,7 @@
  *     .player-card             : Individual track card
  *     .now-playing-bar         : Fixed bottom playback bar
  *     .play-trigger            : Hover overlay on album art
- * ============================================================
+ * \==========================================================
  */
 
 /*--------------------------------------------------*/
@@ -70,16 +70,16 @@
     letter-spacing: 0.12em;
 }
 
-/* ------------------------------------------------
+/* \------------------------------------------------
    GROUPS — Section headers that divide tracks
-   ------------------------------------------------
+   \------------------------------------------------
    When tracks share the same `group` value, they
    appear under a shared section header.
    
    STRUCTURE:
        .audio-group              : Section wrapper
        .audio-group-label        : Section heading text
-   ------------------------------------------------ */
+   \------------------------------------------------ */
 .audio-group {
     margin-bottom: 48px;
 }
@@ -103,15 +103,15 @@
     border-bottom: 1px solid var(--border-color);
 }
 
-/* ------------------------------------------------
+/* \------------------------------------------------
    GRID — Two-column responsive layout for tracks
-   ------------------------------------------------
+   \------------------------------------------------
    Tracks are displayed in a 2-column CSS grid.
    On very small screens (<360px), collapses to 1 column.
    
    STRUCTURE:
        .audio-grid              : Grid container
-   ------------------------------------------------ */
+   \------------------------------------------------ */
 .audio-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -122,9 +122,9 @@
      .audio-grid { grid-template-columns: 1fr; }  /* Single column on tiny screens */
 }
 
-/* ------------------------------------------------
+/* \------------------------------------------------
    PLAYER CARD — Individual track row
-   ------------------------------------------------
+   \------------------------------------------------
    Each track is displayed as a card with:
        [Album Art] [Track Title / Artist] [Play Button]
    
@@ -138,7 +138,7 @@
                .track-title       : Song name
                .track-artist      : Artist name
        .play-btn                  : Play/pause button (right side)
-   ------------------------------------------------ */
+   \------------------------------------------------ */
 .player-card {
     background: var(--surface-color);
     border: 1px solid var(--border-color);
@@ -239,12 +239,12 @@
     text-overflow: ellipsis;
 }
 
-/* ------------------------------------------------
+/* \------------------------------------------------
    CONTROLS — Play/Pause button
-   ------------------------------------------------
+   \------------------------------------------------
    Circular blue button with play/pause icon.
    Positioned at the right end of each player card.
-   ------------------------------------------------ */
+   \------------------------------------------------ */
 .play-btn {
     width: 30px;
     height: 30px;
@@ -277,9 +277,9 @@
     margin-left: 2px; /* optical centering for triangle */
 }
 
-/* ------------------------------------------------
+/* \------------------------------------------------
    NOW PLAYING BAR — Fixed bottom playback control
-   ------------------------------------------------
+   \------------------------------------------------
    This bar slides up from the bottom of the screen
    when a track starts playing. It shows:
    
@@ -311,7 +311,7 @@
                    .np-volume-popup   : Volume slider panel
                        .audio-volume-slider    : Range input
                        .audio-volume-pct       : Percentage text
-   ------------------------------------------------ */
+   \------------------------------------------------ */
 .now-playing-bar {
     position: fixed;
     bottom: 0;
@@ -341,7 +341,7 @@
     transform: translateY(0);
 }
 
-/* --- Left: Track Info --- */
+/* \--- Left: Track Info \--- */
 .np-track {
     display: flex;
     align-items: center;
@@ -381,7 +381,7 @@
     text-overflow: ellipsis;
 }
 
-/* --- Center: Play Controls + Progress --- */
+/* \--- Center: Play Controls + Progress \--- */
 .np-controls {
     flex: 1;
     display: flex;
@@ -451,7 +451,7 @@
     color: var(--secondary-color);
 }
 
-/* --- Right: Volume Popup --- */
+/* \--- Right: Volume Popup \--- */
 .np-volume {
     position: relative;
     flex-shrink: 0;
@@ -553,13 +553,13 @@
     font-variant-numeric: tabular-nums;
 }
 
-/* ------------------------------------------------
+/* \------------------------------------------------
    NOW PLAYING BAR — Responsive adjustments
-   ------------------------------------------------
+   \------------------------------------------------
    Adjusts layout for smaller screens:
        - 600px: Reduce gaps and padding
        - 420px: Further reduce, hide artist name
-   ------------------------------------------------ */
+   \------------------------------------------------ */
 /* Responsive now-playing bar */
 @media (max-width: 600px) {
      .np-inner {
@@ -584,12 +584,12 @@
     }
 }
 
-/* ------------------------------------------------
+/* \------------------------------------------------
    FALLBACK LINK — Audio not loading message
-   ------------------------------------------------
+   \------------------------------------------------
    Shown below the player when audio fails to load.
    Links to an alternative listening platform.
-   ------------------------------------------------ */
+   \------------------------------------------------ */
 .audio-fallback {
     text-align: center;
     margin-top: 40px;
@@ -602,9 +602,9 @@
     text-decoration: underline;
 }
 
-/* ------------------------------------------------
+/* \------------------------------------------------
    PLAY TRIGGER OVERLAY — Album art hover effect
-   ------------------------------------------------
+   \------------------------------------------------
    Used on [data-play-title] elements (e.g., social
    proof album art cards) to show a play icon on hover.
    Clicking the image triggers playback for that track.
@@ -613,7 +613,7 @@
        .play-trigger                : Wrapper around image
            img                      : Original album art
            .play-trigger-icon       : Play circle overlay
-   ------------------------------------------------ */
+   \------------------------------------------------ */
 .play-trigger {
     position: relative;
     display: inline-block;

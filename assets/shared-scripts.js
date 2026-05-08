@@ -1,7 +1,7 @@
 /**
- * ============================================================
+ * \===========================================================
  * SHARED SCRIPTS — Common JavaScript for All Pages
- * ============================================================
+ * \===========================================================
  * 
  * PURPOSE:
  *     This file contains JavaScript utilities and initialization
@@ -23,24 +23,24 @@
  * DEPENDENCIES:
  *     - shared-styles.css : Provides CSS classes used by animations
  *     - Squarespace footer : Expects <footer> element to exist
- * ============================================================
+ * \===========================================================
  */
 
-// ============================================================
+// \===========================================================
 // CDN BASE — Cloudflare R2 URL
-// ============================================================
+// \===========================================================
 // This is the single source of truth for all CDN asset URLs.
 // All images with data-cdn attributes will have this prefix
 // automatically prepended by hydrateCdnImages().
 //
 // Example: <img data-cdn="images/photo.jpg">
 //          → becomes → src="https://pub-...r2.dev/images/photo.jpg"
-// ============================================================
+// \===========================================================
 const CDN_BASE = 'https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/';
 
-// ============================================================
+// \===========================================================
 // HYDRATE CDN IMAGES
-// ============================================================
+// \===========================================================
 // Scans the DOM for <img data-cdn="..."> elements and sets
 // their src attribute to the full CDN URL.
 //
@@ -48,7 +48,7 @@ const CDN_BASE = 'https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/';
 // serving assets from Cloudflare R2.
 //
 // Called automatically on DOMContentLoaded.
-// ============================================================
+// \===========================================================
 
 /**
  * hydrateCdnImages() — Resolve all data-cdn images to full URLs
@@ -66,16 +66,16 @@ function hydrateCdnImages() {
     });
 }
 
-// ============================================================
+// \===========================================================
 // SPAM CONFIG — Spam Detection Settings
-// ============================================================
+// \===========================================================
 // Configuration for form spam prevention.
 // Contains patterns to block and fallback redirect URL.
 //
 // STRUCTURE:
 //     patterns[]      : Array of spam keyword patterns
 //     thankYouUrl     : Redirect URL when spam detected
-// ============================================================
+// \===========================================================
 const SPAM_CONFIG = {
     patterns: [
          "robertduend",
@@ -85,12 +85,12 @@ const SPAM_CONFIG = {
     thankYouUrl: "https://www.matthewtryba.com/thank-you-home-98jkxco9012"
 };
 
-// ============================================================
+// \===========================================================
 // FORM VALIDATION — Spam Detection
-// ============================================================
+// \===========================================================
 // Validates form submissions against spam patterns.
 // Uses honeypot field + name pattern matching.
-// ============================================================
+// \===========================================================
 
 /**
  * validateForm() — Validate contact form for spam
@@ -148,11 +148,11 @@ function validateForm() {
     return true;
 }
 
-// ============================================================
+// \===========================================================
 // CONTACT FORM INITIALIZATION
-// ============================================================
+// \===========================================================
 // Wires up the validateForm function to the contact form.
-// ============================================================
+// \===========================================================
 
 /**
  * initializeContactForm() — Wire up form validation
@@ -169,13 +169,13 @@ function initializeContactForm() {
      }
 }
 
-// ============================================================
+// \===========================================================
 // FORM INVITE ANIMATION
-// ============================================================
+// \===========================================================
 // Adds a pulsing highlight to the first visible input field
 // in each form to invite user interaction.
 // The animation stops when the field is focused.
-// ============================================================
+// \===========================================================
 
 /**
  * initializeFormInviteAnimation() — Add pulse animation to first form field
@@ -200,13 +200,13 @@ function initializeFormInviteAnimation() {
       });
 }
 
-// ============================================================
+// \===========================================================
 // CONTACT FORM SCROLL ANIMATION
-// ============================================================
+// \===========================================================
 // Triggers an entrance animation when the contact form scrolls
 // into view, then switches to a pulsing shadow effect.
 // Uses Intersection Observer for scroll detection.
-// ============================================================
+// \===========================================================
 
 /**
  * initializeContactFormAnimation() — Animate form on scroll
@@ -254,12 +254,12 @@ function initializeFormInviteAnimation() {
        observer.observe(formContainer);
     }
 
-// ============================================================
+// \===========================================================
 // SHARED FOOTER
-// ============================================================
+// \===========================================================
 // Renders the footer into the page's <footer> element.
 // Single source of truth for footer content across all pages.
-// ============================================================
+// \===========================================================
 
 /**
  * renderSharedFooter() — Render shared footer HTML
@@ -284,15 +284,15 @@ function initializeFormInviteAnimation() {
           </div>`;
     }
 
-// ============================================================
+// \===========================================================
 // SCROLL-TRIGGERED ANIMATIONS
-// ============================================================
+// \===========================================================
 // Uses Intersection Observer to animate elements when they
 // scroll into view. Elements start invisible and slide up
 // + fade in when they cross the golden ratio threshold (38.2%).
 // After animation, elements can re-animate when scrolled away
 // and back (re-trigger effect).
-// ============================================================
+// \===========================================================
 
 /**
  * initializeScrollAnimations() — Setup scroll-triggered animations
@@ -411,9 +411,9 @@ function initializeFormInviteAnimation() {
            });
           }
 
-// ============================================================
+// \===========================================================
 // AUTO-INITIALIZATION
-// ============================================================
+// \===========================================================
 // Wires up all shared features to run when DOM is ready.
 // Handles both lazy-loaded and already-ready DOM states.
 //
@@ -431,7 +431,7 @@ function initializeFormInviteAnimation() {
 //    4. initializeContactFormAnimation() — Scroll entrance
 //    5. renderSharedFooter()             — Render footer
 //    6. initializeScrollAnimations()     — Scroll animations
-// ============================================================
+// \===========================================================
 
    // Auto-initialize when DOM is ready
    if (document.readyState === 'loading') {

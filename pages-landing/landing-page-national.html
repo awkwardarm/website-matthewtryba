@@ -8,24 +8,17 @@
      <!-- Load Assets for Local Preview only -->
      <script>
         if (location.hostname !== 'www.matthewtryba.com' && location.hostname !== 'matthewtryba.com') {
-            document.write('<link rel="stylesheet" href="../assets/shared-styles.css">');
-            document.write('<link rel="stylesheet" href="../assets/audio-player.css">');
-            document.write('<script src="../assets/shared-scripts.js"><\/script>');
-            document.write('<script src="../assets/page-configs.js"><\/script>');
-            document.write('<script src="../assets/audio-player-tracks.js"><\/script>');
-            document.write('<script src="../assets/audio-player.js"><\/script>');
+            document.write('<link rel="stylesheet" href="/assets/shared-styles.css">');
+            document.write('<link rel="stylesheet" href="/assets/audio-player.css">');
+            document.write('<script src="/assets/shared-scripts.js"><\/script>');
+            document.write('<script src="/assets/page-configs.js"><\/script>');
+            document.write('<script src="/assets/audio-player-tracks.js"><\/script>');
+            document.write('<script src="/assets/audio-player.js"><\/script>');
          }
      </script>
 
      <!-- Page-specific styles if needed -->
      <style>
-         @keyframes field-invite {
-             0%, 100% { border-color: #dee2e6; box-shadow: 0 0 0 0 rgba(100, 181, 246, 0); }
-             50% { border-color: #64b5f6; box-shadow: 0 0 0 5px rgba(100, 181, 246, 0.35); }
-         }
-         .form-control--invite { animation: field-invite 4s ease-in-out infinite; }
-         .form-control--invite:focus { animation: none; }
-
          .audio-samples {
             margin-top: -40px;
          }
@@ -60,9 +53,6 @@
                  <div class="hero-cta-button">
                      <a href="#contact" class="btn">Get Started</a>
                  </div>
-             </div>
-             <div class="scroll-indicator">
-                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
              </div>
          </div>
      </section>

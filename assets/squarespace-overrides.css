@@ -1,7 +1,7 @@
 /**
- * ============================================================
+ * \===========================================================
  * SQUARESPACE OVERRIDES — Block-Specific Style Fixes
- * ============================================================
+ * \===========================================================
  * 
  * PURPOSE:
  *     This file contains CSS overrides specifically for
@@ -24,13 +24,13 @@
  *     #block-yui_3_17_2_1_1756615968375_12574
  *          Tools page contact form
  *          Fixes: checkbox positioning, label text, spacing
- * ============================================================
+ * \===========================================================
  */
 
 /*
- * ============================================================
+ * \===========================================================
  * TOOLS PAGE FORM OVERRIDES
- * ============================================================
+ * \===========================================================
  * Block ID: #block-yui_3_17_2_1_1756615968375_12574
  * Purpose: Fix checkbox positioning and label text for the
  *          email field consent checkbox.
@@ -54,27 +54,27 @@
  *          → Adjust checkbox spacing
  *     #block-... .form-item.field.email
  *          → Force relative positioning container
- * ============================================================
+ * \===========================================================
  */
 
-/* ------------------------------------------------
+/* \---=-------------------------------------------
    Checkbox Label — Hide default text
-   ------------------------------------------------
+   \---=-------------------------------------------
    Sets font-size to 0 to hide Squarespace's default
    checkbox label text. Custom text is injected via
    ::after pseudo-element below.
-   ------------------------------------------------ */
+   \---=------------------------------------------- */
 #block-yui_3_17_2_1_1756615968375_12574 .form-item.field.email .option label {
     font-size: 0 !important;
     line-height: 0 !important;
 }
 
-/* ------------------------------------------------
+/* \---=-------------------------------------------
    Checkbox Label — Inject custom consent text
-   ------------------------------------------------
+   \---=-------------------------------------------
    Uses ::after pseudo-element to display the consent
    message. This replaces the hidden default text.
-   ------------------------------------------------ */
+   \---=------------------------------------------- */
 #block-yui_3_17_2_1_1756615968375_12574 .form-item.field.email .option label:after {
     content: "Required: consent to receive download link.";
     color: black !important;
@@ -83,13 +83,13 @@
     white-space: normal;
 }
 
-/* ------------------------------------------------
+/* \---=-------------------------------------------
    Checkbox Spacing — Position below email field
-   ------------------------------------------------
+   \---=-------------------------------------------
    Uses flexbox to align checkbox and label.
    Positions the option row 10px below the email
    input using margin-top.
-   ------------------------------------------------ */
+   \---=------------------------------------------- */
 #block-yui_3_17_2_1_1756615968375_12574 .form-item.field.email .option {
     display: flex;
     align-items: center;
@@ -98,59 +98,38 @@
     margin-left: 15px !important;
 }
 
-/* ------------------------------------------------
+/* \---=-------------------------------------------
    Checkbox Input — Adjust spacing
-   ------------------------------------------------
+   \---=-------------------------------------------
    Negative margin-right pulls checkbox closer to
    the custom label text.
-   ------------------------------------------------ */
+   \---=------------------------------------------- */
 #block-yui_3_17_2_1_1756615968375_12574 .form-item.field.email .option input[type="checkbox"] {
     margin-right: -10px !important;
     flex-shrink: 0;
 }
 
-/* ------------------------------------------------
+/* \---=-------------------------------------------
    Checkbox Position — Force relative container
-   ------------------------------------------------
+   \---=-------------------------------------------
    Sets the email field wrapper to position: relative
    so the absolutely positioned option row has a
    reference point.
-   ------------------------------------------------ */
+   \---=------------------------------------------- */
 #block-yui_3_17_2_1_1756615968375_12574 .form-item.field.email {
     position: relative !important;
     padding-bottom: 25px !important;
 }
 
-/* ------------------------------------------------
+/* \---=-------------------------------------------
    Checkbox Option — Absolute position below input
-   ------------------------------------------------
+   \---=-------------------------------------------
    Positions the checkbox row absolutely at the
    bottom of the email field container.
-   ------------------------------------------------ */
+   \---=------------------------------------------- */
 #block-yui_3_17_2_1_1756615968375_12574 .form-item.field.email .option {
     position: absolute !important;
     bottom: 0 !important;
     left: 0 !important;
     margin: 0 0 10px 15px !important;
 }
-
-/*
- * ============================================================
- * ADDING NEW OVERRIDES
- * ============================================================
- * 
- * To add block-specific overrides:
- *     1. Find the Squarespace block ID (view page source)
- *     2. Add a comment header with block name and ID
- *     3. Write your CSS rules targeting #block-XXXXX
- *     4. Include comments explaining what each rule fixes
- * 
- * TEMPLATE:
- *      /* [BLOCK NAME]
- *        Block ID: #block-XXXXX
- *        Purpose: What this override fixes
- *       */
- *      #block-XXXXX { ... }
- * 
- * ============================================================
- */

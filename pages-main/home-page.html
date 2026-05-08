@@ -8,12 +8,12 @@
     <!-- Load Assets for Local Preview only -->
     <script>
     if (location.hostname !== 'www.matthewtryba.com' && location.hostname !== 'matthewtryba.com') {
-            document.write('<link rel="stylesheet" href="../assets/shared-styles.css">');
-            document.write('<link rel="stylesheet" href="../assets/audio-player.css">');
-            document.write('<script src="../assets/shared-scripts.js"><\/script>');
-            document.write('<script src="../assets/page-configs.js"><\/script>');
-            document.write('<script src="../assets/audio-player-tracks.js"><\/script>');
-            document.write('<script src="../assets/audio-player.js"><\/script>');
+            document.write('<link rel="stylesheet" href="/assets/shared-styles.css">');
+            document.write('<link rel="stylesheet" href="/assets/audio-player.css">');
+            document.write('<script src="/assets/shared-scripts.js"><\/script>');
+            document.write('<script src="/assets/page-configs.js"><\/script>');
+            document.write('<script src="/assets/audio-player-tracks.js"><\/script>');
+            document.write('<script src="/assets/audio-player.js"><\/script>');
         }
     </script>
 
@@ -32,7 +32,7 @@
         
         .btn-secondary {
             background-color: transparent;
-            color: var(--primary-color);
+            color: white;
             border: 1px solid var(--border-color);
         }
         .btn-secondary:hover {
@@ -46,6 +46,11 @@
             margin-top: 2rem;
         }
 
+        .hero-buttons .btn:not(.btn-secondary),
+        #contact-form button[type="submit"] {
+            animation: btn-idle-pulse 3s ease-in-out infinite;
+        }
+
         
                   /* Responsive Styles */
                   @media (max-width: 1100px) {
@@ -56,11 +61,13 @@
 
     <section class="hero">
         <div class="container">
-            <h1 class="scroll-animate">Major Label Sound for Independent Artists</h1>
-            <p class="hero-subheadline scroll-animate">I'm Matthew Tryba, a music producer in Denver, Colorado and I help you make and record songs with proven RIAA Diamond certified quality. I specialize in Pop, Adult Contemporary, and Dark Pop.</p>
-            <div class="hero-buttons scroll-animate">
-                <a href="#contact" class="btn">Start The Conversation</a>
-                <a href="/work" class="btn btn-secondary">Hear My Work</a>
+            <div class="hero-content">
+                <h1 class="scroll-animate">Major Label Sound for Independent Artists</h1>
+                <p class="hero-subheadline scroll-animate">I'm Matthew Tryba, a music producer in Denver, Colorado and I help you make and record songs with proven RIAA Diamond certified quality. I specialize in Pop, Adult Contemporary, and Dark Pop.</p>
+                <div class="hero-buttons scroll-animate">
+                    <a href="#contact" class="btn">Start The Conversation</a>
+                    <a href="/work" class="btn btn-secondary">Hear My Work</a>
+                </div>
             </div>
         </div>
     </section>

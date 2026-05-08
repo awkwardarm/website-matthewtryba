@@ -1,7 +1,7 @@
 /**
- * ============================================================
+ * \==========================================================
  * AUDIO PLAYER — initAudioPlayer(config)
- * ============================================================
+ * \==========================================================
  * 
  * PURPOSE:
  *     This is the main audio player component logic. It creates
@@ -34,7 +34,7 @@
  *          artwork:   "https://..."    // Optional. URL to album cover image
  *      }
  * 
- * ============================================================
+ * \==========================================================
  */
 
 function initAudioPlayer(config) {
@@ -55,13 +55,13 @@ function initAudioPlayer(config) {
     const root = document.getElementById(mountId);
     const hasRoot = !!root;
 
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // SHARED NOW-PLAYING STATE
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // These variables track the current playback state
      // across the entire page session. They are shared
      // between card players and the now-playing bar.
-     // -----------------------------------------------
+     // \-----------------------------------------------
     let _activeAudio        = null;    // Current HTMLAudioElement
     let _activePlayBtn      = null;    // Current play button element (card or bar)
     let _activeTimeUpdate = null;    // Current timeupdate listener (for cleanup)
@@ -73,9 +73,9 @@ function initAudioPlayer(config) {
      // navigation on any page (even pages without the full grid)
     const _playableTracks = tracks.filter(t => t.group !== 'hidden');
 
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // HELPER FUNCTIONS
-     // -----------------------------------------------
+     // \-----------------------------------------------
 
     /**
      * groupTracks() — Organizes flat track array into grouped sections
@@ -119,14 +119,14 @@ function initAudioPlayer(config) {
         return `${m}:${s}`;
        }
 
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // PERSISTENCE — localStorage save/restore
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // These functions persist the current playback state
      // (track index, current time, playing/paused) to
      // localStorage. This allows playback to continue
      // seamlessly when the user navigates to another page.
-     // -----------------------------------------------
+     // \-----------------------------------------------
     const STORAGE_KEY = 'tryba-player-state';
 
     /**
@@ -167,12 +167,12 @@ function initAudioPlayer(config) {
            } catch (e) { return null; }
        }
 
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // ICONS — SVG definitions
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // Predefined SVG strings for player controls.
      // Using inline SVGs avoids external dependencies.
-     // -----------------------------------------------
+     // \-----------------------------------------------
     const ICON_PLAY    = `<svg class="icon-play" width="14" height="16" viewBox="0 0 14 16" fill="white"><polygon points="0,0 14,8 0,16"/></svg>`;
     const ICON_PAUSE = `<svg class="icon-pause" width="14" height="16" viewBox="0 0 14 16" fill="white"><rect x="0" y="0" width="5" height="16"/><rect x="9" y="0" width="5" height="16"/></svg>`;
     const ICON_NOTE    = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`;
@@ -180,9 +180,9 @@ function initAudioPlayer(config) {
     const ICON_PREV    = `<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="3" height="16"/><polygon points="15,0 4,8 15,16"/></svg>`;
     const ICON_NEXT    = `<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="13" y="0" width="3" height="16"/><polygon points="1,0 12,8 1,16"/></svg>`;
 
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // BUILD ARTWORK — Create album art element
-     // -----------------------------------------------
+     // \-----------------------------------------------
 
     /**
      * buildArtwork() — Creates an album art image or placeholder
@@ -208,9 +208,9 @@ function initAudioPlayer(config) {
             return div;
        }
 
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // ACTIVATE BAR — Activate now-playing bar for a track
-     // -----------------------------------------------
+     // \-----------------------------------------------
 
     /**
      * activateBar() — Activates the now-playing bar for a specific track
@@ -278,9 +278,9 @@ function initAudioPlayer(config) {
             _bar.classList.add("active");
        }
 
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // BUILD PLAYER CARD — Create a track card element
-     // -----------------------------------------------
+     // \-----------------------------------------------
 
     /**
      * buildPlayerCard() — Creates a playable track card DOM element
@@ -378,9 +378,9 @@ function initAudioPlayer(config) {
         return card;
        }
 
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // BUILD NOW PLAYING BAR — Fixed bottom playback bar
-     // -----------------------------------------------
+     // \-----------------------------------------------
 
     /**
      * buildNowPlayingBar() — Creates the fixed bottom now-playing bar
@@ -496,9 +496,9 @@ function initAudioPlayer(config) {
         return bar;
        }
 
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // GHOST PLAY — Play track without a visible card
-     // -----------------------------------------------
+     // \-----------------------------------------------
 
     /**
      * ghostPlay() — Plays a track without a visible card element
@@ -547,9 +547,9 @@ function initAudioPlayer(config) {
            });
        }
 
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // RESTORE STATE — Restore playback from localStorage
-     // -----------------------------------------------
+     // \-----------------------------------------------
 
     /**
      * restoreState() — Restores playback state from localStorage
@@ -643,9 +643,9 @@ function initAudioPlayer(config) {
            }
        }
 
-     // -----------------------------------------------
+     // \-----------------------------------------------
      // RENDER — Build and inject the player
-     // -----------------------------------------------
+     // \-----------------------------------------------
 
      // Detect touch device (hide volume controls on mobile)
     const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);

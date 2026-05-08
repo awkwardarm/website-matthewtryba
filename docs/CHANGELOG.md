@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.23] - 2026-05-07
+
+### Changed
+- Refined button animations: Moved idle breathing and hover aura effects to pseudo-elements (`::before`, `::after`) for better performance and reliability.
+- Updated various comments and formatting across CSS and JS files for better readability.
+- Standardized comment blocks in `shared-styles.css` and `audio-player-tracks.js`.
+
 ## [1.0.22] - 2026-05-06
 
 ### Changed

@@ -1,7 +1,7 @@
 /**
- * ============================================================
+ * \==========================================================
  * TRACK CONFIGURATION — Audio Player Data Source
- * ============================================================
+ * \==========================================================
  * 
  * PURPOSE:
  *     This file defines the TRACKS array, which is the single
@@ -29,25 +29,25 @@
  * USAGE:
  *     This file is imported via <script src="./audio-player-tracks.js">
  *     The TRACKS constant is then passed to initAudioPlayer({ tracks: TRACKS })
- * ============================================================
+ * \==========================================================
  */
 
-// ===============================================
+// \=============================================
 // TRACK CONFIG — edit here to update all pages
-// ===============================================
+// \=============================================
 // Each track needs: group, title, artist, src, artwork
 // group   → section heading (tracks with the same group string are grouped together)
 // src     → path relative to CDN_BASE (defined in shared-scripts.js)
 // artwork → path relative to CDN_BASE (optional)
 
 const TRACKS = [
-    // ------------------------------------------------
+    // \------------------------------------------------
     // GROUP 1: "For Major Labels: Engineering"
-    // ------------------------------------------------
+    // \------------------------------------------------
     // These tracks showcase engineering work done for
     // major label artists. They appear in a section
     // with this heading in the audio player.
-    // ------------------------------------------------
+    // \------------------------------------------------
 
     // Track 1: "Counting Stars" by OneRepublic
     //   Album: 1R Native (self-titled album)
@@ -93,9 +93,9 @@ const TRACKS = [
         artwork: CDN_BASE + "images/album-art/Adele%2025.jpg"
     },
 
-    // ------------------------------------------------
+    // \------------------------------------------------
     // HIDDEN GROUP — Not displayed in player grid
-    // ------------------------------------------------
+    // \------------------------------------------------
     // Tracks in this group are NOT shown in the main
     // player grid but CAN be played via direct links
     // (e.g., social proof album art clicks, prev/next
@@ -103,7 +103,7 @@ const TRACKS = [
     // 
     // Use this for bonus tracks, demos, or exclusive
     // content you want accessible but not prominent.
-    // ------------------------------------------------
+    // \------------------------------------------------
 
     // Hidden Track 1: "Maps" by Maroon 5
     //   Album: V
@@ -126,12 +126,12 @@ const TRACKS = [
         artwork: CDN_BASE + "images/album-art/burn-ellie-goulding.jpg"
     },
 
-    // ------------------------------------------------
+    // \------------------------------------------------
     // GROUP 2: "For Independent Artists: Production, Songwriting, & Mixing"
-    // ------------------------------------------------
+    // \------------------------------------------------
     // These tracks showcase full production, songwriting,
     // and mixing work done for independent artists.
-    // ------------------------------------------------
+    // \------------------------------------------------
 
     // Track 5: "Down With Me" by Yorxe
     //   Artwork: Down WIth Me.jpg

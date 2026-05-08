@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <!--
-        ============================================================
+       \===========================================================
         Audio Player Sandbox — Development Testing Page
-        ============================================================
+       \===========================================================
         PURPOSE:
             This file serves as an isolated testing environment for the audio player component.
             Use it to preview, test, and debug the player in isolation before integrating
@@ -31,7 +31,7 @@
                 - .container > h2  : Page heading ("Hear My Work")
                 - #player-root     : Mount point where the audio player renders
                 - Script tags to load tracks config and player init
-    ============================================================
+   \===========================================================
     -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,15 +42,15 @@
     <!-- Load audio player component styles (overrides/adds to shared styles) -->
     <link rel="stylesheet" href="./audio-player.css">
     <style>
-        /* ------------------------------------------------
+        /* \------------------------------------------------
            Sandbox body padding — adds breathing room
            around the player during testing
-        ------------------------------------------------ */
+        \------------------------------------------------ */
         body {
             padding: 60px 20px;
         }
 
-        /* ------------------------------------------------
+        /* \------------------------------------------------
            Sandbox Notes Panel
            
            Displays instructions for editing track data.
@@ -61,7 +61,7 @@
                .sandbox-notes          : Container panel
                .sandbox-notes h3       : Section heading
                .sandbox-notes code     : Inline code references
-        ------------------------------------------------ */
+        \------------------------------------------------ */
         .sandbox-notes {
             max-width: 900px;
             margin: 0 auto 60px;
@@ -93,13 +93,13 @@
 </head>
 <body>
 
-    <!-- ------------------------------------------------
+    <!-- \------------------------------------------------
         Sandbox Notes Panel
-        ------------------------------------------------
+        \------------------------------------------------
         This section provides inline documentation for
         developers to understand how to configure tracks.
         It is NOT present on production pages.
-    ------------------------------------------------ -->
+    \------------------------------------------------ -->
     <div class="sandbox-notes">
         <h3>Sandbox Notes</h3>
         <p>
@@ -114,9 +114,9 @@
         </p>
     </div>
 
-    <!-- ------------------------------------------------
+    <!-- \------------------------------------------------
         Audio Player Section
-        ------------------------------------------------
+        \------------------------------------------------
         This is the main container where the audio player
         component will be rendered. The <div id="player-root">
         serves as the mount point for initAudioPlayer().
@@ -125,7 +125,7 @@
             .container              : Standard page wrapper
             h2                      : Section heading
             #player-root            : Mount point for player
-    ------------------------------------------------ -->
+    \------------------------------------------------ -->
     <div class="container">
         <h2>Hear My Work</h2>
         <div id="player-root"></div>

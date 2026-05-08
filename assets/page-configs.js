@@ -1,7 +1,7 @@
 /**
- * ============================================================
+ * \===========================================================
  * PAGE CONFIGURATION — Landing Page Settings
- * ============================================================
+ * \===========================================================
  * 
  * PURPOSE:
  *     This file centralizes configuration for all landing pages.
@@ -27,7 +27,7 @@
  *     1. Add a new entry to PAGE_CONFIGS object
  *     2. Set all required fields (formAction, redirectUrl, etc.)
  *     3. Ensure page name matches across your routes
- * ============================================================
+ * \===========================================================
  */
 
 const PAGE_CONFIGS = {
