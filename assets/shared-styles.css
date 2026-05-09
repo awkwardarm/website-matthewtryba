@@ -918,6 +918,15 @@ section {
     color: var(--primary-color);
 }
 
+/* Form prompt: subheadline style for specific instructions */
+.form-prompt {
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--secondary-color);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
 /* Form inputs/select/textarea: shared styles */
 .form-group input,
 .form-group select,
