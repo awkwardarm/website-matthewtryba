@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.25] - 2026-05-09
+
+### Changed
+- Added `scroll-animate-golden` animation class to testimonial cards on the national landing page.
+- Refined formatting of the divider in the contact section for consistency.
+- Added links field in forms
+- Refined copy on landing page
+
 ## [1.0.24] - 2026-05-07
 
 ### Changed
