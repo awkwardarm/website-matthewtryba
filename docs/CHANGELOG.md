@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.26] - 2026-05-09
+
+### Changed
+- Refined contact form double-submission prevention logic in `shared-scripts.js`.
+- Improved button "Sending..." animation with a heartbeat check to ensure the status interval clears correctly if the button state changes or is removed.
+
 ## [1.0.25] - 2026-05-09
 
 ### Changed

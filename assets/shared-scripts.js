@@ -138,8 +138,15 @@ function validateForm() {
         btn.disabled = true;
         btn.classList.add('btn--sending');
         btn.textContent = 'Sending.';
+        
+        // Use a more reliable way to update text without potentially stacking intervals
         let dotCount = 1;
-        setInterval(() => {
+        const statusInterval = setInterval(() => {
+            // Check if the button still exists and is still in sending state
+            if (!btn || !btn.classList.contains('btn--sending')) {
+                clearInterval(statusInterval);
+                return;
+            }
             dotCount = (dotCount % 3) + 1;
             btn.textContent = 'Sending' + '.'.repeat(dotCount);
         }, 500);
