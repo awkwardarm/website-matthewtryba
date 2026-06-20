@@ -133,3 +133,26 @@
     left: 0 !important;
     margin: 0 0 10px 15px !important;
 }
+
+/* \===========================================================
+   BRAND TYPEFACE OVERRIDE — Manrope (replaces Futura PT)
+   \===========================================================
+   Squarespace's Design panel applies the site font via Adobe
+   Fonts ("futura-pt"), declared on :root as three custom
+   properties that EVERY component font inherits from:
+       --heading-font-font-family
+       --body-font-font-family
+       --meta-font-font-family
+   Editing font-family in shared-styles.css alone isn't enough —
+   Squarespace's own selectors (driven by these vars) out-rank it.
+   Overriding the three roots here re-themes the entire site in
+   one place. This file loads AFTER Squarespace's site.css, and
+   !important guards against re-declaration. Manrope itself is
+   loaded via the @import at the top of shared-styles.css.
+   \===========================================================
+   */
+:root {
+    --heading-font-font-family: "Manrope", system-ui, sans-serif !important;
+    --body-font-font-family: "Manrope", system-ui, sans-serif !important;
+    --meta-font-font-family: "Manrope", system-ui, sans-serif !important;
+}
