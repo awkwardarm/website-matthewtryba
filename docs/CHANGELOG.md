@@ -5,6 +5,100 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.26] - 2026-05-09
+
+### Changed
+- Refined contact form double-submission prevention logic in `shared-scripts.js`.
+- Improved button "Sending..." animation with a heartbeat check to ensure the status interval clears correctly if the button state changes or is removed.
+
+## [1.0.25] - 2026-05-09
+
+### Changed
+- Added `scroll-animate-golden` animation class to testimonial cards on the national landing page.
+- Refined formatting of the divider in the contact section for consistency.
+- Added links field in forms
+- Refined copy on landing page
+
+## [1.0.24] - 2026-05-07
+
+### Changed
+- Updated buttons to use animations only on CTA buttons.
+- Updated hero background to have subtle grdient from light top to blue background.
+- Refactored css styles out of home page and into shared-styles.css for better maintainability and consistency across pages.
+- Simplified form labels to "Name" and "Email"
+
+## [1.0.23] - 2026-05-07
+
+### Changed
+- Refined button animations: Moved idle breathing and hover aura effects to pseudo-elements (`::before`, `::after`) for better performance and reliability.
+- Updated various comments and formatting across CSS and JS files for better readability.
+- Standardized comment blocks in `shared-styles.css` and `audio-player-tracks.js`.
+
+## [1.0.22] - 2026-05-06
+
+### Changed
+- Submit button cycling dots now driven by JS `setInterval` instead of CSS keyframes — more reliable across all browsers
+- Removed unused `dot-fade` keyframe and `.sending-dots` CSS
+
+## [1.0.21] - 2026-05-06
+
+### Added
+- Idle breathing animation (`btn-idle-breathe`) on all `.btn` elements — subtle glow pulse at rest
+- Sending state animation on submit button — animated dots (`Sending...`) while form submits
+- `.btn--sending` class disables idle breathe and sets `cursor: not-allowed` during submission
+
+### Changed
+- Removed scroll-triggered button pop effect (unreliable on mobile) — buttons now simply breathe
+- Removed `heroTextReveal` animation — hero section is now fully static for reliability on mobile
+- Removed `box-shadow` from `.btn` transition to prevent it from fighting keyframe animations
+- Local asset loader now checks `!== production domain` instead of `=== localhost`, enabling mobile network preview
+- Scroll animate trigger moved to 90% from top (10% bottom margin) so cards animate sooner
+- Stripped `scroll-animate` from all `<p>` elements — only headings and cards animate in
+
+### Fixed
+- Hero headline invisible on mobile due to CSS animation timing race on slow networks
+- `rootMargin` had invalid `%px` units in IntersectionObserver — corrected to valid `%` values
+- Invalid RGB value `rgba(26, 115, 256, 0)` corrected to `rgba(26, 115, 232, 0)`
+- Stray orphan `}` in `shared-styles.css` that was breaking CSS parsing
+
+## [1.0.20] - 2026-05-06
+
+### Changed
+- fixed padding on hero section to be symmetrical.
+
+## [1.0.19] - 2026-05-06
+
+### Changed
+- Reduced hero section top padding
+
+### Fixed
+- Fixed syntax error in `assets/shared-styles.css`
+
+## [1.0.18] - 2026-04-29
+
+### Added
+- Hero section animated gradient background with subtle `heroGradientShift` keyframe animation
+- Hero CTA button gradient background with glow effect and `btn-aura-pulse` animation
+- Hero text reveal animation (`heroTextReveal`) — h1 and subheadline fade in with slide-up effect
+- Scroll-triggered animations via `initializeScrollAnimations()` using Intersection Observer
+- Form invite animation — pulsing border on first input field (`initializeFormInviteAnimation()`)
+- Contact form entrance animation — triggers when form scrolls into view (`initializeContactFormAnimation()`)
+- Shared footer component — `renderSharedFooter()` renders consistent footer across all pages
+- Golden shadow pulse animation for service cards and testimonial cards (`.scroll-animate-golden`)
+- Scroll indicator SVG in landing page hero section
+- `vscode-file:` protocol check for local preview asset loading
+- New CSS variables: `--accent-secondary`, `--gradient-primary`
+
+### Changed
+- Increased h2 font size from 2.2rem to 3.5rem
+- Enhanced `.btn` hover states with gradient background, glow, and transform effects
+- Added `scroll-animate` and `scroll-animate-golden` classes to sections, cards, and headings across pages
+- Hero content wrapped in `.container` with `z-index: 1` for proper layering over gradient overlay
+- Various formatting and indentation cleanup across all edited files
+
+### Fixed
+- Form control invite animation now stops on focus to prevent distraction
+
 ## [1.0.17] - 2026-04-18
 
 ### Fixed

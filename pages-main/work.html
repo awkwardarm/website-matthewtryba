@@ -7,13 +7,13 @@
 
    <!-- Load Assets for Local Preview only -->
     <script>
-        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
-            document.write('<link rel="stylesheet" href="../assets/shared-styles.css">');
-            document.write('<link rel="stylesheet" href="../assets/audio-player.css">');
-            document.write('<script src="../assets/shared-scripts.js"><\/script>');
-            document.write('<script src="../assets/page-configs.js"><\/script>');
-            document.write('<script src="../assets/audio-player-tracks.js"><\/script>');
-            document.write('<script src="../assets/audio-player.js"><\/script>');
+        if (location.hostname !== 'www.matthewtryba.com' && location.hostname !== 'matthewtryba.com') {
+            document.write('<link rel="stylesheet" href="/assets/shared-styles.css">');
+            document.write('<link rel="stylesheet" href="/assets/audio-player.css">');
+            document.write('<script src="/assets/shared-scripts.js"><\/script>');
+            document.write('<script src="/assets/page-configs.js"><\/script>');
+            document.write('<script src="/assets/audio-player-tracks.js"><\/script>');
+            document.write('<script src="/assets/audio-player.js"><\/script>');
         }
     </script>
 
@@ -85,12 +85,6 @@
             </div>
         </div>
     </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; <span id="year"></span> TRYBA MUSIC, LLC. All Rights Reserved. <a href="/home" style="color: var(--secondary-color);">Home</a></p>
-        </div>
-    </footer>
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
