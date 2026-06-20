@@ -55,6 +55,11 @@
        Uncomment the dark mode block (lines 17-23)
    \===========================================================
    */
+
+/* Brand typeface: Manrope (Google Fonts, OFL — free for commercial use).
+   Replaces Futura PT. Must precede all style rules. */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+
 :root {
       /* Light Mode (default) - Comment out to disable */
       --primary-color: #0d0d0d;
@@ -91,7 +96,7 @@ html {
 /* Body: font, colors, line-height, font smoothing */
 body {
     margin: 0;
-    font-family: "Futura PT", sans-serif;
+    font-family: "Manrope", system-ui, sans-serif;
     background-color: var(--background-color);
     color: var(--primary-color);
     line-height: 1.3;
@@ -757,14 +762,14 @@ section {
     border: 1px solid var(--border-color);
 }
 
-/* Form inputs: full width, Futura font */
+/* Form inputs: full width, Manrope font */
 .form-control {
     width: 100%;
     padding: 12px;
     border: 1px solid var(--border-color);
     border-radius: 5px;
     font-size: 1rem;
-    font-family: "Futura PT", sans-serif;
+    font-family: "Manrope", system-ui, sans-serif;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     box-sizing: border-box;
 }
@@ -936,7 +941,7 @@ section {
     border: 1px solid var(--border-color);
     border-radius: 5px;
     font-size: 1rem;
-    font-family: "Futura PT", sans-serif;
+    font-family: "Manrope", system-ui, sans-serif;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
