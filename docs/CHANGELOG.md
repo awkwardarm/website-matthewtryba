@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.29] - 2026-06-20
+
+### Changed
+- Switched the site's brand typeface from **Manrope** to **Outfit** (Google Fonts, OFL — free for commercial use).
+  - Updated the `@import` (weights 400/500/600/700) and the `font-family` declarations on `body`, `.form-control`, and `.form-group` inputs in `shared-styles.css` to `"Outfit", system-ui, sans-serif`.
+  - Updated the `:root` font-variable override in `squarespace-overrides.css` (`--heading-font-font-family`, `--body-font-font-family`, `--meta-font-font-family`) to `"Outfit", system-ui, sans-serif !important`, so Outfit wins over Squarespace's Adobe Fonts (Futura PT).
+
 ## [1.0.28] - 2026-06-20
 
 ### Fixed
