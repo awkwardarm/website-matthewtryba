@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(rm -f .claude/launch.json && rmdir .claude 2>/dev/null; git status --short)"
+    ]
+  }
+}
