@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.30] - 2026-06-30
+
+### Added
+- **GCLID / Google Ads click attribution on form submissions** (`shared-scripts.js`). Every lead can now be tied back to the Google Ads campaign / keyword that produced it.
+  - New `initializeAdsAttribution()` reads `gclid` (plus the iOS-era `gbraid` / `wbraid`) from the landing URL and persists each to a first-party cookie (`SameSite=Lax`, 90-day window — matches Google Ads' default click-to-conversion window). A fresh ad click overwrites a stale stored id.
+  - On every page it injects the stored click id(s) into **every** `<form>` as hidden inputs (`gclid`, `gbraid`, `wbraid`), so the id is submitted to Formbold alongside name/email/message. Ids with no value are skipped to keep submissions clean.
+  - The cookie means attribution survives cross-page navigation and repeat visits — the id only appears in the URL on the first ad-click landing, but the form may be submitted on a different page or in a later session.
+  - Added `setCookie()` / `getCookie()` first-party cookie helpers. Wired into both auto-init branches; no per-page HTML changes required (works on the landing and home forms today and any form added later).
+  - **Fail-safe:** the entire attribution routine is wrapped in `try/catch` (with per-write and per-form guards) and never touches the form's submit handler. A blank/missing gclid, disabled cookies, or any runtime error can't block the contact submission — worst case the lead simply arrives without a click id.
+
 ## [1.0.29] - 2026-06-20
 
 ### Changed

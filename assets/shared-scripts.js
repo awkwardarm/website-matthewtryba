@@ -177,6 +177,131 @@ function initializeContactForm() {
 }
 
 // \===========================================================
+// GOOGLE ADS CLICK ATTRIBUTION (GCLID)
+// \===========================================================
+// Captures the Google Ads click identifier from the landing URL,
+// persists it in a first-party cookie, and injects it into every
+// form as a hidden field. This lets each lead be attributed back
+// to the exact Google Ads campaign / keyword that produced it.
+//
+// WHY A COOKIE:
+//     A visitor may click the ad and land on one page, then browse
+//     to another page (or return in a later session) before they
+//     submit the form. The click id only appears in the URL on the
+//     first ad-click landing, so we stash it in a first-party cookie
+//     that survives navigation and repeat visits, scoped to Google's
+//     ~90-day click-to-conversion window.
+//
+// PARAMETERS CAPTURED:
+//     gclid  — standard Google Ads click id (web auto-tagging)
+//     gbraid — click id for app-to-web iOS conversions
+//     wbraid — click id for web-to-web iOS conversions
+//
+// The form backend (Formbold) receives whichever ids are present as
+// named fields alongside the lead's name/email/message.
+// \===========================================================
+
+// Query params to capture. gclid is the primary Google Ads click id;
+// gbraid/wbraid are its iOS-era equivalents and cost nothing to carry.
+const ADS_CLICK_PARAMS = ['gclid', 'gbraid', 'wbraid'];
+
+// How long to remember a click id, in days. Matches Google Ads' default
+// 90-day click-to-conversion attribution window.
+const ADS_CLICK_COOKIE_DAYS = 90;
+
+/**
+ * setCookie() — Write a first-party cookie
+ *
+ * @param {string} name  — cookie name
+ * @param {string} value — cookie value (URL-encoded on write)
+ * @param {number} days  — days until expiry
+ */
+function setCookie(name, value, days) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = name + '=' + encodeURIComponent(value) +
+        ';expires=' + expires.toUTCString() + ';path=/;SameSite=Lax';
+}
+
+/**
+ * getCookie() — Read a first-party cookie
+ *
+ * @param {string} name — cookie name
+ * @returns {string} decoded value, or '' if not set
+ */
+function getCookie(name) {
+    const escaped = name.replace(/([.*+?^${}()|[\]\\])/g, '\\$1');
+    const match = document.cookie.match('(?:^|; )' + escaped + '=([^;]*)');
+    return match ? decodeURIComponent(match[1]) : '';
+}
+
+/**
+ * initializeAdsAttribution() — Capture and attach Google Ads click ids
+ *
+ * Runs on every page load:
+ *    1. Reads gclid/gbraid/wbraid from the URL query string and, when
+ *       present, (re)writes them to first-party cookies. A fresh ad
+ *       click always overwrites a stale stored id.
+ *    2. For every <form> on the page, ensures a hidden input exists for
+ *       each stored click id and sets its value, so the id is submitted
+ *       with the lead. Ids with no value are skipped to keep submissions
+ *       clean.
+ *
+ * FAIL-SAFE: attribution is a "nice to have" bolted onto the form; the
+ * contact submission is imperative. The entire body is wrapped in
+ * try/catch so that nothing here — a blank/missing gclid, cookies
+ * disabled, a privacy sandbox throwing on document.cookie, anything —
+ * can ever block the form from submitting or break the rest of page
+ * init. A worst case just means the lead arrives without a click id.
+ * This function also never touches the form's submit handler or calls
+ * preventDefault, so it cannot stop a submission by construction.
+ *
+ * Called automatically on DOMContentLoaded.
+ */
+function initializeAdsAttribution() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+
+        // 1. Persist any click ids present in this URL. Guard each write
+        //    so one failing cookie can't skip the others.
+        ADS_CLICK_PARAMS.forEach(key => {
+            try {
+                const urlValue = params.get(key);
+                if (urlValue) {
+                    setCookie(key, urlValue, ADS_CLICK_COOKIE_DAYS);
+                }
+            } catch (e) { /* cookies blocked — carry on */ }
+        });
+
+        // 2. Inject stored click ids into every form as hidden fields.
+        //    Guard per form so a problem on one form can't affect another.
+        document.querySelectorAll('form').forEach(form => {
+            try {
+                ADS_CLICK_PARAMS.forEach(key => {
+                    let value = '';
+                    try { value = params.get(key) || getCookie(key); } catch (e) { value = params.get(key) || ''; }
+                    if (!value) return;
+
+                    let field = form.querySelector('input[name="' + key + '"]');
+                    if (!field) {
+                        field = document.createElement('input');
+                        field.type = 'hidden';
+                        field.name = key;
+                        form.appendChild(field);
+                    }
+                    field.value = value;
+                });
+            } catch (e) { /* skip this form, keep the rest working */ }
+        });
+    } catch (e) {
+        // Never let attribution interfere with the contact form.
+        if (window.console && console.warn) {
+            console.warn('Ads attribution skipped:', e);
+        }
+    }
+}
+
+// \===========================================================
 // FORM INVITE ANIMATION
 // \===========================================================
 // Adds a pulsing highlight to the first visible input field
@@ -433,17 +558,19 @@ function initializeFormInviteAnimation() {
 //
 // INITIALIZED FEATURES (in order):
 //    1. initializeContactForm()           — Form spam validation
-//    2. hydrateCdnImages()               — CDN image resolution
-//    3. initializeFormInviteAnimation()  — Pulse first field
-//    4. initializeContactFormAnimation() — Scroll entrance
-//    5. renderSharedFooter()             — Render footer
-//    6. initializeScrollAnimations()     — Scroll animations
+//    2. initializeAdsAttribution()        — Capture/attach GCLID
+//    3. hydrateCdnImages()               — CDN image resolution
+//    4. initializeFormInviteAnimation()  — Pulse first field
+//    5. initializeContactFormAnimation() — Scroll entrance
+//    6. renderSharedFooter()             — Render footer
+//    7. initializeScrollAnimations()     — Scroll animations
 // \===========================================================
 
    // Auto-initialize when DOM is ready
    if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => {
           initializeContactForm();
+          initializeAdsAttribution();
           hydrateCdnImages();
           initializeFormInviteAnimation();
           initializeContactFormAnimation();
@@ -452,6 +579,7 @@ function initializeFormInviteAnimation() {
          });
      } else {
       initializeContactForm();
+      initializeAdsAttribution();
       hydrateCdnImages();
       initializeFormInviteAnimation();
       initializeContactFormAnimation();

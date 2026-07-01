@@ -215,6 +215,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 - **Update site-wide colors** → Edit `shared-styles.css` `:root` variables
 - **Change form submission** → Edit `page-configs.js` configurations
 - **Add spam filter** → Update `shared-scripts.js` spam patterns
+- **Google Ads lead attribution (GCLID)** → Handled automatically by `initializeAdsAttribution()` in `shared-scripts.js`; the `gclid`/`gbraid`/`wbraid` click ids are captured from the URL, stored in a 90-day first-party cookie, and injected as hidden fields into every form (submitted to Formbold). No per-page setup needed
 - **Add/remove audio tracks** → Edit `audio-player-tracks.js`, commit with a new version tag, update `CDN_VERSION` in Squarespace Code Injection; upload new MP3/artwork files directly to Cloudflare R2
 - **Create new page** → See [CREATING-PAGES.md](CREATING-PAGES.md)
 - **Deploy changes** → See [DEPLOYMENT.md](DEPLOYMENT.md)
