@@ -79,6 +79,18 @@ Add `noindex: true` to its front matter (the thank-you and download pages do thi
 
 Every push to any other branch gets its own preview URL (`*.pages.dev`) — use those to review changes before merging to `main`.
 
+### Tools signup email (one-time setup)
+
+The `/tools` form posts to a Pages Function (`functions/api/tools-signup.js`) that emails the download link via **Resend** (free tier: 100 emails/day). To activate it:
+
+1. Sign up at [resend.com](https://resend.com) and verify `matthewtryba.com` as a sending domain (it gives you a few DNS records to add — takes 2 minutes once DNS is on Cloudflare).
+2. Create an API key in Resend.
+3. In the Cloudflare Pages project: **Settings → Environment variables** → add `RESEND_API_KEY` with that key (Production + Preview).
+
+Until the key is configured, the form still works — submitters are sent directly to the download page instead of receiving an email. Submissions are recorded in Formbold either way.
+
+> Note: Pages Functions don't run under `npm run serve` (that's Eleventy only). To test the function locally: `npx wrangler pages dev _site`.
+
 ---
 
 ## Rollback

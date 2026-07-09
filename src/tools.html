@@ -45,10 +45,10 @@ permalink: /tools/
     <section class="signup-section" id="download">
         <div class="container">
             <h2>Sign Up to Download</h2>
-            <p style="text-align:center;">Get these tools for free by filling out the form below:</p>
+            <p style="text-align:center;">Get these tools for free — fill out the form and <strong>I'll email you the download link</strong>.</p>
+            <p style="text-align:center; font-size: 0.95rem; color: var(--secondary-color);">The link is delivered to your inbox, so double-check that your email address is correct.</p>
             <div id="contact-form-container">
                 <form id="contact-form" action="" method="POST">
-                    <input type="hidden" name="_redirect" value="" id="form-redirect">
                     <input type="hidden" name="source" value="tools-page">
 
                     <div class="form-group honeypot-field">
@@ -66,9 +66,9 @@ permalink: /tools/
                     </div>
                     <div class="form-group consent-group">
                         <input type="checkbox" id="consent" name="consent" value="yes" required>
-                        <label for="consent">Required: consent to receive download link.</label>
+                        <label for="consent">Required: consent to receive the download link by email.</label>
                     </div>
-                    <button type="submit" class="btn" style="width: 100%;">Get The Tools</button>
+                    <button type="submit" class="btn" style="width: 100%;">Email Me The Tools</button>
                     <p id="form-status"></p>
                 </form>
             </div>
@@ -80,7 +80,8 @@ permalink: /tools/
         window.onCDNReady = function() {
             const pageConfig = getPageConfig('tools');
 
+            // Redirect after submit is handled server-side by the
+            // Pages Function (functions/api/tools-signup.js)
             document.getElementById('contact-form').action = pageConfig.formAction;
-            document.getElementById('form-redirect').value = pageConfig.redirectUrl;
         };
     </script>

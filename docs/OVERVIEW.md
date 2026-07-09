@@ -72,6 +72,7 @@ website-matthewtryba/
 | **Cloudflare R2** | Audio MP3s, artwork, tool downloads | `pub-869789a451fa44dbadf9e27cd445afa0.r2.dev` |
 | **Formbold** | Form submissions | endpoints in `assets/page-configs.js` |
 | **Stripe** | Donations (Payment Link) | link in `assets/page-configs.js` |
+| **Resend** | Sends the tools download email | `RESEND_API_KEY` env var in the Pages project |
 | **Google Ads / gtag** | Tracking + lead conversions | tag `AW-17389653886` in `base.njk`; conversion events on thank-you pages |
 
 ---
@@ -85,7 +86,7 @@ Per-page dynamic values (form endpoints, redirect URLs, download/donate links) l
 Forms post to Formbold. `shared-scripts.js` adds spam protection (honeypot + name blocklist) and Google Ads click-id attribution (`gclid` captured to a 90-day cookie, injected as hidden fields). After submit, users are redirected to an obfuscated thank-you page, which fires the Google Ads conversion event.
 
 ### Tools download flow
-`/tools` signup form → Formbold → redirect to the obfuscated download page (`noindex`) → download buttons + Stripe donate link.
+`/tools` signup form → Pages Function `/api/tools-signup` (`functions/api/tools-signup.js`), which records the submission in Formbold, **emails the download link via Resend** (verifying the address is real), and redirects to `/thank-you-tools`. The email links to the obfuscated download page (`noindex`) with download buttons + Stripe donate link. If the email can't be sent, the user is redirected straight to the download page instead.
 
 ### data-cdn images
 `<img data-cdn="images/...">` is resolved by `hydrateCdnImages()` to the R2 bucket URL. Images under `/images/` in the repo are served by the site directly.

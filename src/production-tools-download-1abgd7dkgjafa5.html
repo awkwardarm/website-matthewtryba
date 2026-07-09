@@ -31,12 +31,14 @@ noindex: true
                 <h2>Stem Logic</h2>
                 <p>I made an AppleScript that exports every individual audio file through the master chain in Logic Pro.</p>
                 <a id="download-stem-logic" href="" class="btn">Download Stem Logic</a>
+                <a id="donate-stem-logic" href="" class="btn btn-secondary" target="_blank" rel="noopener">Donate for Stem Logic</a>
             </div>
 
             <div class="download-item">
                 <h2>Transpose All</h2>
                 <p>An Ableton Max for Live device that globally transposes all midi tracks at once with one knob.</p>
                 <a id="download-transpose-all" href="" class="btn">Download Transpose All</a>
+                <a id="donate-transpose-all" href="" class="btn btn-secondary" target="_blank" rel="noopener">Donate for Transpose All</a>
             </div>
         </div>
     </section>
@@ -61,8 +63,16 @@ noindex: true
         window.onCDNReady = function() {
             const pageConfig = getPageConfig('tools-download');
 
+            // Per-tool donate: dedicated Payment Link if configured, otherwise
+            // the shared link tagged with client_reference_id for attribution
+            const donateFor = (key, refId) =>
+                (pageConfig.donateUrls && pageConfig.donateUrls[key]) ||
+                pageConfig.donateUrl + '?client_reference_id=' + refId;
+
             document.getElementById('download-stem-logic').href = pageConfig.downloads.stemLogic;
             document.getElementById('download-transpose-all').href = pageConfig.downloads.transposeAll;
-            document.getElementById('donate-link').href = pageConfig.donateUrl;
+            document.getElementById('donate-stem-logic').href = donateFor('stemLogic', 'stem-logic');
+            document.getElementById('donate-transpose-all').href = donateFor('transposeAll', 'transpose-all');
+            document.getElementById('donate-link').href = pageConfig.donateUrl + '?client_reference_id=general';
         };
     </script>

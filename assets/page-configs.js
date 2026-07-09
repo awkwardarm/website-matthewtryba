@@ -52,12 +52,10 @@ const PAGE_CONFIGS = {
         aboutImage: '/images/profile-photos/profile-photo-IMG_5507.jpeg'
      },
      'tools': {
-        // TODO(matthew): create a new form in Formbold for the tools signup
-        formAction: 'https://formbold.com/s/9kKyO',
-        redirectUrl: location.origin + 'NEW_PAGE'
-        // (so submissions are tracked separately) and paste its endpoint here.
-        // Optional: enable Formbold's autoresponse to also email the download
-        // page link: https://www.matthewtryba.com/production-tools-download-1abgd7dkgjafa5
+        // Posts to a Cloudflare Pages Function that records the submission
+        // in Formbold (9kKyO), emails the download link via Resend, then
+        // redirects to /thank-you-tools. See functions/api/tools-signup.js
+        formAction: '/api/tools-signup'
      },
 
      'tools-download': {
@@ -69,10 +67,18 @@ const PAGE_CONFIGS = {
             stemLogic: 'https://drive.google.com/uc?export=download&id=1O0cBMKBXyA1rABFLiQ71-GSfbWBQrqtA',
             transposeAll: 'https://drive.google.com/uc?export=download&id=1vwJVBGM2bYY-hGehgbZRFQoSZNJXx8sI'
         },
-        // TODO(matthew): create a Payment Link in the Stripe dashboard
-        // (Products → Payment Links → "Customer chooses price", enable
-        // recurring options if desired) and paste its URL here.
-        donateUrl: 'https://donate.stripe.com/REPLACE_WITH_PAYMENT_LINK'
+        // Stripe Payment Link (donations — any amount).
+        // Per-tool attribution: the download page appends
+        // ?client_reference_id=stem-logic / transpose-all to this link, and
+        // that id appears on each payment in the Stripe dashboard/exports.
+        donateUrl: 'https://donate.stripe.com/00wdR2bT4cKi886aT4gUM02',
+        // Optional: for per-link revenue reports in Stripe instead, create a
+        // separate Payment Link per tool and paste it below — a non-empty
+        // value here overrides the client_reference_id approach.
+        donateUrls: {
+            stemLogic: '',
+            transposeAll: ''
+        }
      }
 };
 
