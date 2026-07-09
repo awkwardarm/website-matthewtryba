@@ -53,12 +53,13 @@ const PAGE_CONFIGS = {
      },
      'tools': {
         // TODO(matthew): create a new form in Formbold for the tools signup
+        formAction: 'https://formbold.com/s/9kKyO',
+        redirectUrl: location.origin + 'NEW_PAGE'
         // (so submissions are tracked separately) and paste its endpoint here.
         // Optional: enable Formbold's autoresponse to also email the download
         // page link: https://www.matthewtryba.com/production-tools-download-1abgd7dkgjafa5
-        formAction: 'https://formbold.com/s/REPLACE_WITH_TOOLS_FORM_ID',
-        redirectUrl: location.origin + '/production-tools-download-1abgd7dkgjafa5?source=tools-page'
      },
+
      'tools-download': {
         // Download files — currently on Google Drive.
         // After uploading to the R2 bucket (downloads/ folder), swap to:
