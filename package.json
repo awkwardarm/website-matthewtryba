@@ -1,0 +1,13 @@
+{
+  "name": "website-matthewtryba",
+  "version": "2.0.0",
+  "private": true,
+  "description": "matthewtryba.com — static site built with Eleventy, hosted on Cloudflare Pages",
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

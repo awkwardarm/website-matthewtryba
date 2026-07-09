@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    {%- if noindex %}
+    <meta name="robots" content="noindex, nofollow">
+    {%- else %}
+    <link rel="canonical" href="https://www.matthewtryba.com{{ page.url }}">
+    {%- endif %}
+
+    <meta property="og:site_name" content="Matthew Tryba">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.matthewtryba.com{{ page.url }}">
+    <meta property="og:image" content="https://www.matthewtryba.com/images/profile-photos/profile-photo-IMG_5596.jpeg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta name="google-site-verification" content="C6rIbGf37oPNtwidRGBKWA6wnrsLsSVH9P4v8ZzXo9E">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17389653886"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'AW-17389653886');
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Matthew Tryba",
+        "url": "https://www.matthewtryba.com",
+        "image": "https://www.matthewtryba.com/images/profile-photos/profile-photo-IMG_5596.jpeg",
+        "description": "Denver-based music producer creating hand-crafted Pop & Adult Contemporary records.",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Denver",
+            "addressRegion": "CO",
+            "addressCountry": "US"
+        }
+    }
+    </script>
+
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/assets/shared-styles.css">
+    <link rel="stylesheet" href="/assets/audio-player.css">
+    <link rel="stylesheet" href="/assets/site-chrome.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="/" class="site-logo" aria-label="Matthew Tryba — Home">
+                <img src="/images/branding/tryba-mark-512.png" alt="" onerror="this.remove()">
+                <span class="site-logo-text">Matthew Tryba</span>
+            </a>
+            <nav class="site-nav" aria-label="Main">
+                <a href="/" {% if page.url == "/" %}class="active" aria-current="page"{% endif %}>home</a>
+                <a href="/about/" {% if page.url == "/about/" %}class="active" aria-current="page"{% endif %}>about</a>
+                <a href="/work/" {% if page.url == "/work/" %}class="active" aria-current="page"{% endif %}>work</a>
+                <a href="/tools/" {% if page.url == "/tools/" %}class="active" aria-current="page"{% endif %}>tools</a>
+                <a href="/faq/" {% if page.url == "/faq/" %}class="active" aria-current="page"{% endif %}>faq</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+{{ content | safe }}
+    </main>
+
+    <!-- Populated by renderSharedFooter() in shared-scripts.js -->
+    <footer></footer>
+
+    <!-- Site scripts — load order matters (was previously the Squarespace Code Injection footer loader) -->
+    <script src="/assets/shared-scripts.js"></script>
+    <script src="/assets/page-configs.js"></script>
+    <script src="/assets/audio-player-tracks.js"></script>
+    <script src="/assets/audio-player.js"></script>
+    <script>
+        if (typeof initAudioPlayer === 'function' && typeof TRACKS !== 'undefined') {
+            initAudioPlayer({ tracks: TRACKS });
+        }
+        if (typeof window.onCDNReady === 'function') window.onCDNReady();
+    </script>
+</body>
+</html>

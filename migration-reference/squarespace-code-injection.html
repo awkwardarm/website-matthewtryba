@@ -1,0 +1,34 @@
+<!--
+  ===========================================================
+  REFERENCE — Squarespace Code Injection (Settings → Advanced)
+  ===========================================================
+  Saved 2026-07-09 during the Squarespace → Cloudflare migration.
+  Header injection below as provided (live version was v1.0.30).
+  The footer injection (jsDelivr JS loader) is documented in
+  docs/DEPLOYMENT.md. Both are superseded by src/_includes/base.njk,
+  which loads assets directly — no CDN version tag needed.
+  ===========================================================
+-->
+
+<meta name="google-site-verification" content="C6rIbGf37oPNtwidRGBKWA6wnrsLsSVH9P4v8ZzXo9E" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17389653886"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17389653886');
+</script>
+
+<!-- Global CSS -->
+<script>window.CDN_VERSION = 'v1.0.30';</script>
+<script>
+  (function(){
+    var b = 'https://cdn.jsdelivr.net/gh/awkwardarm/website-matthewtryba@' + window.CDN_VERSION + '/assets/';
+    ['shared-styles.css','squarespace-overrides.css','audio-player.css'].forEach(function(f){
+      document.head.insertAdjacentHTML('beforeend','<link rel="stylesheet" href="'+b+f+'">');
+    });
+  })();
+</script>

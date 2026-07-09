@@ -1,23 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Matthew Tryba | Music Producer</title>
-     
-     <!-- Load Assets for Local Preview only -->
-     <script>
-        if (location.hostname !== 'www.matthewtryba.com' && location.hostname !== 'matthewtryba.com') {
-            document.write('<link rel="stylesheet" href="/assets/shared-styles.css">');
-            document.write('<link rel="stylesheet" href="/assets/audio-player.css">');
-            document.write('<script src="/assets/shared-scripts.js"><\/script>');
-            document.write('<script src="/assets/page-configs.js"><\/script>');
-            document.write('<script src="/assets/audio-player-tracks.js"><\/script>');
-            document.write('<script src="/assets/audio-player.js"><\/script>');
-         }
-     </script>
-
-     <!-- Page-specific styles if needed -->
+---
+layout: base.njk
+title: Matthew Tryba | Music Producer
+description: Get a major label sound with Denver music producer Matthew Tryba. With credits for Taylor Swift & OneRepublic, I turn your raw song ideas into radio-ready masters. Start now.
+permalink: /welcome-2/
+---
+     <!-- National landing page (Google Ads final URL: /welcome-2) -->
      <style>
          .audio-samples {
             margin-top: -40px;
@@ -27,12 +14,9 @@
             margin-bottom: 40px;
          }
      </style>
-</head>
-<body>
 
      <section class="hero">
           <div class="container">
-              <!-- <img src="" alt="Matthew Tryba in his studio" id="hero-image"> -->
               <div class="hero-content">
                   <h1>Major Label Sound for Independent Artists</h1>
                   <p class="hero-subheadline">I'm Matthew Tryba, a music producer in Denver, Colorado and I help you write and record songs with proven RIAA Diamond certified quality. I specialize in Pop, Adult Contemporary, and Dark Pop.</p>
@@ -71,8 +55,6 @@
          </div>
      </section>
 
- 
-     
      <section class="testimonials">
          <div class="container">
              <h2 class="scroll-animate">What Artists Are Saying</h2>
@@ -150,7 +132,7 @@
                   <p><strong>The Problem</strong></p>
                   <p>Are those unfinished gems gathering dust on your hard drive because you can’t quite figure out the next move? Do your songs feel stuck in "loop land" or trapped inside of you and waiting for a high caliber release?</p>
                   <p>Perhaps you have a vision for a specific sound but you find yourself needing instrumentation or technical precision that goes beyond what you can currently record alone at home.</p>
-                  
+
                   <p><strong>The Solution</strong></p>
                   <p>I act as your musical and technical guide to help you break through those walls. As a multi-instrumentalist, producer, and engineer, I provide the hands-on musicianship and technical acumen needed to move a song from a loop or rough sketch to a finished, emotionally resonant master release.</p>
                   <p>We work together to hone your music, ensuring every creative choice serves the core emotion of the song. You can stop worrying about the technical hurdles and focus on what you do best: being an artist. I’ll become an extension of your artistry, navigating the heavy lifting and holding the production to a standard that speaks for itself.</p>
@@ -158,7 +140,7 @@
               </div>
           </div>
       </section>
-     
+
       <section class="feature-section about" style="background-color: var(--surface-color);">
           <h2 class="about-heading scroll-animate">More Than A Producer - A Partner In Your Sound</h2>
           <div class="container">
@@ -171,7 +153,7 @@
               </div>
           </div>
       </section>
-     
+
       <section class="page-section contact" id="contact">
           <div class="container px-4 px-lg-5">
               <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -185,12 +167,12 @@
                   <div id="contact-form-container">
                       <form id="contact-form" action="" method="POST">
                           <input type="hidden" name="_redirect" value="" id="form-redirect">
-                         
+
                           <div class="form-group honeypot-field">
                               <label for="_honeypot">Leave this field empty</label>
                               <input type="text" id="_honeypot" name="_honeypot" autocomplete="off" tabindex="-1">
                           </div>
-                         
+
                           <div class="form-group">
                               <label for="name">Name <span style="font-weight: normal; color: #666;">(required)</span></label>
                               <input type="text" id="name" name="name" class="form-control" required>
@@ -219,26 +201,15 @@
 
       <!-- Load reCAPTCHA -->
       <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
-     
+
       <!-- Page-specific initialization -->
       <script>
          window.onCDNReady = function() {
              const pageConfig = getPageConfig('national-landing');
-             
+
              document.getElementById('contact-form').action = pageConfig.formAction;
              document.getElementById('form-redirect').value = pageConfig.redirectUrl;
               // document.querySelector('.g-recaptcha').setAttribute('data-sitekey', pageConfig.recaptchaSiteKey);
              document.getElementById('about-image').src = pageConfig.aboutImage;
-             document.getElementById('year').textContent = new Date().getFullYear();
           };
       </script>
-
-      <!-- Audio Player initialized by Code Injection footer loader -->
-      <script>
-          // For local preview — on Squarespace, Code Injection footer loader handles this
-         if (typeof initAudioPlayer === 'function' && typeof TRACKS !== 'undefined') {
-             initAudioPlayer({ tracks: TRACKS });
-          }
-      </script>
-</body>
-</html>

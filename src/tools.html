@@ -1,0 +1,86 @@
+---
+layout: base.njk
+title: Tools | Matthew Tryba
+description: Tools and utilities created by Matthew Tryba to help in music production for Ableton Live and Apple Logic Pro.
+permalink: /tools/
+---
+    <style>
+        .page-hero { text-align: center; padding: 60px 0; background-color: var(--surface-color); }
+        .tool-item { max-width: 800px; margin: 0 auto 60px auto; }
+        .tool-item h2 { text-align: left; }
+        .tool-item .video-wrapper { margin-top: 1.5rem; }
+        .signup-section { background-color: var(--surface-color); }
+        .consent-group { display: flex; align-items: flex-start; gap: 10px; }
+        .consent-group input[type="checkbox"] { margin-top: 5px; flex-shrink: 0; }
+        .consent-group label { font-weight: normal; font-size: 16px; line-height: 1.4; }
+    </style>
+
+    <header class="page-hero">
+        <div class="container">
+            <h1>Production Tools</h1>
+            <p>Free tools and utilities I've built to speed up music production in Ableton Live and Apple Logic Pro.</p>
+        </div>
+    </header>
+
+    <section>
+        <div class="container">
+            <div class="tool-item">
+                <h2>Transpose All for Ableton Live Suite</h2>
+                <p>Transpose all midi tracks in Ableton with one knob.</p>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/SG6F8H0YKak" title="Transpose All for Ableton Live demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="tool-item">
+                <h2>Stem Logic for Logic Pro</h2>
+                <p>Automate exporting all individual tracks solo'd through the master in Logic Pro.</p>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/dAX1SxtWb60" title="Stem Logic for Logic Pro demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="signup-section" id="download">
+        <div class="container">
+            <h2>Sign Up to Download</h2>
+            <p style="text-align:center;">Get these tools for free by filling out the form below:</p>
+            <div id="contact-form-container">
+                <form id="contact-form" action="" method="POST">
+                    <input type="hidden" name="_redirect" value="" id="form-redirect">
+                    <input type="hidden" name="source" value="tools-page">
+
+                    <div class="form-group honeypot-field">
+                        <label for="_honeypot">Leave this field empty</label>
+                        <input type="text" id="_honeypot" name="_honeypot" autocomplete="off" tabindex="-1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Name <span style="font-weight: normal; color: #666;">(required)</span></label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email <span style="font-weight: normal; color: #666;">(required)</span></label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="form-group consent-group">
+                        <input type="checkbox" id="consent" name="consent" value="yes" required>
+                        <label for="consent">Required: consent to receive download link.</label>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Get The Tools</button>
+                    <p id="form-status"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page-specific initialization -->
+    <script>
+        window.onCDNReady = function() {
+            const pageConfig = getPageConfig('tools');
+
+            document.getElementById('contact-form').action = pageConfig.formAction;
+            document.getElementById('form-redirect').value = pageConfig.redirectUrl;
+        };
+    </script>

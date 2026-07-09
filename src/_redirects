@@ -1,0 +1,6 @@
+# Cloudflare Pages redirects
+# Squarespace served the homepage at both / and /home
+/home / 301
+/home/ / 301
+# Dead Squarespace commerce cart link
+/cart / 301

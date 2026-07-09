@@ -1,0 +1,55 @@
+/*
+ * ===========================================================
+ * REFERENCE — Custom CSS from Squarespace (Design → Custom CSS)
+ * ===========================================================
+ * Saved 2026-07-09 during the Squarespace → Cloudflare migration.
+ * NOTE: the snippet was captured starting mid-rule — the selector
+ * and opening declarations of the shimmer rule are missing.
+ * The header overrides below are superseded by the new site
+ * header in src/_includes/base.njk + assets/site-chrome.css.
+ * ===========================================================
+ */
+
+  /* Apply the animation */
+  animation: shimmer 4s infinite;
+}
+
+/* --- The Keyframe Animation Rule --- */
+/* This moves the shimmer from left to right */
+@keyframes shimmer {
+  100% {
+    left: 150%; /* End off-screen to the right */
+  }
+}
+
+
+/*
+ ==============================================================
+Custom Header Overrides ==============================================================
+*/
+
+/* Allow the mobile container to expand to fit both items */
+.header-mobile-logo {
+  width: max-content !important;
+  max-width: 100% !important;
+}
+
+/* Force site title text next to the logo on Desktop & Mobile */
+.header-title-logo a,
+.header-mobile-logo a {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important; /* Prevents stacking */
+}
+
+.header-title-logo a:after,
+.header-mobile-logo a:after {
+  content: "Matthew Tryba";
+  white-space: nowrap; /* Forces text to stay on one line */
+  display: inline-block;
+  font-size: 20px;
+  font-weight: normal;
+  color: #000000;
+  padding-left: 15px;
+  vertical-align: middle;
+}

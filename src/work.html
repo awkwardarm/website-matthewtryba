@@ -1,25 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Work | Matthew Tryba</title>
-
-   <!-- Load Assets for Local Preview only -->
-    <script>
-        if (location.hostname !== 'www.matthewtryba.com' && location.hostname !== 'matthewtryba.com') {
-            document.write('<link rel="stylesheet" href="/assets/shared-styles.css">');
-            document.write('<link rel="stylesheet" href="/assets/audio-player.css">');
-            document.write('<script src="/assets/shared-scripts.js"><\/script>');
-            document.write('<script src="/assets/page-configs.js"><\/script>');
-            document.write('<script src="/assets/audio-player-tracks.js"><\/script>');
-            document.write('<script src="/assets/audio-player.js"><\/script>');
-        }
-    </script>
-
+---
+layout: base.njk
+title: My Work | Matthew Tryba
+description: Get a major label sound with Denver music producer Matthew Tryba. With credits for Taylor Swift & OneRepublic, I turn your raw song ideas into radio-ready masters. Start now.
+permalink: /work/
+---
     <style>
         /*--------------------------------------------------*/
-        /* 2. Work Page Specific Styles */
+        /* Work Page Specific Styles */
         /*--------------------------------------------------*/
         .work-hero { text-align: center; padding: 60px 0; background-color: var(--surface-color); }
         .work-hero p { max-width: 700px; margin-left: auto; margin-right: auto; }
@@ -33,18 +20,14 @@
             gap: 20px;
         }
         .logos img:hover { transform: scale(1.05); }
-
-        footer { text-align: center; padding: 30px; font-size: 0.9rem; color: var(--secondary-color); background: var(--surface-color); }
     </style>
-</head>
-<body>
 
     <section class="work-hero">
         <div class="container">
             <h1>My Work</h1>
             <p>Every song was held to one standard: the best it could possibly be. From independent artists to major label acts, this is what happens when you combine raw talent with world class production.</p>
             <div class="hero-button-wrapper">
-                <a href="/home#contact" class="btn">Ready to Work Together?</a>
+                <a href="/#contact" class="btn">Ready to Work Together?</a>
             </div>
         </div>
     </section>
@@ -60,7 +43,7 @@
         <div class="container">
             <h2>Independent Artist Success In Film & Television</h2>
             <p style="text-align: center; max-width: 700px; margin: -1rem auto 2rem auto;">When your music sounds this good, Hollywood notices. These placements achieved with my independent artists are a testament to what we can achieve together.</p>
-            
+
             <div class="video-wrapper">
                 <iframe src="https://www.youtube.com/embed/kFVZUrXk3oU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
@@ -81,17 +64,7 @@
             <h2>Ready to create your best work?</h2>
             <p style="text-align:center;">Let's talk.</p>
             <div style="text-align:center;">
-                <a href="/home#contact" class="btn">Contact Me</a>
+                <a href="/#contact" class="btn">Contact Me</a>
             </div>
         </div>
     </section>
-
-    <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-        // For local preview — on Squarespace, Code Injection footer loader handles this
-        if (typeof initAudioPlayer === 'function' && typeof TRACKS !== 'undefined') {
-            initAudioPlayer({ tracks: TRACKS });
-        }
-    </script>
-</body>
-</html>

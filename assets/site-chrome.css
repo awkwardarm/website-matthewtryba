@@ -1,0 +1,105 @@
+/**
+ * ===========================================================
+ * SITE CHROME — Header, nav, and footer styles
+ * ===========================================================
+ *
+ * These elements were previously rendered by Squarespace.
+ * Now that the site is self-hosted, the header/nav markup
+ * lives in src/_includes/base.njk and is styled here.
+ * The footer content is injected by renderSharedFooter()
+ * in shared-scripts.js.
+ * ===========================================================
+ */
+
+.site-header {
+    background: var(--background-color, #fff);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.site-header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.site-logo {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    text-decoration: none;
+}
+
+.site-logo img {
+    height: 44px;
+    width: auto;
+    display: block;
+}
+
+/* Matches the Squarespace Custom CSS header override:
+   "Matthew Tryba" text beside the logo mark */
+.site-logo-text {
+    font-size: 20px;
+    font-weight: normal;
+    color: #000000;
+    padding-left: 15px;
+    white-space: nowrap;
+}
+
+.site-logo img[onerror] + .site-logo-text:only-child,
+.site-logo .site-logo-text:first-child {
+    padding-left: 0;
+}
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.site-nav a {
+    text-decoration: none;
+    color: var(--primary-color, #0d0d0d);
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.site-nav a:hover {
+    opacity: 0.7;
+}
+
+.site-nav a.active {
+    border-bottom-color: var(--primary-color, #0d0d0d);
+}
+
+@media (max-width: 600px) {
+    .site-header-inner {
+        justify-content: center;
+    }
+    .site-logo img {
+        height: 36px;
+    }
+    .site-nav {
+        gap: 18px;
+    }
+}
+
+/* Footer — content injected by renderSharedFooter() */
+footer {
+    text-align: center;
+    padding: 30px;
+    font-size: 0.9rem;
+    color: var(--secondary-color, #555);
+    background: var(--surface-color, #f7f7f7);
+}

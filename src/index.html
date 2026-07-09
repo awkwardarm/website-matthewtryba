@@ -1,24 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matthew Tryba | Music Producer</title>
-    
-    <!-- Load Assets for Local Preview only -->
-    <script>
-    if (location.hostname !== 'www.matthewtryba.com' && location.hostname !== 'matthewtryba.com') {
-            document.write('<link rel="stylesheet" href="/assets/shared-styles.css">');
-            document.write('<link rel="stylesheet" href="/assets/audio-player.css">');
-            document.write('<script src="/assets/shared-scripts.js"><\/script>');
-            document.write('<script src="/assets/page-configs.js"><\/script>');
-            document.write('<script src="/assets/audio-player-tracks.js"><\/script>');
-            document.write('<script src="/assets/audio-player.js"><\/script>');
-        }
-    </script>
-</head>
-<body>
-
+---
+layout: base.njk
+title: Matthew Tryba | Music Producer & Songwriter in Denver, CO
+description: Denver-based music producer Matthew Tryba (Taylor Swift, OneRepublic) creates hand-crafted Pop & Adult Contemporary records, specializing in turning raw song ideas into professional, radio-ready masters.
+permalink: /
+---
     <section class="hero">
         <div class="container">
             <div class="hero-content">
@@ -26,7 +11,7 @@
                 <p class="hero-subheadline scroll-animate">I'm Matthew Tryba, a music producer in Denver, Colorado and I help you make and record songs with proven RIAA Diamond certified quality. I specialize in Pop, Adult Contemporary, and Dark Pop.</p>
                 <div class="hero-buttons scroll-animate">
                     <a href="#contact" class="btn">Start The Conversation</a>
-                    <a href="/work" class="btn btn-secondary">Hear My Work</a>
+                    <a href="/work/" class="btn btn-secondary">Hear My Work</a>
                 </div>
             </div>
         </div>
@@ -35,7 +20,6 @@
     <section class="social-proof">
         <div class="container">
             <h3>ENGINEERING CREDITS ON DIAMOND, MULTI-PLATINUM, & GRAMMY WINNING RECORDS</h3>
-            <!-- <p>My role was to capture the best possible sound in the studio, ensure the artists felt comfortable and creatively safe, and make the technical disappear during the creative process.</p> -->
             <div class="logos">
                 <img data-cdn="images/album-art/Taylor%20Swift%201989.jpg" alt="Taylor Swift 1989 Album Art" data-play-title="I Know Places">
                 <img data-cdn="images/album-art/Arana%20Grande%20My%20Everything.jpg" alt="Ariana Grande My Everything Album Art" data-play-title="Why Try">
@@ -46,8 +30,7 @@
             </div>
         </div>
     </section>
-    
-    <!-- Bio/Feature section moved down -->
+
     <section class="feature-section">
         <div class="container">
             <div class="image-content">
@@ -55,16 +38,15 @@
             </div>
             <div class="text-content">
                 <h2>Your Creative Partner from Start to End </h2>
-                <p>We'll work together the whole process, exploring the path to the best song we can make, finding the unique sound of <b>You + Me</b> that is stronger than either of us alone. You'll never get a song "off the rack," every project I work on is custom and curated to each artist. </p> 
+                <p>We'll work together the whole process, exploring the path to the best song we can make, finding the unique sound of <b>You + Me</b> that is stronger than either of us alone. You'll never get a song "off the rack," every project I work on is custom and curated to each artist. </p>
                 <p>I'm a multi-instrumentalist and vocalist who's an expert in all stages of recording: from songwriting and arrangement, to production and mixing. My major label work achieved Diamond success and won Grammys and I bring that experience to every independent artist project. </p>
                 <div style="text-align:center;">
-                    <a href="/about" class="btn btn-secondary">Learn More About Me</a>
+                    <a href="/about/" class="btn btn-secondary">Learn More About Me</a>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Moved up: How I Can Help -->
+
     <section class="services" style="background-color: var(--surface-color);">
         <div class="container">
             <h2 class="scroll-animate">How I Can Help</h2>
@@ -138,7 +120,6 @@
         </div>
     </section>
 
-
     <section id="contact" class="page-section contact">
               <div class="container px-4 px-lg-5">
                   <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -152,13 +133,13 @@
                       <div id="contact-form-container">
                           <form action="" method="POST" id="contact-form">
                               <input type="hidden" name="_redirect" value="" id="form-redirect">
-                             
+
                               <!-- Honeypot field using a standard name that Formbold might recognize as honeypot -->
                               <div class="form-group honeypot-field">
                                   <label for="_honeypot">Leave this field empty</label>
                                   <input type="text" id="_honeypot" name="_honeypot" autocomplete="off" tabindex="-1">
                               </div>
-                             
+
                               <div class="form-group">
                                   <label for="name">Name <span style="font-weight: normal; color: #666;">(required)</span></label>
                                   <input type="text" id="name" name="name" class="form-control" required>
@@ -184,19 +165,9 @@
                   </div>
               </div>
           </section>
-    
-    <!-- Font Awesome icons (free version) -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
     <!-- Hidden audio player mount — required for initAudioPlayer to wire up [data-play-title] album art -->
     <div id="player-root" style="display:none;"></div>
-    
-    <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-        // For local preview — on Squarespace, Code Injection footer loader handles this
-        if (typeof initAudioPlayer === 'function' && typeof TRACKS !== 'undefined') {
-            initAudioPlayer({ tracks: TRACKS });
-        }
-    </script>
 
     <!-- Load reCAPTCHA -->
     <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
@@ -205,11 +176,9 @@
     <script>
         window.onCDNReady = function() {
             const pageConfig = getPageConfig('home');
-            
+
             document.getElementById('contact-form').action = pageConfig.formAction;
             document.getElementById('form-redirect').value = pageConfig.redirectUrl;
             // document.querySelector('.g-recaptcha').setAttribute('data-sitekey', pageConfig.recaptchaSiteKey);
         };
     </script>
-</body>
-</html>

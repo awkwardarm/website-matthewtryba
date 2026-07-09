@@ -6,3 +6,10 @@ scratch.css
 # Preview files for local development
 *-PREVIEW.html
 *-OLD.html
+
+# Eleventy / npm
+node_modules/
+_site/
+
+# Never commit credentials
+.cache

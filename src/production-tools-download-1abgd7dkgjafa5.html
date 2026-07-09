@@ -1,0 +1,68 @@
+---
+layout: base.njk
+title: Production Tools Download | Matthew Tryba
+description: Download links for Matthew Tryba's free production tools.
+permalink: /production-tools-download-1abgd7dkgjafa5/
+noindex: true
+---
+    <style>
+        .page-hero { text-align: center; padding: 60px 0; background-color: var(--surface-color); }
+        .download-item { max-width: 800px; margin: 0 auto 60px auto; text-align: center; }
+        .download-item p { max-width: 600px; margin-left: auto; margin-right: auto; }
+        .download-item .btn { margin-top: 1rem; }
+        .donate-section { background-color: var(--surface-color); text-align: center; }
+        .donate-tiers { list-style: none; padding: 0; max-width: 400px; margin: 1.5rem auto; }
+        .donate-tiers li { padding: 6px 0; color: var(--secondary-color); }
+        .donate-tiers li strong { color: var(--primary-color); }
+        .donate-section .btn { margin-top: 1rem; }
+        .donate-note { font-size: 0.9rem; color: var(--secondary-color); margin-top: 1rem; }
+    </style>
+
+    <header class="page-hero">
+        <div class="container">
+            <h1>Your Tools Are Ready</h1>
+            <p>Thanks for signing up — download away, and enjoy!</p>
+        </div>
+    </header>
+
+    <section>
+        <div class="container">
+            <div class="download-item">
+                <h2>Stem Logic</h2>
+                <p>I made an AppleScript that exports every individual audio file through the master chain in Logic Pro.</p>
+                <a id="download-stem-logic" href="" class="btn">Download Stem Logic</a>
+            </div>
+
+            <div class="download-item">
+                <h2>Transpose All</h2>
+                <p>An Ableton Max for Live device that globally transposes all midi tracks at once with one knob.</p>
+                <a id="download-transpose-all" href="" class="btn">Download Transpose All</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="donate-section">
+        <div class="container">
+            <h2>Enjoying These Tools?</h2>
+            <p>They're free, but if they save you time you can support their development with a donation:</p>
+            <ul class="donate-tiers">
+                <li><strong>$5</strong> — Thank you!</li>
+                <li><strong>$10</strong> — You're awesome!</li>
+                <li><strong>$25</strong> — My grandma says hi!</li>
+                <li><strong>$1</strong> — The card fees take $0.52...</li>
+            </ul>
+            <a id="donate-link" href="" class="btn" target="_blank" rel="noopener">Donate</a>
+            <p class="donate-note">Secure checkout via Stripe — any amount, one-time or recurring.</p>
+        </div>
+    </section>
+
+    <!-- Page-specific initialization -->
+    <script>
+        window.onCDNReady = function() {
+            const pageConfig = getPageConfig('tools-download');
+
+            document.getElementById('download-stem-logic').href = pageConfig.downloads.stemLogic;
+            document.getElementById('download-transpose-all').href = pageConfig.downloads.transposeAll;
+            document.getElementById('donate-link').href = pageConfig.donateUrl;
+        };
+    </script>
