@@ -59,13 +59,10 @@ const PAGE_CONFIGS = {
      },
 
      'tools-download': {
-        // Download files — currently on Google Drive.
-        // After uploading to the R2 bucket (downloads/ folder), swap to:
-        //   stemLogic:    'https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/downloads/stem-logic.zip'
-        //   transposeAll: 'https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/downloads/transpose-all.zip'
+        // Download files — served from the Cloudflare R2 bucket (downloads/)
         downloads: {
-            stemLogic: 'https://drive.google.com/uc?export=download&id=1O0cBMKBXyA1rABFLiQ71-GSfbWBQrqtA',
-            transposeAll: 'https://drive.google.com/uc?export=download&id=1vwJVBGM2bYY-hGehgbZRFQoSZNJXx8sI'
+            stemLogic: 'https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/downloads/Stem%20Logic%200.1.1.zip',
+            transposeAll: 'https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/downloads/Transpose%20All%201.0.zip'
         },
         // Stripe Payment Link (donations — any amount).
         // Per-tool attribution: the download page appends
