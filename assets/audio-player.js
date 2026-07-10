@@ -274,8 +274,25 @@ function initAudioPlayer(config) {
         npPlayBtn.innerHTML = ICON_PAUSE;
         npPlayBtn.setAttribute("aria-label", "Pause");
 
-         // Slide bar up into view
+         // Slide bar up into view and reserve space for it at the
+         // bottom of the page so it doesn't cover the footer
             _bar.classList.add("active");
+        reserveBarSpace();
+       }
+
+    /**
+     * reserveBarSpace() — Keep page bottom padding in sync with the bar
+     *
+     * The now-playing bar is position:fixed, so it paints over whatever
+     * sits at the bottom of the page (notably the footer). While the bar
+     * is active, this adds padding-bottom to <body> equal to the bar's
+     * rendered height (via the --np-bar-height custom property, consumed
+     * by body.np-bar-active in audio-player.css).
+     */
+    function reserveBarSpace() {
+        if (!_bar || !_bar.classList.contains("active")) return;
+        document.body.style.setProperty("--np-bar-height", _bar.offsetHeight + "px");
+        document.body.classList.add("np-bar-active");
        }
 
      // \-----------------------------------------------
@@ -652,6 +669,10 @@ function initAudioPlayer(config) {
      // Build and inject now-playing bar into document body
         _bar = buildNowPlayingBar(isTouchDevice);
     document.body.appendChild(_bar);
+
+     // Bar height changes across responsive breakpoints — re-measure
+     // the reserved footer space on resize/orientation change
+    window.addEventListener("resize", reserveBarSpace);
 
      // Render track groups only if a mount element exists on this page
     if (hasRoot) {

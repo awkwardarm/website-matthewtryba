@@ -341,6 +341,16 @@
     transform: translateY(0);
 }
 
+/*
+   While the bar is visible, reserve matching space at the
+   bottom of the page so the footer (and any content above it)
+   ends above the bar instead of being covered by it.
+   --np-bar-height is measured and kept in sync by audio-player.js.
+*/
+body.np-bar-active {
+    padding-bottom: var(--np-bar-height, 72px);
+}
+
 /* \--- Left: Track Info \--- */
 .np-track {
     display: flex;
