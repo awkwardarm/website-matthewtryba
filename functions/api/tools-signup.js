@@ -51,7 +51,7 @@ export async function onRequestPost({ request, env }) {
         return Response.redirect(origin + THANK_YOU_PAGE, 303);
     }
 
-    if (!email || !form.get('consent')) {
+    if (!email) {
         return new Response('Missing required fields', { status: 400 });
     }
 

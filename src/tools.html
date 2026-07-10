@@ -10,9 +10,6 @@ permalink: /tools/
         .tool-item h2 { text-align: left; }
         .tool-item .video-wrapper { margin-top: 1.5rem; }
         .signup-section { background-color: var(--surface-color); }
-        .consent-group { display: flex; align-items: flex-start; gap: 10px; }
-        .consent-group input[type="checkbox"] { margin-top: 5px; flex-shrink: 0; }
-        .consent-group label { font-weight: normal; font-size: 16px; line-height: 1.4; }
     </style>
 
     <header class="page-hero">
@@ -63,10 +60,6 @@ permalink: /tools/
                     <div class="form-group">
                         <label for="email">Email <span style="font-weight: normal; color: #666;">(required)</span></label>
                         <input type="email" id="email" name="email" class="form-control" required>
-                    </div>
-                    <div class="form-group consent-group">
-                        <input type="checkbox" id="consent" name="consent" value="yes" required>
-                        <label for="consent">Required: consent to receive the download link by email.</label>
                     </div>
                     <button type="submit" class="btn" style="width: 100%;">Email Me The Tools</button>
                     <p id="form-status"></p>
