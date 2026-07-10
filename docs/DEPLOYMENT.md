@@ -89,7 +89,7 @@ The `/tools` form posts to a Pages Function (`functions/api/tools-signup.js`) th
 2. Create an API key in Resend.
 3. In the Cloudflare Pages project: **Settings → Environment variables** → add `RESEND_API_KEY` with that key (Production + Preview).
 
-**This is required before sending traffic to `/tools`.** The download page is intentionally never reachable directly from the signup form — a fake or typo'd email gets nothing, which is what makes the address list real. Until the key is configured, submitters land on "check your email" and no email arrives (the failure is logged in the Pages Function logs, and the thank-you page points them to the contact form as a manual fallback). Submissions are still recorded in Formbold either way.
+**This is required before sending traffic to `/tools`.** The download page is intentionally never reachable directly from the signup form — a fake or typo'd email gets nothing, which is what makes the address list real. If the key is missing or invalid, submitters land on "check your email" and no email arrives; the failure is logged in the Pages Function logs. Submissions are still recorded in Formbold either way.
 
 > Note: Pages Functions don't run under `npm run serve` (that's Eleventy only). To test the function locally: `npx wrangler pages dev _site`.
 
