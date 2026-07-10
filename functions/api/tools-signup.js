@@ -15,11 +15,17 @@
  *   3. Email the download-page link via Resend
  *   4. Redirect to /thank-you-tools ("check your email")
  *
- * If the email can't be sent (Resend down, or RESEND_API_KEY
- * not configured yet), the user is redirected straight to the
- * download page instead — nobody walks away empty-handed.
+ * The user ALWAYS lands on /thank-you-tools, whether or not the
+ * email actually sent — the download page is never reachable
+ * directly from this form. That's the whole point of gating:
+ * a fake/typo'd email address gets nothing, so the address list
+ * this builds is real. If RESEND_API_KEY isn't configured yet (or
+ * Resend errors), the failure is logged instead of falling back
+ * to the download page — check the Pages Function logs.
  *
- * SETUP (one-time, Cloudflare Pages dashboard):
+ * SETUP (one-time, Cloudflare Pages dashboard) — required before
+ * sending real traffic to /tools, or submitters get "check your
+ * email" and nothing ever arrives:
  *   Settings → Environment variables → add RESEND_API_KEY
  *   (from resend.com — verify matthewtryba.com as a sending
  *   domain there first). Optional: EMAIL_FROM to override the
@@ -68,13 +74,15 @@ export async function onRequestPost({ request, env }) {
     }
 
     const emailSent = await sendDownloadEmail(env, { name, email, origin });
+    if (!emailSent) {
+        // Never fall back to the download page — that would let anyone
+        // get the files with a fake email address, defeating the point
+        // of gating downloads behind a real inbox. Surface the failure
+        // in logs instead so it gets fixed (check RESEND_API_KEY).
+        console.error('Tools signup email did not send for', email);
+    }
 
-    // Email failed or not configured yet → deliver directly instead of
-    // sending the user to a "check your email" page with no email coming.
-    const destination = emailSent
-        ? THANK_YOU_PAGE + '?source=tools-page'
-        : DOWNLOAD_PAGE + '?source=email-fallback';
-    return Response.redirect(origin + destination, 303);
+    return Response.redirect(origin + THANK_YOU_PAGE + '?source=tools-page', 303);
 }
 
 async function sendDownloadEmail(env, { name, email, origin }) {
