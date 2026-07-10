@@ -79,7 +79,9 @@ Add `noindex: true` to its front matter (the thank-you and download pages do thi
 
 Every push to any other branch gets its own preview URL (`*.pages.dev`) — use those to review changes before merging to `main`.
 
-### Tools signup email (one-time setup)
+### Tools signup email
+
+> **Status: configured** — `RESEND_API_KEY` was added to the Pages project (2026-07-10). The steps below are kept for reference (e.g. rotating the key).
 
 The `/tools` form posts to a Pages Function (`functions/api/tools-signup.js`) that emails the download link via **Resend** (free tier: 100 emails/day). To activate it:
 
