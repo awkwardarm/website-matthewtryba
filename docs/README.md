@@ -1,95 +1,74 @@
 # Documentation
 
-Complete guide to managing and deploying the Matthew Tryba website.
+Complete guide to managing and deploying the Matthew Tryba website (Eleventy on Cloudflare Pages).
 
 ## 📚 Documentation Structure
 
 ### [OVERVIEW.md](OVERVIEW.md) - Start Here
 **Read this first to understand how everything works**
-- System architecture
+- System architecture (Eleventy → Cloudflare Pages, R2, Formbold, Resend, Stripe)
 - File structure
-- How assets are loaded
-- Key concepts (version tags, shared styles, configurations)
-- Common tasks quick reference
+- Key concepts (page configs, form pipeline, tools download flow)
 
 ### [CREATING-PAGES.md](CREATING-PAGES.md)
 **Step-by-step guide to creating new pages**
-- Choosing the right template
-- Customizing content
-- Adding page configurations
+- Front matter and the shared layout
+- Adding form configurations
 - Testing locally
-- Deploying to Squarespace
-- Best practices and troubleshooting
+- Nav, sitemap, and noindex behavior
 
 ### [DEPLOYMENT.md](DEPLOYMENT.md)
 **Complete deployment workflow**
-- Git commit and tagging
-- Pushing to GitHub
-- Updating Squarespace Code Injection
-- Version numbering guidelines
+- Push-to-deploy via Cloudflare Pages
+- Local development commands
+- Tools signup email (Resend) setup
 - Rollback procedures
-- Common scenarios and troubleshooting
 
 ---
 
 ## Quick Start
 
-**Never deployed before? Follow this order:**
+**Never deployed before? It's just git:**
 
-1. Read [OVERVIEW.md](OVERVIEW.md) to understand the system
-2. Try making a small CSS change following [DEPLOYMENT.md](DEPLOYMENT.md)
-3. When ready to add a page, use [CREATING-PAGES.md](CREATING-PAGES.md)
+1. Edit files, commit, push to `main` → live in ~1 minute
+2. Push any other branch → automatic preview URL (`*.pages.dev`)
+3. Read [OVERVIEW.md](OVERVIEW.md) to understand the moving parts
 
 ---
 
-## Local Preview (Desktop + Mobile)
+## Local Preview
 
-**Start a local server:**
 ```bash
-cd /Users/matthewtryba/Documents/GitHub/website-matthewtryba
-python3 -m http.server 8080
+npm install        # once
+npm run serve      # http://localhost:8080, live-reloads on save
 ```
 
-**Desktop:** Open `http://localhost:8080/pages-landing/landing-page-national.html`
-
-**Mobile on the same Wi-Fi network:**
-1. Find your Mac's local IP: `System Settings → Wi-Fi → Details` (default: `192.168.136.184`)
-2. On your phone, open: `http://192.168.136.184:8080/pages-landing/landing-page-national.html`
-
-> Assets load automatically on any non-production host — no extra config needed.
+> The Pages Function (`/api/tools-signup`) doesn't run under `npm run serve` — use `npx wrangler pages dev _site` if you need to test it locally, or use a branch preview deployment.
 
 ---
 
 ## Common Questions
 
 **How do I change site colors?**
-→ Edit `assets/shared-styles.css` → See [DEPLOYMENT.md](DEPLOYMENT.md)
+→ Edit `assets/shared-styles.css` `:root` variables, push
 
 **How do I add a new landing page?**
 → See [CREATING-PAGES.md](CREATING-PAGES.md)
 
 **How do I update my live site?**
-→ See [DEPLOYMENT.md](DEPLOYMENT.md)
+→ Commit and push to `main` — that's it
 
 **Something broke, how do I revert?**
-→ See "Rollback to Previous Version" in [DEPLOYMENT.md](DEPLOYMENT.md)
+→ Cloudflare Pages dashboard → Deployments → pick a previous one → Rollback (instant). Or `git revert` and push.
 
 **Where are my images?**
-→ See "File Structure" in [OVERVIEW.md](OVERVIEW.md)
+→ Repo `images/` folder (served at `/images/`); audio, artwork, and tool downloads live in the Cloudflare R2 bucket
+
+**Why didn't a tools signup email send?**
+→ Health check: `https://www.matthewtryba.com/api/tools-signup` — then Resend dashboard → Logs
 
 ---
 
-## Current System Version
+## History
 
-Last updated: January 1, 2026
-Documentation version: 1.0
-Live version: Check Squarespace Code Injection
-
----
-
-## Need Help?
-
-1. Check the relevant documentation file above
-2. Look in the Troubleshooting sections
-3. Check browser console for errors (F12)
-4. Verify your Code Injection version matches GitHub tag
+Until mid-2026 the site was hosted on Squarespace (assets injected via jsDelivr + Code Injection). Reference copies of that setup live in `migration-reference/` and `pages-saved-html/`. See `TODO.md` in the repo root for the remaining wind-down tasks.

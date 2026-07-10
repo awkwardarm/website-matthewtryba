@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-07-10
+
+### Changed — Migrated off Squarespace to Eleventy + Cloudflare Pages
+- **Hosting:** the whole site is now a static Eleventy build (`src/` + `_includes/base.njk`), deployed automatically by Cloudflare Pages on push to `main`. The jsDelivr version-tag + Squarespace Code Injection workflow is retired — version tags and `CDN_VERSION` are no longer used. DNS is on Cloudflare; apex redirects to `www` via a Bulk Redirect rule.
+- **Pages:** ported home, about, work, `/welcome-2` landing, and both thank-you pages from the old Code Block snippets (URLs unchanged, so Google Ads final URLs and the obfuscated thank-you links keep working). Rebuilt the Squarespace-only pages — `/faq`, `/tools`, and the download page — in the site's own design system. New `/thank-you-tools` page.
+- **Tools delivery:** the `/tools` signup posts to a Cloudflare Pages Function (`functions/api/tools-signup.js`) that records the submission in Formbold, emails the download link via Resend (verified domain, `RESEND_API_KEY` secret in Production + Preview), and always lands on `/thank-you-tools` — the download page is never reachable directly from the form. Consent checkbox removed; copy makes email delivery explicit.
+- **Downloads:** Stem Logic 0.1.1 and Transpose All 1.0 now served from the Cloudflare R2 bucket (`downloads/`) instead of Google Drive.
+- **Donations:** Squarespace Donation Block replaced with a Stripe Payment Link; per-tool Donate buttons tag the link with `client_reference_id` (`stem-logic` / `transpose-all` / `general`) for attribution.
+- **Ads tracking preserved:** site-wide gtag moved into the layout; the per-page Google Ads conversion event Squarespace injected on the thank-you pages is now baked into them.
+- **Misc:** new header/nav/footer chrome (`assets/site-chrome.css`) using the SVG Tryba mark as logo + favicon; `_redirects` (`/home`, `/cart`), 404 page, sitemap.xml, robots.txt, LocalBusiness structured data; `squarespace-overrides.css` deleted; old Squarespace custom CSS/Code Injection archived in `migration-reference/`; docs rewritten for the new workflow.
+
 ## [1.0.30] - 2026-06-30
 
 ### Added

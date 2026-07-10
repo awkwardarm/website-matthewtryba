@@ -81,7 +81,7 @@ Every push to any other branch gets its own preview URL (`*.pages.dev`) — use 
 
 ### Tools signup email
 
-> **Status: configured** — `RESEND_API_KEY` was added to the Pages project (2026-07-10). The steps below are kept for reference (e.g. rotating the key).
+> **Status: live and verified** (2026-07-10) — `matthewtryba.com` is a verified sending domain in Resend, and `RESEND_API_KEY` is set as a Secret in both Production and Preview (two separate Resend keys, independently revocable). End-to-end tested. The steps below are kept for reference (e.g. rotating a key).
 
 The `/tools` form posts to a Pages Function (`functions/api/tools-signup.js`) that emails the download link via **Resend** (free tier: 100 emails/day). To activate it:
 

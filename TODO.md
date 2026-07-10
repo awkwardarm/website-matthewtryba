@@ -41,9 +41,9 @@ DNS is already on Cloudflare, so the transfer causes **zero downtime** — it on
 - [ ] **Export old form submissions** from Squarespace (each form's storage → export CSV) — they are unrecoverable after the plan ends
 - [ ] Confirm sections 1 and 2 are done, then let the plan lapse — nothing else references Squarespace
 
-## 4. Email delivery (Resend) — nearly done
+## 4. Email delivery (Resend) — ✅ DONE (2026-07-10)
 
-- [ ] Resend → **Domains**: wait for `matthewtryba.com` to show **Verified** (DNS records already added in Cloudflare)
-- [ ] Then test end-to-end: submit the `/tools` form with a real email → "Check Your Email!" page → email from `tools@matthewtryba.com` arrives → link opens the download page → both R2 downloads work
-- [ ] Health check anytime: `https://www.matthewtryba.com/api/tools-signup` → `"resendKeyConfigured": true`
-- [ ] *(Optional)* Add `RESEND_API_KEY` to the **Preview** environment too if branch previews should send real email (currently Production only — previews intentionally don't send)
+- [x] `matthewtryba.com` verified as sending domain in Resend
+- [x] End-to-end test passed: `/tools` form → "Check Your Email!" → email from `tools@matthewtryba.com` → download page
+- [x] `RESEND_API_KEY` set as a Secret in both **Production** and **Preview** (separate keys, so either can be revoked in Resend independently)
+- Health check anytime: `https://www.matthewtryba.com/api/tools-signup` → `"resendKeyConfigured": true`
