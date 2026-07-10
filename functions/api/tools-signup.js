@@ -39,7 +39,22 @@ const THANK_YOU_PAGE = '/thank-you-tools/';
 const DEFAULT_FROM = 'Matthew Tryba <tools@matthewtryba.com>';
 const REPLY_TO = 'matthewtryba@gmail.com';
 
+/**
+ * GET /api/tools-signup — health check / diagnostics.
+ * Reports whether the deployment can see its configuration
+ * (booleans only, never values). Visit in a browser to verify
+ * the RESEND_API_KEY secret reached this deployment.
+ */
+export async function onRequestGet({ env }) {
+    return new Response(JSON.stringify({
+        ok: true,
+        resendKeyConfigured: Boolean(env.RESEND_API_KEY),
+        emailFromOverride: Boolean(env.EMAIL_FROM)
+    }), { headers: { 'Content-Type': 'application/json' } });
+}
+
 export async function onRequestPost({ request, env }) {
+    console.log('tools-signup: POST received');
     const origin = new URL(request.url).origin;
 
     let form;
