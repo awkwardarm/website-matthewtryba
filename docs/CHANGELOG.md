@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2026-07-10
+
+### Changed
+- **Tighter header chrome** (`site-chrome.css`) — vertical padding 14px → 10px and logo 44px → 38px site-wide. Under 600px the sticky header now uses a compact two-row layout (26px logo, 16px logo text, smaller nav font and gaps), cutting mobile header height from ~115px to ~71px so it eats far less above-the-fold space on phones.
+
+### Fixed
+- **Footer no longer covered by the audio player.** The fixed now-playing bar painted over the footer at the bottom of the page. When the bar activates, `audio-player.js` now measures its rendered height and sets a `--np-bar-height` custom property plus an `np-bar-active` class on `<body>`; `audio-player.css` uses these to reserve matching bottom padding so the footer ends above the bar. The height is re-measured on resize/orientation change since the bar is taller at small breakpoints.
+
 ## [2.0.0] - 2026-07-10
 
 ### Changed — Migrated off Squarespace to Eleventy + Cloudflare Pages
