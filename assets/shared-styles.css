@@ -904,6 +904,7 @@ section {
       }
      
       #contact-form-container {
+        box-sizing: border-box; /* keep width:100% + padding inside the container so the card can't overflow the viewport */
         padding: 20px 15px;
         margin-left: 0 !important;
         margin-right: 0 !important;
