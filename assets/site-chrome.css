@@ -86,7 +86,7 @@
 @media (max-width: 600px) {
     .site-header-inner {
         justify-content: center;
-        padding: 8px 16px;
+        padding: 10px 16px;
         gap: 4px 16px; /* tight row gap when logo and nav wrap onto two lines */
     }
     .site-logo img {
