@@ -29,17 +29,17 @@ Currently registered at **Hover** and pointing at Squarespace — it will silent
 
 DNS is already on Cloudflare, so the transfer causes **zero downtime** — it only changes who bills for the domain. Auto-renew at Squarespace is already off; the transfer must complete **before mid-August**.
 
-- [ ] Receive the **transfer authentication (EPP) code** from Squarespace (requested; domain already unlocked)
-- [ ] Cloudflare dashboard → **Domain Registration → Transfer Domains** → `matthewtryba.com` should be listed as eligible
-- [ ] Enter the auth code and pay (~$10–11 — one year of .com at wholesale cost, **added on top of** the current expiration date)
-- [ ] Back in Squarespace → Domains: if a pending-transfer approval option appears, **approve it** to complete immediately; otherwise it auto-completes within ~5 days
-- [ ] After completion: confirm **auto-renew is ON** in Cloudflare → Domain Registration (WHOIS privacy is on by default)
-- [ ] ⚠️ Do **not** edit the registrant/WHOIS contact info before the transfer — contact changes trigger a 60-day ICANN transfer lock
+- [x] Receive the **transfer authentication (EPP) code** from Squarespace (requested; domain already unlocked)
+- [x] Cloudflare dashboard → **Domain Registration → Transfer Domains** → `matthewtryba.com` should be listed as eligible
+- [x] Enter the auth code and pay (~$10–11 — one year of .com at wholesale cost, **added on top of** the current expiration date)
+- [x] Back in Squarespace → Domains: if a pending-transfer approval option appears, **approve it** to complete immediately; otherwise it auto-completes within ~5 days
+- [x] After completion: confirm **auto-renew is ON** in Cloudflare → Domain Registration (WHOIS privacy is on by default)
+- [x] ⚠️ Do **not** edit the registrant/WHOIS contact info before the transfer — contact changes trigger a 60-day ICANN transfer lock
 
 ## 3. Before the Squarespace plan lapses (deadline: mid-August)
 
-- [ ] **Export old form submissions** from Squarespace (each form's storage → export CSV) — they are unrecoverable after the plan ends
-- [ ] Confirm sections 1 and 2 are done, then let the plan lapse — nothing else references Squarespace
+- [x] **Export old form submissions** from Squarespace (each form's storage → export CSV) — they are unrecoverable after the plan ends
+- [x] Confirm sections 1 and 2 are done, then let the plan lapse — nothing else references Squarespace
 
 ## 4. Email delivery (Resend) — ✅ DONE (2026-07-10)
 
