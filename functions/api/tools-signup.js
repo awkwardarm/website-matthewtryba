@@ -38,6 +38,10 @@ const DOWNLOAD_PAGE = '/production-tools-download-1abgd7dkgjafa5/';
 const THANK_YOU_PAGE = '/thank-you-tools/';
 const DEFAULT_FROM = 'Matthew Tryba <tools@matthewtryba.com>';
 const REPLY_TO = 'matthewtryba@gmail.com';
+// Stripe donate Payment Link (kept in sync with donateUrl in assets/page-configs.js).
+// Included directly in the email so recipients can donate later without
+// returning to the download page. Tagged for attribution in the Stripe dashboard.
+const DONATE_URL = 'https://donate.stripe.com/00wdR2bT4cKi886aT4gUM02?client_reference_id=email';
 
 /**
  * GET /api/tools-signup — health check / diagnostics.
@@ -129,12 +133,13 @@ async function sendDownloadEmail(env, { name, email, origin }) {
                     <p><a href="${downloadUrl}">Download the tools</a></p>
                     <p>If the link doesn't work, copy and paste this into your browser:<br>
                     ${downloadUrl}</p>
-                    <p>Enjoy — and if they save you time in a session, there's a
-                    donate button on the download page.</p>
+                    <p>Enjoy — and if they save you time in a session, you can
+                    <a href="${DONATE_URL}">donate any amount here</a>. No pressure,
+                    but it's always appreciated.</p>
                     <p>— Matthew Tryba<br>
                     <a href="https://www.matthewtryba.com">matthewtryba.com</a></p>
                 `,
-                text: `Hey ${firstName},\n\nThanks for signing up! Here's your download link for Stem Logic (Logic Pro) and Transpose All (Ableton Live):\n\n${downloadUrl}\n\nEnjoy — and if they save you time in a session, there's a donate button on the download page.\n\n— Matthew Tryba\nhttps://www.matthewtryba.com`
+                text: `Hey ${firstName},\n\nThanks for signing up! Here's your download link for Stem Logic (Logic Pro) and Transpose All (Ableton Live):\n\n${downloadUrl}\n\nEnjoy — and if they save you time in a session, you can donate any amount here:\n${DONATE_URL}\n\nNo pressure, but it's always appreciated.\n\n— Matthew Tryba\nhttps://www.matthewtryba.com`
             })
         });
 
