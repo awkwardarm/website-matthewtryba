@@ -27,7 +27,7 @@
  * ===========================================================
  */
 
-const NOTIFY_TO = 'matthewtryba@gmail.com';
+const NOTIFY_TO = 'matthew@matthewtryba.com';
 const NOTIFY_FROM = 'Website Contact Form <forms@matthewtryba.com>';
 
 // Per-page settings, keyed by the ?page= query param on the form action.

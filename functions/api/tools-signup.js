@@ -43,7 +43,7 @@ const THANK_YOU_PAGE = '/thank-you-tools/';
 const DEFAULT_FROM = 'Matthew Tryba <tools@matthewtryba.com>';
 const REPLY_TO = 'matthewtryba@gmail.com';
 // Where the "new signup" notification email goes, and its subject.
-const NOTIFY_TO = 'matthewtryba@gmail.com';
+const NOTIFY_TO = 'matthew@matthewtryba.com';
 const NOTIFY_SUBJECT = (name, email) => `New tools signup — ${name || email}`;
 // Stripe donate Payment Link (kept in sync with donateUrl in assets/page-configs.js).
 // Included directly in the email so recipients can donate later without
