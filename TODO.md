@@ -47,3 +47,11 @@ DNS is already on Cloudflare, so the transfer causes **zero downtime** — it on
 - [x] End-to-end test passed: `/tools` form → "Check Your Email!" → email from `tools@matthewtryba.com` → download page
 - [x] `RESEND_API_KEY` set as a Secret in both **Production** and **Preview** (separate keys, so either can be revoked in Resend independently)
 - Health check anytime: `https://www.matthewtryba.com/api/tools-signup` → `"resendKeyConfigured": true`
+
+## 5. Forms → Google Sheets migration — ✅ DONE (2026-07-15)
+
+- [x] All forms (home, `/welcome-2`, `/tools`) log to the **"Website Form Submissions"** Google Sheet and email `matthew@matthewtryba.com` via Resend with custom subjects — Formbold removed from the code entirely
+- [x] Google service-account env vars (`GOOGLE_SA_EMAIL`, `GOOGLE_SA_PRIVATE_KEY`, `SHEETS_ID`) set in Production + Preview; end-to-end test passed (sheet row + email)
+- [x] Legacy history consolidated into the sheet: Squarespace tools contacts + all three Formbold exports (344 rows)
+- [x] Formbold email notifications turned off — nothing left to do; the subscription just lapses **2026-09-02**
+- Health check anytime: `https://www.matthewtryba.com/api/tools-signup` → `"sheetsConfigured": true`

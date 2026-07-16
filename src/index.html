@@ -134,7 +134,7 @@ permalink: /
                           <form action="" method="POST" id="contact-form">
                               <input type="hidden" name="_redirect" value="" id="form-redirect">
 
-                              <!-- Honeypot field using a standard name that Formbold might recognize as honeypot -->
+                              <!-- Honeypot field — bots fill it; /api/contact silently drops those submissions -->
                               <div class="form-group honeypot-field">
                                   <label for="_honeypot">Leave this field empty</label>
                                   <input type="text" id="_honeypot" name="_honeypot" autocomplete="off" tabindex="-1">

@@ -6,7 +6,7 @@ Complete guide to managing and deploying the Matthew Tryba website (Eleventy on 
 
 ### [OVERVIEW.md](OVERVIEW.md) - Start Here
 **Read this first to understand how everything works**
-- System architecture (Eleventy → Cloudflare Pages, R2, Formbold, Resend, Stripe)
+- System architecture (Eleventy → Cloudflare Pages, R2, Google Sheets, Resend, Stripe)
 - File structure
 - Key concepts (page configs, form pipeline, tools download flow)
 

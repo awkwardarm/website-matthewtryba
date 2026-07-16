@@ -197,8 +197,9 @@ function initializeContactForm() {
 //     gbraid — click id for app-to-web iOS conversions
 //     wbraid — click id for web-to-web iOS conversions
 //
-// The form backend (Formbold) receives whichever ids are present as
-// named fields alongside the lead's name/email/message.
+// The form backend (Pages Functions → Google Sheet + notification email)
+// receives whichever ids are present as named fields alongside the
+// lead's name/email/message.
 // \===========================================================
 
 // Query params to capture. gclid is the primary Google Ads click id;

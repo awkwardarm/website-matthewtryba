@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-07-15
+
+### Changed — Formbold retired; forms now log to Google Sheets + email via Resend
+- **Why:** Formbold's free plan locks notification-email subject editing (and offers no `_subject`-style hidden-field override), and at 1–2 submissions/week a third-party form backend wasn't earning its keep.
+- **Contact forms** (home, `/welcome-2`) now post to a new Pages Function `/api/contact` (`functions/api/contact.js`) selected by `?page=` query param. Each submission is appended to the **"Website Form Submissions" Google Sheet** and emailed to `matthew@matthewtryba.com` via Resend with a per-page subject (`New lead from home page — <name>`, etc.). Reply-to is the lead's address. The `_redirect` hidden field is validated same-origin so it can't be abused as an open redirect.
+- **Tools signups** (`/api/tools-signup`) log to the same sheet and send a signup notification alongside the existing download email. Sheet write, download email, and notification run concurrently; each is best-effort — no failure blocks the visitor's redirect, and the notification email is the fallback copy if a sheet write fails.
+- **Google Sheets integration** (`lib/google-sheets.js`): service-account auth (JWT/RS256 via Web Crypto, zero dependencies), module-scope token cache, rows appended `RAW` (defends against spreadsheet formula injection from form input). Requires `GOOGLE_SA_EMAIL`, `GOOGLE_SA_PRIVATE_KEY`, `SHEETS_ID` env vars (Production + Preview). `scripts/setup-submissions-sheet.mjs` creates the tab/headers and smoke-tests the auth chain.
+- **History consolidated:** all legacy submissions (old Squarespace tools contacts + the three Formbold exports — 344 rows) imported into the sheet, sorted chronologically, with legacy Budget answers preserved in the Message column.
+- **Health check** (`GET /api/tools-signup`) now also reports `sheetsConfigured` (booleans only, never values).
+- **Removed:** all Formbold forwarding, and the dead `main-landing` config entry in `assets/page-configs.js` (no live page used it). The Formbold subscription simply lapses 2026-09-02; its email notifications are already off.
+
 ## [2.0.1] - 2026-07-10
 
 ### Changed
