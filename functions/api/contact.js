@@ -82,9 +82,13 @@ export async function onRequestPost({ request, env }) {
     try {
         const fb = new FormData();
         for (const [key, value] of form.entries()) {
-            // Underscore fields (_honeypot, _redirect) are form plumbing,
-            // not lead data — don't clutter the Formbold record with them.
-            if (!key.startsWith('_')) fb.append(key, value);
+            // Forward EVERY field verbatim, _redirect and _honeypot
+            // included. Formbold's Google Sheets sync maps fields to
+            // columns by POSITION, not name — dropping the underscore
+            // fields shifts name/email/etc. two columns left in the
+            // sheet. (_honeypot is always empty here; filled ones were
+            // already dropped above.)
+            fb.append(key, value);
         }
         await fetch(page.formbold, { method: 'POST', body: fb });
     } catch (err) {
