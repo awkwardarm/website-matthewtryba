@@ -38,14 +38,21 @@ const PAGE_CONFIGS = {
         aboutImage: '/images/profile-photos/profile-photo-IMG_5507.jpeg'
      },
      'national-landing': {
-        formAction: 'https://formbold.com/s/3nKg0',
+        // Posts to a Cloudflare Pages Function that records the submission
+        // in Formbold (3nKg0) and emails the lead notification via Resend
+        // with a custom subject. See functions/api/contact.js
+        formAction: '/api/contact?page=national-landing',
         redirectUrl: location.origin + '/thank-you-8399akkgak3214?source=landing-page-usa',
         recaptchaSiteKey: '6LehErsrAAAAANJRw4ksp2u26JgHkqQZ6yCoW24a',
         heroImage: '/images/profile-photos/profile-photo-IMG_5596%202000%20wide.jpeg',
         aboutImage: '/images/profile-photos/profile-photo-IMG_5507.jpeg'
      },
      'home': {
-        formAction: 'https://formbold.com/s/3nK2A', // Different form for home page to track source separately
+        // Posts to a Cloudflare Pages Function that records the submission
+        // in Formbold (3nK2A — separate form to track source) and emails
+        // the lead notification via Resend with a custom subject.
+        // See functions/api/contact.js
+        formAction: '/api/contact?page=home',
         redirectUrl: location.origin + '/thank-you-home-98jkxco9012?source=home-page',
         recaptchaSiteKey: '6LehErsrAAAAANJRw4ksp2u26JgHkqQZ6yCoW24a',
         heroImage: '/images/profile-photos/profile-photo-IMG_5596.jpeg',

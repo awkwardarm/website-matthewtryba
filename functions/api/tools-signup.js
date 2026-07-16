@@ -13,7 +13,11 @@
  *   1. Drop honeypot submissions (pretend success, send nothing)
  *   2. Forward the submission to Formbold (dashboard record)
  *   3. Email the download-page link via Resend
- *   4. Redirect to /thank-you-tools ("check your email")
+ *   4. Email a signup notification to NOTIFY_TO via Resend
+ *      (with a custom subject — Formbold's own notification email
+ *      subject is only editable on a paid plan, so turn Formbold's
+ *      email off in its dashboard and rely on this one)
+ *   5. Redirect to /thank-you-tools ("check your email")
  *
  * The user ALWAYS lands on /thank-you-tools, whether or not the
  * email actually sent — the download page is never reachable
@@ -38,6 +42,9 @@ const DOWNLOAD_PAGE = '/production-tools-download-1abgd7dkgjafa5/';
 const THANK_YOU_PAGE = '/thank-you-tools/';
 const DEFAULT_FROM = 'Matthew Tryba <tools@matthewtryba.com>';
 const REPLY_TO = 'matthewtryba@gmail.com';
+// Where the "new signup" notification email goes, and its subject.
+const NOTIFY_TO = 'matthewtryba@gmail.com';
+const NOTIFY_SUBJECT = (name, email) => `New tools signup — ${name || email}`;
 // Stripe donate Payment Link (kept in sync with donateUrl in assets/page-configs.js).
 // Included directly in the email so recipients can donate later without
 // returning to the download page. Tagged for attribution in the Stripe dashboard.
@@ -92,7 +99,12 @@ export async function onRequestPost({ request, env }) {
         console.error('Formbold forward failed:', err);
     }
 
-    const emailSent = await sendDownloadEmail(env, { name, email, origin });
+    // Download email to the user and signup notification to Matthew go
+    // out concurrently — neither blocks or depends on the other.
+    const [emailSent] = await Promise.all([
+        sendDownloadEmail(env, { name, email, origin }),
+        sendSignupNotification(env, { name, email })
+    ]);
     if (!emailSent) {
         // Never fall back to the download page — that would let anyone
         // get the files with a fake email address, defeating the point
@@ -150,6 +162,45 @@ async function sendDownloadEmail(env, { name, email, origin }) {
         return true;
     } catch (err) {
         console.error('Resend request failed:', err);
+        return false;
+    }
+}
+
+/**
+ * Notify Matthew of the signup — custom subject line, unlike Formbold's
+ * locked default. Best effort: a failure here never blocks the user's
+ * download email.
+ */
+async function sendSignupNotification(env, { name, email }) {
+    if (!env.RESEND_API_KEY) return false;
+
+    try {
+        const res = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                from: env.EMAIL_FROM || DEFAULT_FROM,
+                to: [NOTIFY_TO],
+                reply_to: email,
+                subject: NOTIFY_SUBJECT(name, email),
+                html: `
+                    <p><strong>Name:</strong> ${escapeHtml(name || '—')}</p>
+                    <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+                `,
+                text: `Name: ${name || '—'}\nEmail: ${email}`
+            })
+        });
+
+        if (!res.ok) {
+            console.error('Resend notification error:', res.status, await res.text());
+            return false;
+        }
+        return true;
+    } catch (err) {
+        console.error('Resend notification request failed:', err);
         return false;
     }
 }
