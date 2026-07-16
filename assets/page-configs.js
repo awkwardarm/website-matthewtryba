@@ -6,7 +6,8 @@
  * PURPOSE:
  *     This file centralizes configuration for pages with forms
  *     or dynamic links. Each page has its own settings block:
- *            - Form submission URL (Formbold)
+ *            - Form submission URL (Pages Function — /api/contact
+ *              or /api/tools-signup; logs to Google Sheets + Resend)
  *            - Redirect URL (thank-you page after form submission)
  *            - reCAPTCHA site key (spam protection, currently unused)
  *            - Hero/About image paths (served from this site)
@@ -30,16 +31,13 @@
  */
 
 const PAGE_CONFIGS = {
-     'main-landing': {
-        formAction: 'https://formbold.com/s/3nKg0',
-        redirectUrl: location.origin + '/thank-you-8399akkgak3214?source=landing-page-main',
-        recaptchaSiteKey: '6LehErsrAAAAANJRw4ksp2u26JgHkqQZ6yCoW24a',
-        heroImage: '/images/profile-photos/profile-photo-IMG_5596.jpeg',
-        aboutImage: '/images/profile-photos/profile-photo-IMG_5507.jpeg'
-     },
+     // NOTE: the old 'main-landing' entry was removed 2026-07 — no live
+     // page used it (it posted straight to Formbold, now deprecated). If
+     // a main landing page comes back, copy 'national-landing' and add a
+     // matching entry to PAGES in functions/api/contact.js.
      'national-landing': {
-        // Posts to a Cloudflare Pages Function that records the submission
-        // in Formbold (3nKg0) and emails the lead notification via Resend
+        // Posts to a Cloudflare Pages Function that logs the submission
+        // to the Google Sheet and emails the lead notification via Resend
         // with a custom subject. See functions/api/contact.js
         formAction: '/api/contact?page=national-landing',
         redirectUrl: location.origin + '/thank-you-8399akkgak3214?source=landing-page-usa',
@@ -48,10 +46,9 @@ const PAGE_CONFIGS = {
         aboutImage: '/images/profile-photos/profile-photo-IMG_5507.jpeg'
      },
      'home': {
-        // Posts to a Cloudflare Pages Function that records the submission
-        // in Formbold (3nK2A — separate form to track source) and emails
-        // the lead notification via Resend with a custom subject.
-        // See functions/api/contact.js
+        // Posts to a Cloudflare Pages Function that logs the submission
+        // to the Google Sheet and emails the lead notification via Resend
+        // with a custom subject. See functions/api/contact.js
         formAction: '/api/contact?page=home',
         redirectUrl: location.origin + '/thank-you-home-98jkxco9012?source=home-page',
         recaptchaSiteKey: '6LehErsrAAAAANJRw4ksp2u26JgHkqQZ6yCoW24a',
@@ -59,8 +56,8 @@ const PAGE_CONFIGS = {
         aboutImage: '/images/profile-photos/profile-photo-IMG_5507.jpeg'
      },
      'tools': {
-        // Posts to a Cloudflare Pages Function that records the submission
-        // in Formbold (9kKyO), emails the download link via Resend, then
+        // Posts to a Cloudflare Pages Function that logs the signup to
+        // the Google Sheet, emails the download link via Resend, then
         // redirects to /thank-you-tools. See functions/api/tools-signup.js
         formAction: '/api/tools-signup'
      },

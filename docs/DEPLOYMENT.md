@@ -60,7 +60,7 @@ Edit the file in `src/` (e.g. `src/about.html`), commit, push.
 4. Add a nav link in `src/_includes/base.njk` if it belongs in the menu.
 
 ### Update form endpoints / download links / donate link
-Edit `assets/page-configs.js`. That file is the single source of truth for Formbold endpoints, thank-you redirects, tool download URLs, and the Stripe donate link.
+Edit `assets/page-configs.js`. That file is the single source of truth for form endpoints (Pages Functions), thank-you redirects, tool download URLs, and the Stripe donate link. Notification email subjects live in the Functions themselves (`functions/api/contact.js`, `functions/api/tools-signup.js`).
 
 ### Add or change audio tracks
 Edit `assets/audio-player-tracks.js`; upload new MP3s/artwork to the R2 bucket. No version bump needed — just push.
@@ -89,7 +89,11 @@ The `/tools` form posts to a Pages Function (`functions/api/tools-signup.js`) th
 2. Create an API key in Resend.
 3. In the Cloudflare Pages project: **Settings → Environment variables** → add `RESEND_API_KEY` with that key (Production + Preview).
 
-**This is required before sending traffic to `/tools`.** The download page is intentionally never reachable directly from the signup form — a fake or typo'd email gets nothing, which is what makes the address list real. If the key is missing or invalid, submitters land on "check your email" and no email arrives; the failure is logged in the Pages Function logs. Submissions are still recorded in Formbold either way.
+**This is required before sending traffic to `/tools`.** The download page is intentionally never reachable directly from the signup form — a fake or typo'd email gets nothing, which is what makes the address list real. If the key is missing or invalid, submitters land on "check your email" and no email arrives; the failure is logged in the Pages Function logs. Submissions are still logged to the Google Sheet either way.
+
+### Form submission log (Google Sheets)
+
+All form submissions (contact forms + tools signups) are appended to the **"Website Form Submissions"** Google Sheet by `lib/google-sheets.js`, authenticated as the service account `google-sheets-live-edit@arcane-text-468705-f8.iam.gserviceaccount.com` (JSON key lives in `~/Dev/tryba-secrets/sheets-service-account.json`; the sheet is shared with it as Editor). Three environment variables in the Pages project (Production + Preview): `GOOGLE_SA_EMAIL`, `GOOGLE_SA_PRIVATE_KEY` (the full PEM), and `SHEETS_ID`. To re-run setup or smoke-test the auth chain locally: `node scripts/setup-submissions-sheet.mjs <spreadsheet-id>`. Sheet writes are best-effort — a failure is logged but never blocks the notification email or the visitor's redirect.
 
 > Note: Pages Functions don't run under `npm run serve` (that's Eleventy only). To test the function locally: `npx wrangler pages dev _site`.
 

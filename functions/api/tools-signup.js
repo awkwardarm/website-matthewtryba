@@ -4,19 +4,16 @@
  * ===========================================================
  *
  * Cloudflare Pages Function (auto-deployed from /functions).
- * The /tools signup form posts here instead of directly to
- * Formbold, so the download link can be delivered by EMAIL —
- * proving the address is real — rather than shown on the
- * thank-you page.
+ * The /tools signup form posts here so the download link can be
+ * delivered by EMAIL — proving the address is real — rather than
+ * shown on the thank-you page.
  *
  * Flow:
  *   1. Drop honeypot submissions (pretend success, send nothing)
- *   2. Forward the submission to Formbold (dashboard record)
+ *   2. Append the signup to the Google Sheet (lib/google-sheets.js)
+ *      — replaces the old Formbold record
  *   3. Email the download-page link via Resend
  *   4. Email a signup notification to NOTIFY_TO via Resend
- *      (with a custom subject — Formbold's own notification email
- *      subject is only editable on a paid plan, so turn Formbold's
- *      email off in its dashboard and rely on this one)
  *   5. Redirect to /thank-you-tools ("check your email")
  *
  * The user ALWAYS lands on /thank-you-tools, whether or not the
@@ -37,7 +34,8 @@
  * ===========================================================
  */
 
-const FORMBOLD_ENDPOINT = 'https://formbold.com/s/9kKyO';
+import { appendRow, SHEET_TAB } from '../../lib/google-sheets.js';
+
 const DOWNLOAD_PAGE = '/production-tools-download-1abgd7dkgjafa5/';
 const THANK_YOU_PAGE = '/thank-you-tools/';
 const DEFAULT_FROM = 'Matthew Tryba <tools@matthewtryba.com>';
@@ -60,7 +58,10 @@ export async function onRequestGet({ env }) {
     return new Response(JSON.stringify({
         ok: true,
         resendKeyConfigured: Boolean(env.RESEND_API_KEY),
-        emailFromOverride: Boolean(env.EMAIL_FROM)
+        emailFromOverride: Boolean(env.EMAIL_FROM),
+        sheetsConfigured: Boolean(
+            env.GOOGLE_SA_EMAIL && env.GOOGLE_SA_PRIVATE_KEY && env.SHEETS_ID
+        )
     }), { headers: { 'Content-Type': 'application/json' } });
 }
 
@@ -87,24 +88,19 @@ export async function onRequestPost({ request, env }) {
         return new Response('Missing required fields', { status: 400 });
     }
 
-    // Record the submission in Formbold — best effort; the email still
-    // goes out if Formbold is unreachable.
-    try {
-        const fb = new FormData();
-        for (const [key, value] of form.entries()) {
-            if (key !== '_honeypot') fb.append(key, value);
-        }
-        await fetch(FORMBOLD_ENDPOINT, { method: 'POST', body: fb });
-    } catch (err) {
-        console.error('Formbold forward failed:', err);
-    }
+    const clickId = String(form.get('gclid') || form.get('gbraid') || form.get('wbraid') || '').trim();
 
-    // Download email to the user and signup notification to Matthew go
-    // out concurrently — neither blocks or depends on the other.
-    const [emailSent] = await Promise.all([
+    // Sheet log, download email to the user, and signup notification to
+    // Matthew all run concurrently — none blocks or depends on another,
+    // and each failure is logged individually.
+    const [logged, emailSent] = await Promise.all([
+        appendRow(env, SHEET_TAB, [
+            new Date().toISOString(), 'tools', name, email, '', '', clickId
+        ]),
         sendDownloadEmail(env, { name, email, origin }),
         sendSignupNotification(env, { name, email })
     ]);
+    if (!logged) console.error('Sheet log failed for tools signup from', email);
     if (!emailSent) {
         // Never fall back to the download page — that would let anyone
         // get the files with a fake email address, defeating the point

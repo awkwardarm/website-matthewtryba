@@ -14,3 +14,4 @@ _site/
 # Never commit credentials
 .cache.wrangler/
 .wrangler/
+.dev.vars

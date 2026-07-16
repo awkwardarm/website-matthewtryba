@@ -59,7 +59,7 @@ Page-specific styles go in a `<style>` block at the top of the content. Don't du
 
 ```javascript
 'my-page': {
-    formAction: 'https://formbold.com/s/XXXXX',   // create the form in Formbold first
+    formAction: '/api/contact?page=my-page',   // also add 'my-page' to PAGES in functions/api/contact.js
     redirectUrl: location.origin + '/thank-you-8399akkgak3214?source=my-page'
 },
 ```
@@ -81,7 +81,7 @@ Page-specific styles go in a `<style>` block at the top of the content. Don't du
 </script>
 ```
 
-> **Special case:** the tools signup form posts to the Pages Function `/api/tools-signup` (which emails the download link via Resend) instead of directly to Formbold. See `functions/api/tools-signup.js`.
+> Both Functions log submissions to the "Website Form Submissions" Google Sheet and send notification emails via Resend — see `functions/api/contact.js` and `lib/google-sheets.js`. The tools signup form has its own Function (`/api/tools-signup`) because it also emails the download link to the submitter.
 
 ## Step 4: Google Ads Conversion Tracking (landing pages)
 

@@ -70,9 +70,9 @@ website-matthewtryba/
 |---|---|---|
 | **Cloudflare Pages** | Hosting + deploys | builds on push to `main` |
 | **Cloudflare R2** | Audio MP3s, artwork, tool downloads | `pub-869789a451fa44dbadf9e27cd445afa0.r2.dev` |
-| **Formbold** | Form submissions | endpoints in `assets/page-configs.js` |
+| **Google Sheets** | Form submission log | "Website Form Submissions" sheet; service-account creds in Pages env vars (see `lib/google-sheets.js`) |
 | **Stripe** | Donations (Payment Link) | link in `assets/page-configs.js` |
-| **Resend** | Sends the tools download email | `RESEND_API_KEY` env var in the Pages project |
+| **Resend** | Tools download email + form notification emails | `RESEND_API_KEY` env var in the Pages project |
 | **Google Ads / gtag** | Tracking + lead conversions | tag `AW-17389653886` in `base.njk`; conversion events on thank-you pages |
 
 ---
@@ -83,10 +83,10 @@ website-matthewtryba/
 Per-page dynamic values (form endpoints, redirect URLs, download/donate links) live in `assets/page-configs.js`. Pages read them in a `window.onCDNReady` callback, which the layout invokes after all scripts load.
 
 ### Form pipeline
-Forms post to Formbold. `shared-scripts.js` adds spam protection (honeypot + name blocklist) and Google Ads click-id attribution (`gclid` captured to a 90-day cookie, injected as hidden fields). After submit, users are redirected to an obfuscated thank-you page, which fires the Google Ads conversion event.
+Contact forms post to the Pages Function `/api/contact` (`functions/api/contact.js`), which appends each submission to the "Website Form Submissions" Google Sheet and emails it to `matthew@matthewtryba.com` via Resend with a per-page subject line. (Formbold was retired 2026-07 — its free plan couldn't customize the notification subject.) `shared-scripts.js` adds spam protection (honeypot + name blocklist) and Google Ads click-id attribution (`gclid` captured to a 90-day cookie, injected as hidden fields). After submit, users are redirected to an obfuscated thank-you page, which fires the Google Ads conversion event.
 
 ### Tools download flow
-`/tools` signup form → Pages Function `/api/tools-signup` (`functions/api/tools-signup.js`), which records the submission in Formbold, **emails the download link via Resend** (verifying the address is real), and always redirects to `/thank-you-tools` — the download page is never reachable directly from the form, even if the email send fails, so a fake address can't be used to grab the files. The email links to the obfuscated download page (`noindex`) with download buttons + Stripe donate link.
+`/tools` signup form → Pages Function `/api/tools-signup` (`functions/api/tools-signup.js`), which logs the signup to the Google Sheet, **emails the download link via Resend** (verifying the address is real), and always redirects to `/thank-you-tools` — the download page is never reachable directly from the form, even if the email send fails, so a fake address can't be used to grab the files. The email links to the obfuscated download page (`noindex`) with download buttons + Stripe donate link.
 
 ### data-cdn images
 `<img data-cdn="images/...">` is resolved by `hydrateCdnImages()` to the R2 bucket URL. Images under `/images/` in the repo are served by the site directly.
