@@ -38,12 +38,12 @@ const NOTIFY_FROM = 'Website Contact Form <forms@matthewtryba.com>';
 const PAGES = {
     'home': {
         label: 'home',
-        subject: (name) => `New lead from home page — ${name}`,
+        subject: (name) => `${name} — matthewtryba.com — home page form`,
         fallback: '/thank-you-home-98jkxco9012?source=home-page'
     },
     'national-landing': {
         label: 'usa-landing',
-        subject: (name) => `New lead from USA landing page — ${name}`,
+        subject: (name) => `${name} — matthewtryba.com — landing page form`,
         fallback: '/thank-you-8399akkgak3214?source=landing-page-usa'
     }
 };
