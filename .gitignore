@@ -15,3 +15,6 @@ _site/
 .cache.wrangler/
 .wrangler/
 .dev.vars
+
+# Correct-case macOS ignore (.DS_STORE above is case-sensitive and does not match)
+.DS_Store
