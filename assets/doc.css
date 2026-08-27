@@ -1,0 +1,344 @@
+/**
+ * \===========================================================
+ * DOC STYLES — Client documents under /docs/
+ * \===========================================================
+ *
+ * PURPOSE:
+ *     Shared styling for the client-facing documents in src/docs/
+ *     (rate cards, service menus, prep checklists, FAQs). These
+ *     began life as Claude Design print sheets; this file is the
+ *     common <style> block those exports each carried inline.
+ *
+ * LOADED BY:
+ *     base.njk, only when a page sets docPage: true — which the
+ *     src/docs/docs.11tydata.js directory data file does for every
+ *     document. It is not loaded on any other page.
+ *
+ * SCOPE:
+ *     Every rule is scoped under .doc so nothing leaks onto the
+ *     rest of the site. Do not add unscoped element selectors.
+ *
+ * PRINTING:
+ *     These pages are designed to survive Cmd+P → Save as PDF and
+ *     come out looking like the original PDFs. The print block
+ *     hides the site header, footer, and on-screen actions, and
+ *     promotes the running header/footer to fixed position so they
+ *     repeat on every printed page.
+ *
+ * DEPENDENCIES:
+ *     shared-styles.css — already @imports Outfit and defines the
+ *     colour custom properties. IBM Plex Mono is imported here
+ *     because only these documents use it (prices, figures).
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+/* Paper width, shared by the document and the actions bar above it so the two
+   stay aligned. Landscape documents override this on body — see
+   src/docs/production-pathway.html. */
+:root { --doc-width: 8.5in; }
+
+/* \===========================================================
+   DOCUMENT SHELL
+   \===========================================================
+   .doc is the letter-width paper column. The <table class="doc-frame">
+   inside it exists purely so the running header/footer have space
+   reserved on each printed page (thead/tfoot repeat across pages).
+*/
+
+.doc {
+    box-sizing: border-box;
+    max-width: var(--doc-width);
+    margin: 0 auto;
+    background: #fff;
+    padding: 52px clamp(24px, 5vw, 0.75in) 88px;
+    color: var(--secondary-color, #5A5A5A);
+    font-family: "Outfit", system-ui, sans-serif;
+    line-height: 1.5;
+}
+
+.doc-frame { width: 100%; border-collapse: collapse; }
+.doc-frame td { padding: 0; }
+
+/* Running header/footer — hidden on screen, fixed on paper */
+.doc .running-hdr,
+.doc .running-ftr,
+.doc .hdr-space,
+.doc .ftr-space { display: none; }
+
+.doc h1,
+.doc h2,
+.doc h3 { text-wrap: balance; }
+
+.doc p,
+.doc li { text-wrap: pretty; }
+
+.doc a {
+    color: var(--accent-color, #1A73E8);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(26, 115, 232, 0.32);
+}
+
+.doc a:hover { color: var(--primary-color, #0D0D0D); }
+
+/* \===========================================================
+   DOC ACTIONS — screen-only toolbar above each document
+   \===========================================================
+   Carries the "Save as PDF" button and the last-updated date.
+   Rendered by base.njk for any page with docPage: true.
+*/
+
+.doc-actions {
+    max-width: var(--doc-width);
+    margin: 24px auto -20px;
+    padding: 0 clamp(24px, 5vw, 0.75in);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.doc-actions .doc-updated {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-subtle, #9AA0A6);
+}
+
+.doc-actions .doc-print {
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent-color, #1A73E8);
+    background: none;
+    border: 1px solid rgba(26, 115, 232, 0.32);
+    border-radius: 5px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: background 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
+                color 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.doc-actions .doc-print:hover {
+    background: var(--accent-color, #1A73E8);
+    color: #fff;
+}
+
+/* \===========================================================
+   Q&A CARDS — used by the four FAQ documents
+   \=========================================================== */
+
+.doc .qa {
+    border: 1px solid var(--border-color, #DEE2E6);
+    border-radius: 16px;
+    padding: 24px 26px;
+    margin: 0 0 16px;
+    background: #fff;
+}
+
+.doc .qa .q { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
+
+.doc .qa .q-mark {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: #E8F0FE;
+    color: var(--accent-color, #1A73E8);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+}
+
+.doc .qa h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--primary-color, #0D0D0D);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+}
+
+.doc .qa p {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--secondary-color, #5A5A5A);
+    margin: 0 0 10px;
+}
+
+.doc .qa p:last-child { margin-bottom: 0; }
+.doc .qa ul { margin: 0 0 10px; padding-left: 0; list-style: none; }
+.doc .qa ul:last-child { margin-bottom: 0; }
+
+.doc .qa li {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--secondary-color, #5A5A5A);
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.doc .qa li:last-child { margin-bottom: 0; }
+
+.doc .qa li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 0.72em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-color, #1A73E8);
+}
+
+.doc .qa li ul { margin-top: 8px; }
+.doc .qa li li::before { background: transparent; border: 1.5px solid var(--accent-color, #1A73E8); }
+.doc .qa strong,
+.doc .qa b { color: var(--primary-color, #0D0D0D); font-weight: 600; }
+
+/* Monospace example block inside a Q&A card (split sheets, rate examples) */
+.doc .callout-example {
+    background: var(--surface-color, #F8F9FA);
+    border: 1px solid #EAECEF;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 6px 0 4px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--primary-color, #0D0D0D);
+    line-height: 1.65;
+}
+
+.doc .callout-example .lbl { color: #9AA0A6; font-weight: 500; }
+.doc .callout-example .row { display: flex; justify-content: space-between; gap: 12px; }
+
+/* Small-caps section divider with a trailing rule */
+.doc .section-rule { display: flex; align-items: center; gap: 12px; margin: 34px 0 18px; }
+
+.doc .section-rule h2 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--primary-color, #0D0D0D);
+    margin: 0;
+    white-space: nowrap;
+}
+
+.doc .section-rule span { flex: 1; height: 1px; background: var(--border-color, #DEE2E6); }
+
+/* \===========================================================
+   NARROW SCREENS
+   \===========================================================
+   These documents were laid out as 8.5in paper: inline flex rows
+   pairing a label with a price, inside a table used as the print
+   frame. Two things then push the sheet wider than a phone:
+   flex/grid children default to min-width:auto and refuse to
+   shrink below their content, and an auto-layout table grows to
+   its min-content width rather than obeying its container.
+
+   min-width:0 is already the initial value for ordinary blocks,
+   so the rule below changes behaviour only for flex/grid items —
+   which is exactly what needs to give.
+*/
+
+/* Label-and-price rows are the one paper-era pattern that cannot survive a
+   narrow column unchanged: the label is elastic but the price carries
+   white-space:nowrap, so once the row is too tight the price has nowhere to go
+   and paints straight out through the card's right edge. Letting the row wrap
+   costs nothing at full width — flex only breaks a line when the content
+   genuinely does not fit — so this is not scoped to a breakpoint.
+
+   These documents style everything inline, so an attribute selector is the only
+   handle available. The exports are minified consistently
+   ("justify-content:space-between", never spaced), which makes the match
+   reliable; scripts/import-design-doc.py preserves that formatting. */
+.doc [style*="justify-content:space-between"] { flex-wrap: wrap; }
+
+/* The frame is a single-column print scaffold, not a data table, so it should
+   obey its container rather than grow to its widest content. Auto table layout
+   would let a wide child (the Production Pathway roadmap) push the frame out
+   past the paper column. Screen only — print needs the natural layout. */
+@media screen {
+    .doc .doc-frame { table-layout: fixed; }
+}
+
+@media screen and (max-width: 700px) {
+    .doc * { min-width: 0; }
+    .doc img { max-width: 100%; height: auto; }
+
+    /* With the column this narrow, wrapping the row is not enough on its own —
+       the price string itself has to be allowed to break. */
+    .doc [style*="white-space:nowrap"] { white-space: normal; }
+}
+
+/* \===========================================================
+   PRINT — restore the original PDF layout
+   \===========================================================
+   Site chrome comes off, the paper column goes full-bleed, and
+   the running header/footer become fixed so they repeat per page.
+*/
+
+@page { size: letter; margin: 0; }
+
+@media print {
+    html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    html, body { margin: 0; padding: 0; }
+
+    /* Site chrome and on-screen affordances never print */
+    .site-header,
+    body > footer,
+    .doc-actions,
+    .screen-only { display: none !important; }
+
+    .doc {
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 0.75in !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .doc .hdr-space,
+    .doc .ftr-space { display: table-cell; height: 0.5in !important; }
+
+    .doc .running-hdr,
+    .doc .running-ftr {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed !important;
+        left: 0;
+        right: 0;
+        margin: 0 !important;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #9AA0A6;
+    }
+
+    .doc .running-hdr { top: 0; padding: 0.3in 0.75in 0 !important; }
+    .doc .running-ftr { bottom: 0; padding: 0 0.75in 0.3in !important; }
+
+    .doc a { color: var(--primary-color, #0D0D0D); border-bottom: none; }
+
+    .doc h1,
+    .doc h2,
+    .doc h3,
+    .doc h4 { break-after: avoid; }
+
+    .doc figure,
+    .doc blockquote,
+    .doc tr,
+    .doc .keep,
+    .doc .qa { break-inside: avoid; }
+
+    .doc p,
+    .doc li { orphans: 3; widows: 3; }
+}

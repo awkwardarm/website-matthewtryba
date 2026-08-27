@@ -1,0 +1,199 @@
+---
+title: "Production Pathway | Matthew Tryba"
+description: "The five phases of a record, from the Creative Date through release, and what happens in each."
+updated: "August 26, 2026"
+---
+    <style>
+        /* Production Pathway is a landscape sheet — wider column, tighter print margins */
+        body { --doc-width: 11in; }
+        .doc { padding: 36px clamp(24px, 4vw, 0.7in) 56px; }
+        .doc-actions { padding: 0 clamp(24px, 4vw, 0.7in); }
+        .doc a.pp-link { font-weight: 500; }
+
+        /* The roadmap is a four-column landscape table. Its row wrappers are
+           inert by default -- display:contents takes them out of the layout
+           entirely, so the desktop grid and the printed sheet are exactly what
+           they were before the rows existed. */
+        .doc .pp-row { display: contents; }
+
+        /* Above the phone breakpoint the table keeps its real proportions and
+           scrolls if the window is genuinely too narrow. */
+        @media screen and (min-width: 721px) {
+            .doc .pp-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .doc .pp-scroll > div { min-width: 660px; }
+        }
+
+        /* On a phone, four columns cannot be squeezed -- the grid clips its own
+           overflow, so narrowing it silently eats text. Reflow to one card per
+           phase instead: phase name, then each populated column beneath it,
+           labelled. Each cell already carries its row's background, so the
+           deepening blue down the phases survives the change. */
+        @media screen and (max-width: 720px) {
+            /* The grid carries display/background/border as inline styles, so
+               unwinding it here needs !important -- nothing else outranks them. */
+            .doc .pp-scroll > div {
+                display: block !important;
+                background: none !important;
+                border: 0 !important;
+                border-radius: 0 !important;
+                overflow: visible !important;
+            }
+            .doc .pp-row {
+                display: block;
+                border: 1px solid #DEE2E6;
+                border-radius: 12px;
+                overflow: hidden;
+                margin-bottom: 10px;
+            }
+            /* Two classes, so this outranks .pp-row above regardless of order. */
+            .doc .pp-row.pp-head { display: none; }
+            .doc .pp-row > div { padding: 11px 14px !important; }
+            /* A phase with nothing due and no homework should not show empty
+               Payments and Admin blocks. */
+            .doc .pp-row > div:empty { display: none; }
+            .doc .pp-row > div[data-col]::before {
+                content: attr(data-col);
+                display: block;
+                font-size: 9.5px;
+                font-weight: 600;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: #7B8794;
+                margin-bottom: 5px;
+            }
+        }
+        @page { size: letter landscape; margin: 0; }
+        @media print {
+            .doc { padding: 0 0.6in !important; }
+            .doc .hdr-space, .doc .ftr-space { height: 0.34in !important; }
+            .doc .running-hdr { padding: 0.28in 0.6in 0 !important; }
+            .doc .running-ftr { padding: 0 0.6in 0.28in !important; }
+        }
+    </style>
+    <article class="doc">
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+      <div class="running-hdr"><span>Matthew Tryba</span><span>Production Pathway</span></div>
+      <div class="running-ftr"><span>TRYBA MUSIC, LLC</span><span>matthewtryba.com</span></div>
+
+      <!-- Header: lockup + title -->
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:10px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px">
+            <img src="/images/docs/tryba-mark.png" alt="TRYBA MUSIC" width="40" height="40" style="display:block; flex:none;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <span style="font-size:14px; font-weight:700; letter-spacing:-0.01em; color:#0D0D0D;">Matthew Tryba</span>
+              <span style="font-size:10px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:#9AA0A6;">TRYBA MUSIC, LLC</span>
+            </div>
+          </div>
+          
+          <h1 style="font-size: 28px; line-height: 1.02; font-weight: 700; letter-spacing: -0.02em; color: #0D0D0D; margin: 0">Production Pathway</h1><p style="font-size:13px; line-height:1.5; color:#5A5A5A; margin:0 0 3px; max-width:32em; text-align:right;">From our first hello to release day, here's every step ahead.</p>
+        </div>
+        
+      </div>
+
+      <!-- Roadmap table -->
+      <div class="pp-scroll"><div style="display:grid; grid-template-columns:14% 31% 25% 30%; gap:1px; background:#DEE2E6; border:1px solid #DEE2E6; border-radius:12px; overflow:hidden; font-size:12.5px;">
+        <div class="pp-row pp-head"><div style="background:#0D0D0D; padding:7px 13px; font-weight:600; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#fff;">Phase</div><div style="background:#0D0D0D; padding:7px 13px; font-weight:600; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#fff;">What to Expect</div><div style="background:#0D0D0D; padding:7px 13px; font-weight:600; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#fff;">Payments</div><div style="background:#0D0D0D; padding:7px 13px; font-weight:600; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#fff;">Admin / Homework</div></div>
+        <div class="pp-row"><div style="background:#FAFCFF; padding:7px 13px; display:flex; align-items:center; font-weight:600; font-size:15px; color:#0D0D0D;">Intro</div><div data-col="What to Expect" style="background:#FAFCFF; padding:6px 13px;">
+          <ul style="margin:0; padding-left:1.05em; line-height:1.4; display:flex; flex-direction:column; gap:3px; color:#5A5A5A;">
+            <li>Say hello, see if our styles match</li>
+            <li>Overview of the production process</li>
+          </ul>
+        </div><div data-col="Payments" style="background:#FAFCFF; padding:6px 13px;"></div><div data-col="Admin / Homework" style="background:#FAFCFF; padding:6px 13px;"></div></div>
+        <div class="pp-row"><div style="background:#F2F7FE; padding:7px 13px; display:flex; align-items:center; font-weight:600; font-size:15px; color:#0D0D0D;">Creative Date</div><div data-col="What to Expect" style="background:#F2F7FE; padding:6px 13px;">
+          <ul style="margin:0; padding-left:1.05em; line-height:1.4; display:flex; flex-direction:column; gap:3px; color:#5A5A5A;">
+            <li>Find the most effective song</li>
+            <li>Test our creative chemistry</li>
+            <li>Record an acoustic demo</li>
+          </ul>
+        </div><div data-col="Payments" style="background:#F2F7FE; padding:6px 13px;">
+          <div style="display:flex; gap:10px; align-items:flex-start; line-height:1.4; color:#5A5A5A;">
+            <span style="flex:none; width:18px; height:18px; margin-top:1px; border-radius:5px; background:#1A73E8; display:inline-flex; align-items:center; justify-content:center;"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.4 6.2 4.9 8.7 9.6 3.5" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <span><span style="font-family:'IBM Plex Mono', monospace; font-size:13px; color:#0D0D0D; font-weight:500;">$400</span> Creative Date fee</span>
+          </div>
+        </div><div data-col="Admin / Homework" style="background:#F2F7FE; padding:6px 13px;"></div></div>
+        <div class="pp-row"><div style="background:#E6EEFC; padding:7px 13px 7px 9px; border-left:4px solid #1A73E8; display:flex; flex-direction:column; justify-content:center; gap:8px;">
+          <div style="font-weight:700; font-size:15px; line-height:1.2; color:#0D0D0D;">Phase 1:<br>Pre-Production</div>
+          <span style="align-self:flex-start; background:#1A73E8; color:#fff; font-size:9.5px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; padding:4px 10px; border-radius:999px;">You Are Here</span>
+        </div><div data-col="What to Expect" style="background:#E6EEFC; padding:6px 13px;">
+          <ul style="margin:0; padding-left:1.05em; line-height:1.5; color:#5A5A5A;">
+            <li>Pre-production administration</li>
+          </ul>
+        </div><div data-col="Payments" style="background:#E6EEFC; padding:6px 13px;">
+          <div style="display:flex; gap:10px; align-items:flex-start; line-height:1.4; color:#5A5A5A;">
+            <span style="flex:none; width:18px; height:18px; margin-top:1px; border-radius:5px; border:1.5px solid #C9CDD2; background:#fff;"></span>
+            <span>50% deposit <span style="color:#9AA0A6;">(prior session credit applied)</span></span>
+          </div>
+        </div><div data-col="Admin / Homework" style="background:#E6EEFC; padding:6px 13px;">
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            
+            <div style="display:flex; gap:10px; align-items:flex-start; line-height:1.4; color:#5A5A5A;">
+              <span style="flex:none; width:18px; height:18px; margin-top:1px; border-radius:5px; border:1.5px solid #C9CDD2; background:#fff;"></span>
+              <span>Sign Contract "Agreement for Intent to Produce"</span>
+            </div>
+          </div>
+        </div></div>
+        <div class="pp-row"><div style="background:#DEE9FB; padding:7px 13px; display:flex; align-items:center; font-weight:700; font-size:15px; line-height:1.2; color:#0D0D0D;">Phase 2:<br>The Bones</div><div data-col="What to Expect" style="background:#DEE9FB; padding:6px 13px;">
+          <ul style="margin:0; padding-left:1.05em; line-height:1.4; display:flex; flex-direction:column; gap:3px; color:#5A5A5A;">
+            <li>I build the track to "vocal-ready" (~70%)</li>
+            <li>We lock your creative input at defined milestones</li>
+            <li>You practice for vocal recording</li>
+            <li>We lay down background vocal ideas</li>
+          </ul>
+        </div><div data-col="Payments" style="background:#DEE9FB; padding:6px 13px;"></div><div data-col="Admin / Homework" style="background:#DEE9FB; padding:6px 13px;">
+          <div style="display:flex; gap:10px; align-items:flex-start; line-height:1.4; color:#5A5A5A;">
+            <span style="flex:none; width:18px; height:18px; margin-top:1px; border-radius:5px; border:1.5px solid #C9CDD2; background:#fff;"></span>
+            <span>Sign up for a Performance Rights Organization: <a href="https://www.ascap.com" class="pp-link">ASCAP</a> or <a href="https://www.bmi.com" class="pp-link">BMI</a><div style="font-family:'IBM Plex Mono', monospace; font-size:11px; line-height:1.4; color:#9AA0A6; margin-top:2px; word-break:break-all;">ascap.com &nbsp;·&nbsp; bmi.com</div></span>
+          </div>
+        </div></div>
+        <div class="pp-row"><div style="background:#D5E3FA; padding:7px 13px; display:flex; align-items:center; font-weight:700; font-size:15px; line-height:1.2; color:#0D0D0D;">Phase 3:<br>Vocals</div><div data-col="What to Expect" style="background:#D5E3FA; padding:6px 13px;">
+          <ul style="margin:0; padding-left:1.05em; line-height:1.4; display:flex; flex-direction:column; gap:3px; color:#5A5A5A;">
+            <li>Vocals are Queen.</li>
+            <li>1–2 days recording the best performance</li>
+          </ul>
+        </div><div data-col="Payments" style="background:#D5E3FA; padding:6px 13px;"></div><div data-col="Admin / Homework" style="background:#D5E3FA; padding:6px 13px;"></div></div>
+        <div class="pp-row"><div style="background:#CCDDF9; padding:7px 13px; display:flex; align-items:center; font-weight:700; font-size:15px; line-height:1.2; color:#0D0D0D;">Phase 4:<br>Finishing Touches</div><div data-col="What to Expect" style="background:#CCDDF9; padding:6px 13px;">
+          <ul style="margin:0; padding-left:1.05em; line-height:1.4; display:flex; flex-direction:column; gap:3px; color:#5A5A5A;">
+            <li>Add ear candy and fill gaps in the production</li>
+            <li>Mixing and mastering (done by me)</li>
+          </ul>
+        </div><div data-col="Payments" style="background:#CCDDF9; padding:6px 13px;"></div><div data-col="Admin / Homework" style="background:#CCDDF9; padding:6px 13px;">
+          <div style="display:flex; gap:10px; align-items:flex-start; line-height:1.4; color:#5A5A5A;">
+            <span style="flex:none; width:18px; height:18px; margin-top:1px; border-radius:5px; border:1.5px solid #C9CDD2; background:#fff;"></span>
+            <span>Sign up for a music distributor (e.g. <a href="https://distrokid.com/vip/seven/547361" class="pp-link">DistroKid</a>)<div style="font-family:'IBM Plex Mono', monospace; font-size:10px; line-height:1.4; color:#9AA0A6; margin-top:2px; white-space:nowrap;">distrokid.com/vip/seven/547361</div></span>
+          </div>
+        </div></div>
+        <div class="pp-row"><div style="background:#C3D7F8; padding:7px 13px; display:flex; align-items:center; font-weight:700; font-size:15px; line-height:1.2; color:#0D0D0D;">Phase 5:<br>Deliverables + Release</div><div data-col="What to Expect" style="background:#C3D7F8; padding:6px 13px;">
+          <ul style="margin:0; padding-left:1.05em; line-height:1.4; display:flex; flex-direction:column; gap:3px; color:#5A5A5A;">
+            <li>Approve the final master</li>
+            <li>Delivery of audio assets</li>
+            <li>Schedule release 2–4 weeks out</li>
+            <li>Celebrate.</li>
+          </ul>
+        </div><div data-col="Payments" style="background:#C3D7F8; padding:6px 13px;">
+          <div style="display:flex; gap:10px; align-items:flex-start; line-height:1.4; color:#5A5A5A;">
+            <span style="flex:none; width:18px; height:18px; margin-top:1px; border-radius:5px; border:1.5px solid #C9CDD2; background:#fff;"></span>
+            <span>Remaining balance due, plus any revision fees</span>
+          </div>
+        </div><div data-col="Admin / Homework" style="background:#C3D7F8; padding:6px 13px;">
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            
+            <div style="display:flex; gap:10px; align-items:flex-start; line-height:1.4; color:#5A5A5A;">
+              <span style="flex:none; width:18px; height:18px; margin-top:1px; border-radius:5px; border:1.5px solid #C9CDD2; background:#fff;"></span>
+              <span>Register the song with your PRO</span>
+            </div>
+            <div style="display:flex; gap:10px; align-items:flex-start; line-height:1.4; color:#5A5A5A;">
+              <span style="flex:none; width:18px; height:18px; margin-top:1px; border-radius:5px; border:1.5px solid #C9CDD2; background:#fff;"></span>
+              <span>Release the song through your distributor</span>
+            </div>
+          </div>
+        </div></div>
+      </div></div>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</article>

@@ -46,21 +46,51 @@ website-matthewtryba/
 │   ├── welcome-2.html              # /welcome-2 (Google Ads landing page)
 │   ├── thank-you-*.html            # obfuscated thank-you pages (noindex)
 │   ├── production-tools-download-*.html  # download + donate page (noindex)
+│   ├── docs/                       # /docs/* client documents (unlisted)
+│   │   ├── docs.11tydata.js       # layout, noindex, permalink for the whole dir
+│   │   └── *.html                 # rate cards, checklists, one-sheets, FAQs
 │   ├── 404.html / sitemap.njk / robots.txt / _redirects
 │
 ├── assets/                          # Shared resources (served at /assets/)
 │   ├── shared-styles.css           # Global CSS
 │   ├── site-chrome.css             # Header/nav/footer styles
+│   ├── doc.css                     # Client documents only (loaded via docPage)
 │   ├── shared-scripts.js           # Forms, spam filter, GCLID, footer, animations
 │   ├── page-configs.js             # Form endpoints, redirects, downloads, donate
 │   ├── audio-player.css/.js        # Custom audio player
 │   └── audio-player-tracks.js      # Track list — single source of truth
 │
 ├── images/                          # Served at /images/
+│   └── docs/                       # Brand mark + gear photos for client documents
+├── scripts/
+│   └── import-design-doc.py        # Re-import a redesign from a Claude Design export
 ├── docs/                            # Documentation
 ├── migration-reference/             # Old Squarespace CSS + Code Injection (reference)
 └── pages-saved-html/                # Saved Squarespace-rendered pages (reference)
 ```
+
+---
+
+## Client Documents (`/docs/`)
+
+The client-facing documents — rate cards, service menus, prep checklists, FAQs — are pages
+under `src/docs/`, published **unlisted** at `/docs/<slug>/` and sent to clients as links
+rather than PDF attachments. Editing one updates what everyone already holds a link to, so
+there is a single source of truth; `scripts/import-design-doc.py` exists only for pulling a
+redesign back out of a Claude Design export.
+
+`src/docs/docs.11tydata.js` gives the whole directory its layout, permalink, `noindex`, and
+the `docPage` flag that makes `base.njk` load `assets/doc.css` and render the "Save as PDF"
+bar. Each document keeps its `@media print` rules, so Cmd+P still produces the original
+letter-size document — one source, both outputs.
+
+> **Unlisted is not access control.** `noindex` keeps these out of search engines and out of
+> `sitemap.xml`, but anyone with a link can read and forward it. Financials, contracts, and
+> client-specific terms do not belong here. If a document ever needs to be genuinely private,
+> Cloudflare Access can gate the path without changing this structure.
+
+`docs/CLIENT-DOCUMENT-RELEASE-ORDER.md` records which document to send at each stage.
+See `docs/CREATING-PAGES.md` for how to add or edit one.
 
 ---
 

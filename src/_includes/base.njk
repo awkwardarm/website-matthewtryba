@@ -52,8 +52,11 @@
     <link rel="stylesheet" href="/assets/shared-styles.css">
     <link rel="stylesheet" href="/assets/audio-player.css">
     <link rel="stylesheet" href="/assets/site-chrome.css">
+{%- if docPage %}
+    <link rel="stylesheet" href="/assets/doc.css">
+{%- endif %}
 </head>
-<body>
+<body{% if docPage %} class="doc-page"{% endif %}>
 
     <header class="site-header">
         <div class="site-header-inner">
@@ -72,6 +75,12 @@
     </header>
 
     <main>
+{%- if docPage %}
+        <div class="doc-actions">
+            <span class="doc-updated">Last updated {{ updated }}</span>
+            <button type="button" class="doc-print" onclick="window.print()">Save as PDF</button>
+        </div>
+{%- endif %}
 {{ content | safe }}
     </main>
 
@@ -84,7 +93,10 @@
     <script src="/assets/audio-player-tracks.js"></script>
     <script src="/assets/audio-player.js"></script>
     <script>
-        if (typeof initAudioPlayer === 'function' && typeof TRACKS !== 'undefined') {
+        // Client documents under /docs/ are standalone deliverables — the
+        // persistent now-playing bar has no business on a rate sheet.
+        if (!document.body.classList.contains('doc-page')
+            && typeof initAudioPlayer === 'function' && typeof TRACKS !== 'undefined') {
             initAudioPlayer({ tracks: TRACKS });
         }
         if (typeof window.onCDNReady === 'function') window.onCDNReady();

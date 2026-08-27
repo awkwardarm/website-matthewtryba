@@ -9,6 +9,7 @@ Complete guide to managing and deploying the Matthew Tryba website (Eleventy on 
 - System architecture (Eleventy → Cloudflare Pages, R2, Google Sheets, Resend, Stripe)
 - File structure
 - Key concepts (page configs, form pipeline, tools download flow)
+- Client documents under `/docs/`
 
 ### [CREATING-PAGES.md](CREATING-PAGES.md)
 **Step-by-step guide to creating new pages**
@@ -16,6 +17,13 @@ Complete guide to managing and deploying the Matthew Tryba website (Eleventy on 
 - Adding form configurations
 - Testing locally
 - Nav, sitemap, and noindex behavior
+- Client documents: adding one, what `doc.css` provides, re-importing from Claude Design
+
+### [CLIENT-DOCUMENT-RELEASE-ORDER.md](CLIENT-DOCUMENT-RELEASE-ORDER.md)
+**Which client document to send at each stage** — internal, not published
+- The send sequence from discovery call through release
+- Links for every document under `/docs/`
+- What is deliberately not on the site
 
 ### [DEPLOYMENT.md](DEPLOYMENT.md)
 **Complete deployment workflow**
@@ -63,6 +71,12 @@ npm run serve      # http://localhost:8080, live-reloads on save
 
 **Where are my images?**
 → Repo `images/` folder (served at `/images/`); audio, artwork, and tool downloads live in the Cloudflare R2 bucket
+
+**How do I send a client my rates or a checklist?**
+→ Send the link, not a PDF. `/docs/` lists every client document; the page always shows the current version. See [CLIENT-DOCUMENT-RELEASE-ORDER.md](CLIENT-DOCUMENT-RELEASE-ORDER.md) for which to send when.
+
+**Are the `/docs/` pages private?**
+→ No — unlisted. They're hidden from search engines and the sitemap, but anyone with the link can read and forward it. Don't put financials or contracts there.
 
 **Why didn't a tools signup email send?**
 → Health check: `https://www.matthewtryba.com/api/tools-signup` — then Resend dashboard → Logs

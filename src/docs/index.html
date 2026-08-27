@@ -1,0 +1,104 @@
+---
+layout: base.njk
+title: Client Documents | Matthew Tryba
+description: Index of client-facing documents.
+permalink: /docs/
+docPage: false
+eleventyExcludeFromCollections: true
+---
+    <style>
+        .doc-index { max-width: 780px; margin: 0 auto; padding: 56px 20px 88px; }
+        .doc-index .lede { color: var(--secondary-color); margin-bottom: 8px; }
+        .doc-index .warn {
+            border-left: 3px solid var(--accent-secondary);
+            background: var(--surface-color);
+            padding: 12px 16px;
+            margin: 24px 0 40px;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+        .doc-index h2 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--secondary-color);
+            margin: 40px 0 4px;
+            text-align: left;   /* shared-styles.css centres h2 site-wide */
+        }
+        .doc-index ol, .doc-index ul { list-style: none; padding: 0; margin: 0; }
+        .doc-index li { border-top: 1px solid var(--border-color); padding: 18px 0; }
+        .doc-index li a { font-size: 1.15rem; font-weight: 600; color: var(--primary-color); text-decoration: none; }
+        .doc-index li a:hover { color: var(--accent-color); }
+        .doc-index .when { display: block; font-size: 0.9rem; color: var(--secondary-color); margin-top: 4px; }
+        .doc-index .slug { display: block; font-size: 0.8rem; color: #9AA0A6; margin-top: 6px; font-family: ui-monospace, Menlo, monospace; }
+    </style>
+
+    <div class="doc-index">
+        <h1>Client Documents</h1>
+        <p class="lede">Send these as links, not attachments — the link always shows the current version.</p>
+
+        <p class="warn">
+            <strong>Unlisted, not private.</strong> These pages are hidden from search engines and
+            excluded from the sitemap, but anyone holding a link can read and forward it. Never put
+            financials, contracts, or client-specific terms in this directory.
+        </p>
+
+        <h2>The path, in order</h2>
+        <ol>
+            <li>
+                <a href="/docs/services-and-pricing/">Services &amp; Pricing</a>
+                <span class="when">Send right after the discovery call. The menu of ways to work together, as an ascending ladder.</span>
+                <span class="slug">/docs/services-and-pricing/</span>
+            </li>
+            <li>
+                <a href="/docs/creative-date-checklist-in-studio/">Creative Date Checklist — In Studio</a>
+                <span class="when">Send as soon as a Creative Date is booked at the studio. (The Zoom version has no web page yet — still PDF-only.)</span>
+                <span class="slug">/docs/creative-date-checklist-in-studio/</span>
+            </li>
+            <li>
+                <a href="/docs/remote-vocal-recording/">Remote Vocal Recording</a>
+                <span class="when">Send after the client commits to an Advanced Demo or higher and will be recording remotely. Covers both gear paths.</span>
+                <span class="slug">/docs/remote-vocal-recording/</span>
+            </li>
+            <li>
+                <a href="/docs/remote-vocal-tech-setup/">Remote Vocal Session — Tech Setup Guide</a>
+                <span class="when">Send with the recording one-sheet, then reference before every remote session.</span>
+                <span class="slug">/docs/remote-vocal-tech-setup/</span>
+            </li>
+            <li>
+                <a href="/docs/production-pathway/">Production Pathway</a>
+                <span class="when">Include with a Full Production or Gold Tier Demo. The five-phase roadmap through release.</span>
+                <span class="slug">/docs/production-pathway/</span>
+            </li>
+        </ol>
+
+        <h2>Off-path — on request</h2>
+        <ul>
+            <li>
+                <a href="/docs/studio-rates/">Studio Rates</a>
+                <span class="when">Standalone à la carte services. Send only when a client asks about individual services.</span>
+                <span class="slug">/docs/studio-rates/</span>
+            </li>
+        </ul>
+
+        <h2>FAQs</h2>
+        <ul>
+            <li>
+                <a href="/docs/faq-pros-copyrights-splits/">PROs, Copyrights &amp; Royalty Splits</a>
+                <span class="slug">/docs/faq-pros-copyrights-splits/</span>
+            </li>
+            <li>
+                <a href="/docs/faq-music-distribution/">Music Distribution &amp; Master Audio</a>
+                <span class="slug">/docs/faq-music-distribution/</span>
+            </li>
+            <li>
+                <a href="/docs/faq-independent-music-promotion/">Independent Music Promotion &amp; Content Strategy</a>
+                <span class="slug">/docs/faq-independent-music-promotion/</span>
+            </li>
+            <li>
+                <a href="/docs/faq-sync-licensing/">Sync Licensing &amp; Pitching</a>
+                <span class="slug">/docs/faq-sync-licensing/</span>
+            </li>
+        </ul>
+    </div>

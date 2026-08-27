@@ -124,6 +124,90 @@ New pages are automatically included in `sitemap.xml` unless `noindex: true`.
 
 ---
 
+## Client Documents (`/docs/`)
+
+The client-facing documents — rate cards, service menus, prep checklists, FAQs —
+live in `src/docs/` and publish as **unlisted** pages at `/docs/<slug>/`. They are
+sent to clients as links instead of PDF attachments, so an edit here updates what
+everyone already holds a link to. `docs/CLIENT-DOCUMENT-RELEASE-ORDER.md` says
+which document to send when.
+
+> **Unlisted is not private.** `noindex` keeps these out of Google and out of
+> `sitemap.xml`, but anyone with the link can read and forward it. Never put
+> financials, contracts, or client-specific terms in `src/docs/`.
+
+### Adding a document
+
+Create `src/docs/my-document.html` with three lines of front matter:
+
+```yaml
+---
+title: "My Document | Matthew Tryba"
+description: "One sentence, quoted — a colon or a pipe will break unquoted YAML."
+updated: "August 26, 2026"
+---
+```
+
+Everything else comes from `src/docs/docs.11tydata.js`: the layout, `noindex`,
+the `/docs/<slug>/` permalink, and `docPage: true` — which is what makes
+`base.njk` load `assets/doc.css` and render the "Save as PDF" / last-updated bar.
+
+Then write the body as a single `<article class="doc">`. Don't use `<main>` —
+`base.njk` already provides the page's one `<main>`.
+
+### What `assets/doc.css` gives you
+
+Loaded only on these pages. Shared document furniture:
+
+| | |
+|---|---|
+| `.doc` | the 8.5in paper column. Override `--doc-width` on `body` for landscape — see `production-pathway.html` |
+| `.doc-frame` + `.hdr-space` / `.ftr-space` | table scaffold that reserves running-header space on each printed page |
+| `.running-hdr` / `.running-ftr` | hidden on screen, fixed on paper so they repeat per page |
+| `.qa`, `.q-mark`, `.section-rule`, `.callout-example` | the FAQ card components |
+| `.keep` | put on anything that must not split across a page break |
+
+The print block hides the site header, footer, and the actions bar, so
+Cmd+P → Save as PDF produces a clean document. **Always check print preview** —
+these pages are still deliverables people print.
+
+`--doc-width` is why the actions bar lines up with the sheet; set it on `body`,
+not on `.doc`, since the bar is a sibling.
+
+### Re-importing a redesign from Claude Design
+
+The repo is the source of truth — edit the HTML here. The exception is reworking
+a document's design on the Design canvas, which you pull back with:
+
+```bash
+python3 scripts/import-design-doc.py
+```
+
+It reads the unzipped Design export (`~/Downloads/Documents - TRYBA MUSIC`, or
+`DESIGN_EXPORT=/some/path`) and **overwrites** every file it knows about in
+`src/docs/`, so commit first. It strips the canvas wrapper, converts
+`<image-slot>` elements to plain `<img>`, removes the pixel width/height the
+editor stamps on anything you dragged a resize handle over, and rewrites asset
+paths to `/images/docs/`. Those strips are heuristic — read the diff.
+
+New images go in `images/docs/`.
+
+### Gotchas
+
+- **Quote your front matter.** `templateEngineOverride: false` in the data file
+  keeps a stray `{{` in document text from breaking the build, but YAML still
+  parses the front matter, and both `:` and `|` are common in these titles.
+- **No Nunjucks in document bodies.** Same override — `{{ updated }}` will not
+  interpolate inside a document. The layout renders it instead.
+- **Flex rows and mobile.** These layouts were built for paper. `doc.css` sets
+  `min-width: 0` on `.doc` descendants below 700px so flex/grid children can
+  shrink; without it a label-and-price row pushes the whole sheet sideways.
+- **No audio player.** `base.njk` skips it on `docPage` pages.
+- **Wide tables reflow, they don't shrink.** The Production Pathway roadmap groups its grid cells into `.pp-row` wrappers set to `display: contents`, so they are invisible to the desktop grid and to print, and become one card per phase below 720px. If you add another wide table, copy that pattern rather than letting a grid squeeze — a grid with `overflow: hidden` clips text silently as it narrows.
+- **Check print after any layout change.** `--headless --print-to-pdf` in Chrome, then compare the file size against a copy made before the change. Identical size with a few differing bytes is just the embedded `CreationDate`.
+
+---
+
 ## Troubleshooting
 
 **Form doesn't submit / wrong destination:**
