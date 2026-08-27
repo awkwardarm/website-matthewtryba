@@ -1,6 +1,6 @@
 {
   "name": "website-matthewtryba",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "private": true,
   "description": "matthewtryba.com — static site built with Eleventy, hosted on Cloudflare Pages",
   "scripts": {

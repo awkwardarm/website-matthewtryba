@@ -46,7 +46,7 @@ website-matthewtryba/
 │   ├── welcome-2.html              # /welcome-2 (Google Ads landing page)
 │   ├── thank-you-*.html            # obfuscated thank-you pages (noindex)
 │   ├── production-tools-download-*.html  # download + donate page (noindex)
-│   ├── docs/                       # /docs/* client documents (unlisted)
+│   ├── docs/                       # <base>/* client documents (unlisted, secret base path)
 │   │   ├── docs.11tydata.js       # layout, noindex, permalink for the whole dir
 │   │   └── *.html                 # rate cards, checklists, one-sheets, FAQs
 │   ├── 404.html / sitemap.njk / robots.txt / _redirects
@@ -71,13 +71,19 @@ website-matthewtryba/
 
 ---
 
-## Client Documents (`/docs/`)
+## Client Documents (`<base>/`)
 
 The client-facing documents — rate cards, service menus, prep checklists, FAQs — are pages
-under `src/docs/`, published **unlisted** at `/docs/<slug>/` and sent to clients as links
+under `src/docs/`, published **unlisted** at `<base>/<slug>/` and sent to clients as links
 rather than PDF attachments. Editing one updates what everyone already holds a link to, so
 there is a single source of truth; `scripts/import-design-doc.py` exists only for pulling a
 redesign back out of a Claude Design export.
+
+`<base>` is not the literal word "docs" — it's a random segment read from the `DOCS_BASE`
+Cloudflare Pages environment variable at build time, never committed to this public repo.
+`npm run serve` falls back to `docs` locally; a Cloudflare Pages build with the variable
+missing fails instead of silently publishing the guessable default. See
+`docs/CREATING-PAGES.md` for the full mechanism.
 
 `src/docs/docs.11tydata.js` gives the whole directory its layout, permalink, `noindex`, and
 the `docPage` flag that makes `base.njk` load `assets/doc.css` and render the "Save as PDF"
@@ -85,9 +91,10 @@ bar. Each document keeps its `@media print` rules, so Cmd+P still produces the o
 letter-size document — one source, both outputs.
 
 > **Unlisted is not access control.** `noindex` keeps these out of search engines and out of
-> `sitemap.xml`, but anyone with a link can read and forward it. Financials, contracts, and
-> client-specific terms do not belong here. If a document ever needs to be genuinely private,
-> Cloudflare Access can gate the path without changing this structure.
+> `sitemap.xml`, but anyone with a link can read and forward it — the random base path raises
+> the bar from "guessable" to "must be leaked," it doesn't make the content private. Financials,
+> contracts, and client-specific terms do not belong here. If a document ever needs to be
+> genuinely private, Cloudflare Access can gate the path without changing this structure.
 
 `docs/CLIENT-DOCUMENT-RELEASE-ORDER.md` records which document to send at each stage.
 See `docs/CREATING-PAGES.md` for how to add or edit one.

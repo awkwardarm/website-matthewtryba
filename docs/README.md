@@ -9,7 +9,7 @@ Complete guide to managing and deploying the Matthew Tryba website (Eleventy on 
 - System architecture (Eleventy → Cloudflare Pages, R2, Google Sheets, Resend, Stripe)
 - File structure
 - Key concepts (page configs, form pipeline, tools download flow)
-- Client documents under `/docs/`
+- Client documents under a randomized base path
 
 ### [CREATING-PAGES.md](CREATING-PAGES.md)
 **Step-by-step guide to creating new pages**
@@ -22,7 +22,7 @@ Complete guide to managing and deploying the Matthew Tryba website (Eleventy on 
 ### [CLIENT-DOCUMENT-RELEASE-ORDER.md](CLIENT-DOCUMENT-RELEASE-ORDER.md)
 **Which client document to send at each stage** — internal, not published
 - The send sequence from discovery call through release
-- Links for every document under `/docs/`
+- Links for every document under the current base path
 - What is deliberately not on the site
 
 ### [DEPLOYMENT.md](DEPLOYMENT.md)
@@ -73,10 +73,10 @@ npm run serve      # http://localhost:8080, live-reloads on save
 → Repo `images/` folder (served at `/images/`); audio, artwork, and tool downloads live in the Cloudflare R2 bucket
 
 **How do I send a client my rates or a checklist?**
-→ Send the link, not a PDF. `/docs/` lists every client document; the page always shows the current version. See [CLIENT-DOCUMENT-RELEASE-ORDER.md](CLIENT-DOCUMENT-RELEASE-ORDER.md) for which to send when.
+→ Send the link, not a PDF. Bookmark the client-documents index (its URL is the `DOCS_BASE` value in the Cloudflare Pages dashboard, not written anywhere in this repo) — it lists every document, and the page always shows the current version. See [CLIENT-DOCUMENT-RELEASE-ORDER.md](CLIENT-DOCUMENT-RELEASE-ORDER.md) for which to send when.
 
-**Are the `/docs/` pages private?**
-→ No — unlisted. They're hidden from search engines and the sitemap, but anyone with the link can read and forward it. Don't put financials or contracts there.
+**Are the client-document pages private?**
+→ No — unlisted, at an unguessable random base path. They're hidden from search engines and the sitemap, and the path can't be guessed, but anyone who's been sent a link can still read and forward it. Don't put financials or contracts there.
 
 **Why didn't a tools signup email send?**
 → Health check: `https://www.matthewtryba.com/api/tools-signup` — then Resend dashboard → Logs

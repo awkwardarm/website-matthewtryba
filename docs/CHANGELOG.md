@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2026-08-27
+
+### Added — Client documents moved to an unguessable, environment-controlled base path
+- **Why:** `/docs/` was a guessable, literal path — anyone who tried it would find the whole client-documents section. `src/docs/docs.11tydata.js` now builds the base segment from the `DOCS_BASE` environment variable instead of the literal string `"docs"`.
+- **This repo is public on GitHub**, which rules out hardcoding the random segment anywhere in tracked files — a value committed to a public repo isn't a secret. `DOCS_BASE` is set only in the Cloudflare Pages dashboard (Production and Preview), never in source. `npm run serve` has no such variable and falls back to `docs` for local development; a Cloudflare Pages build (detected via the `CF_PAGES` variable Cloudflare injects on every build) throws instead of silently falling back if `DOCS_BASE` is missing, so a forgotten variable can never ship the guessable default to production.
+- **`src/docs/index.html`** re-enables Nunjucks (`templateEngineOverride: njk` in its own front matter, overriding the directory's `false`) so its links build from the `docsBase` data value instead of a literal path — it's the one file in the directory fully authored here, so no client-text-collision risk.
+- Fixed a bug caught while building this: `data.page.fileSlug` for an `index.html` resolves to the *parent directory's name* ("docs"), not `"index"` — an Eleventy quirk to keep sibling index files from colliding. The permalink function now checks `data.page.inputPath.endsWith("/index.html")` instead.
+- Every document's own slug (`services-and-pricing`, `studio-rates`, etc.) stays a plain, readable filename — only the shared base segment is the secret, so `src/docs/` itself is still pleasant to work in.
+
+### Added — Zoom Creative Date Checklist
+- The Release Order always called for a Zoom version alongside the In-Studio one; only the PDF (`uploads/Creative Date Checklist - Zoom - TRYBA MUSIC.pdf`) existed. `src/docs/creative-date-checklist-zoom.html` is hand-authored from that PDF's content, matching the In-Studio page's structure and design-system markup — same "What to Bring" numbered items, with a "Tech Setup" callout (stable connection, be ready to sing) in place of the In-Studio "Session Logistics" (address/parking/arrival) box. No Claude Design `.dc.html` source exists for it, so `scripts/import-design-doc.py` does not touch this file — noted in a comment at the top.
+- `src/docs/index.html` and `docs/CLIENT-DOCUMENT-RELEASE-ORDER.md` present Zoom and In-Studio as two links under one "Creative Date Checklist" entry, matching how they're actually chosen (by session type, not by sequence).
+
 ## [2.2.0] - 2026-08-26
 
 ### Added — Client documents as unlisted pages under `/docs/`

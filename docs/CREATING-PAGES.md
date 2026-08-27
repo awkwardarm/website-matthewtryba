@@ -124,17 +124,38 @@ New pages are automatically included in `sitemap.xml` unless `noindex: true`.
 
 ---
 
-## Client Documents (`/docs/`)
+## Client Documents (`<base>/`)
 
 The client-facing documents — rate cards, service menus, prep checklists, FAQs —
-live in `src/docs/` and publish as **unlisted** pages at `/docs/<slug>/`. They are
-sent to clients as links instead of PDF attachments, so an edit here updates what
-everyone already holds a link to. `docs/CLIENT-DOCUMENT-RELEASE-ORDER.md` says
-which document to send when.
+live in `src/docs/` and publish as **unlisted** pages at `<base>/<slug>/`, where
+`<base>` is a random path segment, not the literal word "docs" — see below. They
+are sent to clients as links instead of PDF attachments, so an edit here updates
+what everyone already holds a link to. `docs/CLIENT-DOCUMENT-RELEASE-ORDER.md`
+says which document to send when.
 
 > **Unlisted is not private.** `noindex` keeps these out of Google and out of
 > `sitemap.xml`, but anyone with the link can read and forward it. Never put
 > financials, contracts, or client-specific terms in `src/docs/`.
+
+### The base path is a secret, and this repo is public
+
+`src/docs/docs.11tydata.js` reads the base segment from the `DOCS_BASE`
+environment variable — **never write the actual value into any file in this
+repo.** This repository is public on GitHub; a value committed here stops being
+a secret the instant it's pushed. `DOCS_BASE` is set only in the Cloudflare
+Pages project's dashboard (Settings → Environment variables, both Production and
+Preview).
+
+`npm run serve` has no such variable and falls back to the literal `docs` for
+local development — so the pages you see locally at `/docs/*` are not the real
+production URLs. A Cloudflare Pages build (detected via the `CF_PAGES` variable
+Cloudflare injects automatically, on every build, production or preview) fails
+loudly instead of silently falling back if `DOCS_BASE` is missing, so a forgotten
+variable can never ship the guessable default.
+
+To rotate the secret: generate a new random value, update `DOCS_BASE` in
+Cloudflare Pages, and redeploy. Every existing link breaks — that's the point of
+rotating it — so only do this if a link has leaked somewhere it shouldn't have.
 
 ### Adding a document
 
@@ -149,7 +170,7 @@ updated: "August 26, 2026"
 ```
 
 Everything else comes from `src/docs/docs.11tydata.js`: the layout, `noindex`,
-the `/docs/<slug>/` permalink, and `docPage: true` — which is what makes
+the `<base>/<slug>/` permalink, and `docPage: true` — which is what makes
 `base.njk` load `assets/doc.css` and render the "Save as PDF" / last-updated bar.
 
 Then write the body as a single `<article class="doc">`. Don't use `<main>` —
