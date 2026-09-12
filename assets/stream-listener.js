@@ -31,6 +31,7 @@
   var epoch = null;
   var started = false;
   var soundRunning = false;
+  var live = false;
   var fullPoll = null;
   var firstAudioAt = 0;
   var touchedVolume = false;
@@ -38,7 +39,7 @@
   // ---------------------------------------------------------------- boot
 
   document.addEventListener("DOMContentLoaded", function () {
-    ["screen-loading","screen-unsupported","screen-full","screen-player","play-button",
+    ["screen-loading","screen-unsupported","screen-full","screen-player","play-button","play-label",
      "status-line","volume","mute","help-link","help-panel","live-dot","error-note",
      "unsupported-reason","chrome-actions"].forEach(function (id) {
       el[id.replace(/-([a-z])/g, function (_, c) { return c.toUpperCase(); })] =
@@ -117,6 +118,13 @@
     ws = new WebSocket(RELAY + "/v1/rooms/" + room + "/listen?lid=" + lid);
     ws.binaryType = "arraybuffer";
 
+    ws.addEventListener("open", function () {
+      // Honest default: the page says nothing is playing until a HELLO proves otherwise.
+      show("screenPlayer");
+      setStatus("Waiting for Matthew to start");
+      hidePlayButton();
+    });
+
     ws.addEventListener("message", function (e) {
       if (typeof e.data === "string") return handleText(e.data, room);
       handleBinary(e.data);
@@ -132,6 +140,12 @@
   function handleText(raw, room) {
     var m;
     try { m = JSON.parse(raw); } catch (_) { return; }
+
+    if (m.t === "state") {
+      live = !!m.live;
+      if (!live) goOffAir("Waiting for Matthew to start");
+      return;
+    }
     if (m.t !== "full") return;
     show("screenFull");
     if (fullPoll) return;
@@ -172,8 +186,11 @@
 
     buildDecoder();
     if (ctx) ensureGraph();
+    live = true;
     show("screenPlayer");
     setStatus("Matthew is streaming");
+    // Only now is a Play button meaningful — there is audio for it to start.
+    if (!soundRunning && !ctxAllowedAutoplay) showPlayButton();
   }
 
   function buildDecoder() {
@@ -223,8 +240,32 @@
   }
 
   function onBye() {
-    setStatus("Stream ended");
+    goOffAir("Stream ended");
+  }
+
+  /**
+   * No audio is coming. Tear the playback state back down so that if the stream
+   * returns, the page starts cleanly rather than resuming a half-primed buffer — and
+   * so no Play button is left on screen promising sound it cannot deliver.
+   */
+  function goOffAir(message) {
+    live = false;
+    soundRunning = false;
+    started = false;
+    hello = null;
+    epoch = null;
+    if (decoder) { try { decoder.close(); } catch (_) {} decoder = null; }
+    if (node) node.port.postMessage({ type: "reset" });
+    firstAudioAt = 0;
+    show("screenPlayer");
+    setStatus(message);
+    hidePlayButton();
     if (el.liveDot) el.liveDot.classList.remove("live");
+  }
+
+  function hidePlayButton() {
+    if (el.playButton) el.playButton.hidden = true;
+    if (el.playLabel) el.playLabel.hidden = true;
   }
 
   function resetPipeline() {
@@ -263,34 +304,41 @@
     });
   }
 
+  var ctxAllowedAutoplay = false;
+
   function tryAutoplay() {
     createContext();
     ctx.resume().then(function () {
       if (ctx.state === "running") {
         // Allowed. Sound begins as soon as the buffer primes; no button ever shown.
-        if (el.playButton) el.playButton.hidden = true;
+        ctxAllowedAutoplay = true;
+        hidePlayButton();
         ensureGraph();
       } else {
         showPlayButton();
       }
-    }).catch(showPlayButton);
+    }).catch(function () { showPlayButton(); });
 
-    // Safari can report "running" and still be silent until a gesture; if nothing is
-    // audible shortly after audio starts arriving, fall back to the button.
+    // Safari can report "running" and still stay silent until a gesture. Fall back to
+    // the button — but only once audio is actually arriving, so a listener waiting for
+    // a stream that has not started is never shown a button that does nothing.
     setTimeout(function () {
-      if (!soundRunning && !started) showPlayButton();
+      if (!soundRunning && !started && live && firstAudioAt) showPlayButton();
     }, 1200);
   }
 
   function showPlayButton() {
-    if (!el.playButton || started) return;
+    // A Play button is a promise that tapping it produces sound. Never show one unless
+    // there is a live stream behind it.
+    if (!el.playButton || started || !live || !hello) return;
     el.playButton.hidden = false;
+    if (el.playLabel) el.playLabel.hidden = false;
     el.playButton.addEventListener("click", onPlayTap, { once: true });
   }
 
   function onPlayTap() {
     started = true;
-    el.playButton.hidden = true;
+    hidePlayButton();
 
     // All of this must run synchronously in the gesture.
     createContext();
@@ -319,7 +367,7 @@
   function onSoundStarted() {
     soundRunning = true;
     started = true;
-    if (el.playButton) el.playButton.hidden = true;
+    hidePlayButton();
     if (el.liveDot) el.liveDot.classList.add("live");
     localStorage.setItem("trybaStreamPlayedHere", "1");
     setStatus("Matthew is streaming");
