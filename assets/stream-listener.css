@@ -1,0 +1,128 @@
+/* Tryba Stream listener — reuses the site's surface/border/accent tokens. */
+
+.stream-wrap {
+  max-width: 34rem;
+  margin: 4rem auto;
+  padding: 0 1.25rem;
+  text-align: center;
+}
+
+.stream-card {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 2.5rem 1.5rem;
+}
+
+.stream-status {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0 0 1.75rem;
+}
+
+/* 96px, per PLAN.md §4. Large enough to be the only thing on screen worth touching. */
+.stream-play {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: none;
+  background: #6196f8;
+  color: #fff;
+  font-size: 2.1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 6px; /* optically centre the triangle */
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+.stream-play:hover { background: #4d84ec; transform: scale(1.04); }
+.stream-play:focus-visible { outline: 3px solid var(--accent-color); outline-offset: 4px; }
+
+.stream-play-label {
+  margin: 0.9rem 0 0;
+  color: var(--secondary-color);
+  font-size: 1rem;
+}
+
+.stream-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.75rem;
+}
+
+/* Generous track height: this gets dragged with a thumb on a phone. */
+.stream-controls input[type="range"] {
+  flex: 1;
+  height: 28px;
+  accent-color: #6196f8;
+  cursor: pointer;
+}
+
+.stream-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.6rem 1.1rem;
+  min-height: 44px;
+  color: var(--primary-color);
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.stream-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
+
+.stream-live {
+  margin-top: 1.1rem;
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  justify-content: center;
+}
+.stream-live::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--border-color);
+}
+.stream-live.live::before { background: #2ecc71; }
+
+.stream-help-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: var(--secondary-color);
+  font-size: 0.92rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.stream-help {
+  margin-top: 1rem;
+  text-align: left;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  font-size: 0.95rem;
+  color: var(--secondary-color);
+}
+.stream-help ul { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+.stream-help li { margin-bottom: 0.45rem; }
+
+.stream-hint { color: var(--secondary-color); font-size: 0.92rem; margin-top: 0.85rem; }
+.stream-error { color: #d64545; margin-top: 1rem; font-size: 0.95rem; }
+.stream-footer { margin-top: 1.5rem; font-size: 0.9rem; }
+.stream-footer a { color: var(--secondary-color); }
+
+@media (max-width: 480px) {
+  .stream-wrap { margin: 2rem auto; }
+  .stream-card { padding: 2rem 1rem; }
+}

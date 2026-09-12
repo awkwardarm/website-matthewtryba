@@ -1,0 +1,66 @@
+---
+title: Listen — Matthew Tryba
+description: Live stream from the studio.
+noindex: true
+noPlayer: true
+---
+
+<link rel="stylesheet" href="/assets/stream-listener.css">
+
+<div class="stream-wrap">
+
+  <div id="screen-loading">
+    <div class="stream-card">
+      <p class="stream-status">Connecting…</p>
+    </div>
+  </div>
+
+  <div id="screen-unsupported" hidden>
+    <div class="stream-card">
+      <p class="stream-status" id="unsupported-reason">This browser can't play the stream.</p>
+      <p class="stream-hint">Open this link in Chrome and it'll work.</p>
+      <div id="chrome-actions"></div>
+    </div>
+  </div>
+
+  <div id="screen-full" hidden>
+    <div class="stream-card">
+      <p class="stream-status">This stream is full right now</p>
+      <p class="stream-hint">It'll start on its own as soon as a spot opens up. You can leave this page open.</p>
+    </div>
+  </div>
+
+  <div id="screen-player" hidden>
+    <div class="stream-card">
+      <p class="stream-status" id="status-line">Waiting for Matthew to start</p>
+
+      <button id="play-button" class="stream-play" aria-label="Play the stream" hidden>&#9654;</button>
+      <p class="stream-play-label" id="play-label">Tap to listen</p>
+
+      <div class="stream-controls">
+        <span aria-hidden="true">&#128264;</span>
+        <input id="volume" type="range" min="0" max="100" value="80" aria-label="Volume">
+        <button id="mute" class="stream-btn">Mute</button>
+      </div>
+
+      <p class="stream-live" id="live-dot">Live</p>
+      <p class="stream-error" id="error-note" hidden></p>
+
+      <a class="stream-help-link" id="help-link" href="#" hidden>Not hearing anything?</a>
+      <div class="stream-help" id="help-panel" hidden>
+        <ul>
+          <li>On an iPhone, check the silent switch on the left edge — it mutes a lot of web audio.</li>
+          <li>Turn the device volume up, and check the slider above isn't at zero.</li>
+          <li>If you opened this from Instagram, Messenger, or email, tap the &hellip; menu and choose <strong>Open in browser</strong>.</li>
+          <li>Still nothing? Open the link in Chrome.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="stream-footer">
+      <a id="report-link" href="mailto:matthewtryba@gmail.com?subject=Stream%20trouble">Something wrong? Send Matthew a note</a>
+    </p>
+  </div>
+
+</div>
+
+<script src="/assets/stream-listener.js"></script>
