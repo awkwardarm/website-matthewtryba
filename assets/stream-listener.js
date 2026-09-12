@@ -369,6 +369,7 @@
     started = true;
     hasGesture = true;
     hidePlayButton();
+    if (soundRunning && el.liveDot) el.liveDot.classList.add("live");
 
     // All of this must run synchronously in the gesture. Deferring any of it until the
     // socket or the worklet is ready forfeits the gesture credit in Safari.
@@ -398,8 +399,13 @@
   function onSoundStarted() {
     soundRunning = true;
     started = true;
-    if (el.liveDot) el.liveDot.classList.add("live");
     setStatus("Matthew is streaming");
+
+    // The green indicator means "you are hearing this", not "bytes are arriving". On a
+    // device that requires a gesture we have no evidence of the former until the tap
+    // happens, and showing green anyway is what made a silent iPad look like it was
+    // playing. On desktop, where autoplay genuinely works, no tap is needed.
+    if (el.liveDot && (hasGesture || !needsGesture())) el.liveDot.classList.add("live");
 
     // The worklet producing samples proves the pipeline runs, NOT that the listener can
     // hear it. Without a user gesture the browser may still be routing that audio
