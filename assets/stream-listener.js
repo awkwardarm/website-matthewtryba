@@ -40,7 +40,10 @@
   // not be told apart from starvation, a lost audio session, or a stalled decoder.
   var DEBUG = /[?&]debug=1/.test(location.search);
   var dbg = { audioMsgs: 0, decoded: 0, buffered: 0, target: 0, starved: 0, silent: false,
-              lastAudioAt: 0, ctxState: "-", sessionDrops: 0 };
+              lastAudioAt: 0, ctxState: "-", sessionDrops: 0, route: "destination" };
+  var mediaEl = null;
+  var mediaDest = null;
+  var paused = false;
 
   // ---------------------------------------------------------------- boot
 
@@ -380,6 +383,38 @@
     el.playButton.addEventListener("click", onPlayTap, { once: true });
   }
 
+  /**
+   * The button is a play/pause toggle once sound is running. Previously it simply
+   * disappeared after the first tap, which left a listener with no way to stop the
+   * stream and no feedback that the tap had registered.
+   */
+  function setPlayState(playing) {
+    paused = !playing;
+    if (!el.playButton) return;
+    el.playButton.hidden = false;
+    el.playButton.innerHTML = playing ? "&#10073;&#10073;" : "&#9654;";
+    el.playButton.setAttribute("aria-label", playing ? "Pause the stream" : "Play the stream");
+    el.playButton.classList.toggle("is-playing", playing);
+    if (el.playLabel) el.playLabel.hidden = true;
+    if (el.takeoverHint) el.takeoverHint.hidden = true;
+  }
+
+  function onPauseTap() {
+    if (paused) {
+      if (ctx) ctx.resume();
+      if (mediaEl) { var p = mediaEl.play(); if (p && p.catch) p.catch(function () {}); }
+      if (node) node.port.postMessage({ type: "reset" }); // rebuild the buffer, do not replay stale audio
+      setPlayState(true);
+      if (el.liveDot) el.liveDot.classList.add("live");
+    } else {
+      if (mediaEl) mediaEl.pause();
+      if (ctx) ctx.suspend();
+      setPlayState(false);
+      if (el.liveDot) el.liveDot.classList.remove("live");
+      setStatus("Paused");
+    }
+  }
+
   function onPlayTap() {
     started = true;
     hasGesture = true;
@@ -391,8 +426,52 @@
     unlockIOS();
     createContext();
     ctx.resume();
+    // Must happen inside the gesture: an <audio> element cannot start outside one.
+    if (needsGesture()) routeThroughElement();
     ensureGraph();
     if (gain) gain.gain.value = currentGain();
+    setPlayState(true);
+    el.playButton.addEventListener("click", onPauseTap);
+  }
+
+  /**
+   * Route the mix through an <audio> element instead of straight to ctx.destination.
+   *
+   * On iOS, raw Web Audio plays on the ringer channel, so the hardware mute switch
+   * silences it. That looks exactly like a healthy pipeline producing no sound, and it
+   * is what a full debug readout — buffer above target, ctx running, gain 1.0, Safari
+   * showing its audio indicator — combined with total silence actually means. An
+   * <audio> element plays on the media channel, which the mute switch does not control.
+   *
+   * A brief silent clip (unlockIOS below) is not enough on its own: it ends, and the
+   * session falls back. This keeps a live element for as long as audio is playing.
+   *
+   * Swaps away from ctx.destination only once the element is genuinely playing, so a
+   * failure here leaves the working route intact rather than producing silence.
+   */
+  function routeThroughElement() {
+    if (mediaEl || !ctx || !gain || typeof ctx.createMediaStreamDestination !== "function") return;
+    try {
+      mediaDest = ctx.createMediaStreamDestination();
+      gain.connect(mediaDest);
+      mediaEl = document.createElement("audio");
+      mediaEl.setAttribute("playsinline", "");
+      mediaEl.autoplay = true;
+      mediaEl.srcObject = mediaDest.stream;
+      var p = mediaEl.play();
+      if (p && p.then) {
+        p.then(function () {
+          try { gain.disconnect(ctx.destination); } catch (_) {}
+          dbg.route = "element";
+        }).catch(function () {
+          try { gain.disconnect(mediaDest); } catch (_) {}
+          mediaEl = null;
+          dbg.route = "destination (element refused)";
+        });
+      }
+    } catch (_) {
+      dbg.route = "destination (element unavailable)";
+    }
   }
 
   /**
@@ -426,7 +505,7 @@
     // hear it. Without a user gesture the browser may still be routing that audio
     // nowhere. So only claim success once a gesture has actually happened.
     if (hasGesture) {
-      hidePlayButton();
+      setPlayState(!paused);
       localStorage.setItem("trybaStreamPlayedHere", "1");
       // "Assume no sound is our fault" — offer help before they have to ask.
       setTimeout(function () {
@@ -460,10 +539,20 @@
     return isNaN(v) ? 0.8 : v;
   }
 
+  function applyMuteVisual(muted) {
+    if (el.mute) el.mute.textContent = muted ? "Unmute" : "Mute";
+    // The slider keeps its position (so unmuting restores the same level) but the whole
+    // control now reads as inactive. Previously gain went to zero while the slider still
+    // looked like it was up, which is indistinguishable from a broken stream.
+    var row = el.volume && el.volume.closest(".stream-controls");
+    if (row) row.classList.toggle("is-muted", muted);
+  }
+
   function restoreVolume() {
     var muted = localStorage.getItem("trybaStreamMuted") === "1";
     var v = parseFloat(localStorage.getItem("trybaStreamVolume"));
     if (isNaN(v)) v = 0.8;
+    applyMuteVisual(muted);
     if (el.volume) {
       el.volume.value = String(Math.round(v * 100));
       el.volume.addEventListener("input", function () {
@@ -471,7 +560,7 @@
         var nv = Number(el.volume.value) / 100;
         localStorage.setItem("trybaStreamVolume", String(nv));
         localStorage.setItem("trybaStreamMuted", "0");
-        if (el.mute) el.mute.textContent = "Mute";
+        applyMuteVisual(false);
         if (gain) gain.gain.value = nv;
       });
     }
@@ -481,7 +570,7 @@
         touchedVolume = true;
         var nowMuted = localStorage.getItem("trybaStreamMuted") !== "1";
         localStorage.setItem("trybaStreamMuted", nowMuted ? "1" : "0");
-        el.mute.textContent = nowMuted ? "Unmute" : "Mute";
+        applyMuteVisual(nowMuted);
         if (gain) gain.gain.value = nowMuted ? 0 : Number(el.volume.value) / 100;
       });
     }
@@ -522,6 +611,10 @@
       var since = dbg.lastAudioAt ? ((Date.now() - dbg.lastAudioAt) / 1000).toFixed(1) : "-";
       box.textContent =
         "ctx        " + dbg.ctxState + "   sessionDrops " + dbg.sessionDrops + "\n" +
+        "rate       " + (ctx ? ctx.sampleRate : "-") + " Hz   clock " +
+          (ctx ? ctx.currentTime.toFixed(1) : "-") + "s\n" +
+        "route      " + dbg.route +
+          (mediaEl ? "   el.paused " + mediaEl.paused : "") + "\n" +
         "net msgs   " + dbg.audioMsgs + "   last " + since + "s ago\n" +
         "decoded    " + dbg.decoded + " frames\n" +
         "buffer     " + dbg.buffered + " / " + dbg.target + " target\n" +

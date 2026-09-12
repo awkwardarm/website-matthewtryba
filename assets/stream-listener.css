@@ -141,3 +141,11 @@
   white-space: pre;
   overflow-x: auto;
 }
+
+/* Play/pause toggle: the pause glyph needs no optical nudge. */
+.stream-play.is-playing { padding-left: 0; letter-spacing: 0.12em; font-size: 1.7rem; }
+
+/* Muted: the whole row reads as inactive, so gain 0 is never mistaken for a dead stream. */
+.stream-controls.is-muted { opacity: 0.45; }
+.stream-controls.is-muted input[type="range"] { accent-color: var(--secondary-color); }
+.stream-controls.is-muted button { border-color: var(--accent-color); color: var(--accent-color); }
