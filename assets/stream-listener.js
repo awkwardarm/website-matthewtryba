@@ -190,7 +190,7 @@
     show("screenPlayer");
     setStatus("Matthew is streaming");
     // Only now is a Play button meaningful — there is audio for it to start.
-    if (!soundRunning && !ctxAllowedAutoplay) showPlayButton();
+    if (!hasGesture && (isIOS() || !ctxAllowedAutoplay)) showPlayButton();
   }
 
   function buildDecoder() {
@@ -252,6 +252,7 @@
     live = false;
     soundRunning = false;
     started = false;
+    if (el.playLabel) el.playLabel.textContent = "Tap to listen";
     hello = null;
     epoch = null;
     if (decoder) { try { decoder.close(); } catch (_) {} decoder = null; }
@@ -305,8 +306,23 @@
   }
 
   var ctxAllowedAutoplay = false;
+  var hasGesture = false;
+
+  function isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+           (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  }
 
   function tryAutoplay() {
+    // On iOS a context can report "running" and still be inaudible, because the audio
+    // session is on the ringer channel until an <audio> element plays inside a user
+    // gesture. Autoplaying there produces a green "live" indicator and silence, so the
+    // tap is required — it is the only place the unlock can happen.
+    if (isIOS()) {
+      createContext();
+      showPlayButton();
+      return;
+    }
     createContext();
     ctx.resume().then(function () {
       if (ctx.state === "running") {
@@ -329,8 +345,9 @@
 
   function showPlayButton() {
     // A Play button is a promise that tapping it produces sound. Never show one unless
-    // there is a live stream behind it.
-    if (!el.playButton || started || !live || !hello) return;
+    // there is a live stream behind it — but "started" alone must not suppress it,
+    // since the autoplay path sets that without any proof of audibility.
+    if (!el.playButton || hasGesture || !live || !hello) return;
     el.playButton.hidden = false;
     if (el.playLabel) el.playLabel.hidden = false;
     el.playButton.addEventListener("click", onPlayTap, { once: true });
@@ -338,13 +355,16 @@
 
   function onPlayTap() {
     started = true;
+    hasGesture = true;
     hidePlayButton();
 
-    // All of this must run synchronously in the gesture.
+    // All of this must run synchronously in the gesture. Deferring any of it until the
+    // socket or the worklet is ready forfeits the gesture credit in Safari.
+    unlockIOS();
     createContext();
     ctx.resume();
-    unlockIOS();
     ensureGraph();
+    if (gain) gain.gain.value = currentGain();
   }
 
   /**
@@ -356,8 +376,7 @@
     try {
       var a = document.createElement("audio");
       a.setAttribute("playsinline", "");
-      a.src = "data:audio/mp4;base64,AAAAHGZ0eXBNNEEgAAAAAE00QSBtcDQyaXNvbQAAAAhmcmVl" +
-              "AAAAG21kYXQhsAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+      a.src = "data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
       a.volume = 0.01;
       var p = a.play();
       if (p && p.catch) p.catch(function () {});
@@ -367,14 +386,37 @@
   function onSoundStarted() {
     soundRunning = true;
     started = true;
-    hidePlayButton();
     if (el.liveDot) el.liveDot.classList.add("live");
-    localStorage.setItem("trybaStreamPlayedHere", "1");
     setStatus("Matthew is streaming");
-    // "Assume no sound is our fault" — offer help before they have to ask.
-    setTimeout(function () {
-      if (!touchedVolume && el.helpLink) el.helpLink.hidden = false;
-    }, 6000);
+
+    // The worklet producing samples proves the pipeline runs, NOT that the listener can
+    // hear it. Without a user gesture the browser may still be routing that audio
+    // nowhere. So only claim success once a gesture has actually happened.
+    if (hasGesture) {
+      hidePlayButton();
+      localStorage.setItem("trybaStreamPlayedHere", "1");
+      // "Assume no sound is our fault" — offer help before they have to ask.
+      setTimeout(function () {
+        if (!touchedVolume && el.helpLink) el.helpLink.hidden = false;
+      }, 6000);
+      return;
+    }
+
+    // Autoplay path: audio is flowing but unconfirmed. Keep an obvious way to fix it.
+    if (el.helpLink) el.helpLink.hidden = false;
+    showSoundCheck();
+  }
+
+  /**
+   * Shown when audio is flowing but no gesture has confirmed it is audible. One tap
+   * runs the full unlock path, which is exactly what a silent iPhone or a
+   * gesture-gated Safari needs.
+   */
+  function showSoundCheck() {
+    if (!el.playButton || hasGesture) return;
+    el.playButton.hidden = false;
+    if (el.playLabel) { el.playLabel.hidden = false; el.playLabel.textContent = "No sound? Tap here"; }
+    el.playButton.addEventListener("click", onPlayTap, { once: true });
   }
 
   // ---------------------------------------------------------------- controls
