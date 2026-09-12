@@ -35,6 +35,12 @@
   var fullPoll = null;
   var firstAudioAt = 0;
   var touchedVolume = false;
+  // ?debug=1 surfaces the worklet's buffer health on screen. The worklet has always
+  // reported this; nothing displayed it, which is why "a brief beep then silence" could
+  // not be told apart from starvation, a lost audio session, or a stalled decoder.
+  var DEBUG = /[?&]debug=1/.test(location.search);
+  var dbg = { audioMsgs: 0, decoded: 0, buffered: 0, target: 0, starved: 0, silent: false,
+              lastAudioAt: 0, ctxState: "-", sessionDrops: 0 };
 
   // ---------------------------------------------------------------- boot
 
@@ -57,6 +63,7 @@
       restoreVolume();
       connect(room);
       tryAutoplay();
+      if (DEBUG) startDebugReadout();
     });
   });
 
@@ -225,9 +232,12 @@
       off += len;
     }
     if (!firstAudioAt) firstAudioAt = Date.now();
+    dbg.audioMsgs++;
+    dbg.lastAudioAt = Date.now();
   }
 
   function onDecoded(audioData) {
+    dbg.decoded++;
     if (!node) { audioData.close(); return; }
     var chans = [];
     for (var c = 0; c < audioData.numberOfChannels; c++) {
@@ -300,7 +310,12 @@
         processorOptions: { targetFrames: targetFrames, channels: hello.channels },
       });
       node.port.onmessage = function (e) {
-        if (e.data.type === "stats" && !e.data.silent && !soundRunning) onSoundStarted();
+        if (e.data.type !== "stats") return;
+        dbg.buffered = e.data.bufferedFrames;
+        dbg.target = e.data.target;
+        dbg.starved = e.data.starved;
+        dbg.silent = e.data.silent;
+        if (!e.data.silent && !soundRunning) onSoundStarted();
       };
       node.connect(gain);
     });
@@ -486,5 +501,34 @@
     });
   }
   function setStatus(text) { if (el.statusLine) el.statusLine.textContent = text; }
+
+  /**
+   * On-screen diagnostics. Deliberately plain text and always visible when enabled —
+   * a listener on a phone cannot open a console, and this is the only way to tell
+   * starvation apart from a lost audio session.
+   */
+  function startDebugReadout() {
+    var box = document.createElement("pre");
+    box.className = "stream-debug";
+    document.querySelector(".stream-wrap").appendChild(box);
+    setInterval(function () {
+      if (ctx) {
+        var st = ctx.state;
+        // An AudioContext that falls back to "interrupted"/"suspended" after running is
+        // the signature of another app taking the audio session.
+        if (dbg.ctxState === "running" && st !== "running") dbg.sessionDrops++;
+        dbg.ctxState = st;
+      }
+      var since = dbg.lastAudioAt ? ((Date.now() - dbg.lastAudioAt) / 1000).toFixed(1) : "-";
+      box.textContent =
+        "ctx        " + dbg.ctxState + "   sessionDrops " + dbg.sessionDrops + "\n" +
+        "net msgs   " + dbg.audioMsgs + "   last " + since + "s ago\n" +
+        "decoded    " + dbg.decoded + " frames\n" +
+        "buffer     " + dbg.buffered + " / " + dbg.target + " target\n" +
+        "starved    " + dbg.starved + "   silent " + dbg.silent + "\n" +
+        "gesture    " + hasGesture + "   soundRunning " + soundRunning + "\n" +
+        "gain       " + (gain ? gain.gain.value.toFixed(2) : "-");
+    }, 500);
+  }
   function setError(text) { if (el.errorNote) { el.errorNote.textContent = text; el.errorNote.hidden = false; } }
 })();

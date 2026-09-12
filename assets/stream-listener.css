@@ -126,3 +126,18 @@
   .stream-wrap { margin: 2rem auto; }
   .stream-card { padding: 2rem 1rem; }
 }
+
+/* ?debug=1 only — buffer health on a device with no console. */
+.stream-debug {
+  margin-top: 1.25rem;
+  padding: 0.85rem 1rem;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  text-align: left;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--secondary-color);
+  white-space: pre;
+  overflow-x: auto;
+}
