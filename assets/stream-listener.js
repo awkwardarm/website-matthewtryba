@@ -39,7 +39,7 @@
   // ---------------------------------------------------------------- boot
 
   document.addEventListener("DOMContentLoaded", function () {
-    ["screen-loading","screen-unsupported","screen-full","screen-player","play-button","play-label",
+    ["screen-loading","screen-unsupported","screen-full","screen-player","play-button","play-label","takeover-hint",
      "status-line","volume","mute","help-link","help-panel","live-dot","error-note",
      "unsupported-reason","chrome-actions"].forEach(function (id) {
       el[id.replace(/-([a-z])/g, function (_, c) { return c.toUpperCase(); })] =
@@ -190,7 +190,7 @@
     show("screenPlayer");
     setStatus("Matthew is streaming");
     // Only now is a Play button meaningful — there is audio for it to start.
-    if (!hasGesture && (isIOS() || !ctxAllowedAutoplay)) showPlayButton();
+    if (!hasGesture && (needsGesture() || !ctxAllowedAutoplay)) showPlayButton();
   }
 
   function buildDecoder() {
@@ -267,6 +267,7 @@
   function hidePlayButton() {
     if (el.playButton) el.playButton.hidden = true;
     if (el.playLabel) el.playLabel.hidden = true;
+    if (el.takeoverHint) el.takeoverHint.hidden = true;
   }
 
   function resetPipeline() {
@@ -313,12 +314,22 @@
            (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   }
 
+  /**
+   * Touch devices never autoplay silently here. iPadOS Safari and Chrome both identify
+   * as Macintosh, and on both an AudioContext can report "running" while the audio
+   * session belongs to another app — so a tap is the only reliable way to acquire the
+   * session and to know the listener meant to take it.
+   */
+  function needsGesture() {
+    return isIOS() || navigator.maxTouchPoints > 0 || "ontouchstart" in window;
+  }
+
   function tryAutoplay() {
     // On iOS a context can report "running" and still be inaudible, because the audio
     // session is on the ringer channel until an <audio> element plays inside a user
     // gesture. Autoplaying there produces a green "live" indicator and silence, so the
     // tap is required — it is the only place the unlock can happen.
-    if (isIOS()) {
+    if (needsGesture()) {
       createContext();
       showPlayButton();
       return;
@@ -350,6 +361,7 @@
     if (!el.playButton || hasGesture || !live || !hello) return;
     el.playButton.hidden = false;
     if (el.playLabel) el.playLabel.hidden = false;
+    if (el.takeoverHint) el.takeoverHint.hidden = !needsGesture();
     el.playButton.addEventListener("click", onPlayTap, { once: true });
   }
 
