@@ -35,7 +35,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding-left: 6px; /* optically centre the triangle */
   transition: transform 0.12s ease, background 0.12s ease;
 }
 .stream-play:hover { background: #4d84ec; transform: scale(1.04); }
@@ -143,7 +142,9 @@
 }
 
 /* Play/pause toggle: the pause glyph needs no optical nudge. */
-.stream-play.is-playing { padding-left: 0; letter-spacing: 0.12em; font-size: 1.7rem; }
+/* Icons are SVG, centred by flex alignment — no font metrics, no letter-spacing, and
+   so no trailing-space offset to correct for. */
+.stream-play svg { display: block; }
 
 /* Muted: the whole row reads as inactive, so gain 0 is never mistaken for a dead stream. */
 .stream-controls.is-muted { opacity: 0.45; }

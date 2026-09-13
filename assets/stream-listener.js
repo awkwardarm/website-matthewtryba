@@ -19,6 +19,25 @@
   var RELAY = window.TRYBA_STREAM_RELAY ||
     (LOCAL ? "ws://127.0.0.1:8787" : "wss://stream.matthewtryba.com");
   var CODEC = "mp4a.40.2";
+
+  /**
+   * Drawn rather than typed. A text glyph inherits the platform font, and centring it
+   * needed a padding fudge for the triangle plus letter-spacing for the pause pair —
+   * and letter-spacing adds trailing space after the last character, which is what
+   * pushed the pause bars left of centre. SVG has none of those problems.
+   *
+   * The triangle's box is deliberately offset right (34–80 against a 0–100 viewBox) so
+   * it reads as centred: a triangle's visual mass sits left of its bounding box, so
+   * geometric centring looks wrong. The pause bars span 30–70 and are truly centred,
+   * because two rectangles need no such correction.
+   */
+  var ICON_PLAY =
+    '<svg viewBox="0 0 100 100" width="40" height="40" aria-hidden="true" focusable="false">' +
+    '<polygon points="34,20 34,80 82,50" fill="currentColor"/></svg>';
+  var ICON_PAUSE =
+    '<svg viewBox="0 0 100 100" width="36" height="36" aria-hidden="true" focusable="false">' +
+    '<rect x="30" y="22" width="15" height="56" rx="3.5" fill="currentColor"/>' +
+    '<rect x="55" y="22" width="15" height="56" rx="3.5" fill="currentColor"/></svg>';
   var MsgType = { HELLO: 0x01, AUDIO: 0x02, BYE: 0x03 };
 
   var el = {};
@@ -373,6 +392,7 @@
   }
 
   function showPlayButton() {
+    if (el.playButton && !el.playButton.querySelector("svg")) el.playButton.innerHTML = ICON_PLAY;
     // A Play button is a promise that tapping it produces sound. Never show one unless
     // there is a live stream behind it — but "started" alone must not suppress it,
     // since the autoplay path sets that without any proof of audibility.
@@ -392,7 +412,7 @@
     paused = !playing;
     if (!el.playButton) return;
     el.playButton.hidden = false;
-    el.playButton.innerHTML = playing ? "&#10073;&#10073;" : "&#9654;";
+    el.playButton.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
     el.playButton.setAttribute("aria-label", playing ? "Pause the stream" : "Play the stream");
     el.playButton.classList.toggle("is-playing", playing);
     if (el.playLabel) el.playLabel.hidden = true;
@@ -526,6 +546,7 @@
    */
   function showSoundCheck() {
     if (!el.playButton || hasGesture) return;
+    if (!el.playButton.querySelector("svg")) el.playButton.innerHTML = ICON_PLAY;
     el.playButton.hidden = false;
     if (el.playLabel) { el.playLabel.hidden = false; el.playLabel.textContent = "No sound? Tap here"; }
     el.playButton.addEventListener("click", onPlayTap, { once: true });
