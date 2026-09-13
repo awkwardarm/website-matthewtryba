@@ -2,7 +2,10 @@
  * Tryba Stream listener — WebSocket → WebCodecs AudioDecoder → AudioWorklet.
  *
  * Design notes that matter (PLAN.md §4):
- *  - Autoplay is attempted first; the Play button is the fallback, not the default.
+ *  - Playback ALWAYS starts from a tap. Autoplay was dropped deliberately: it could
+ *    never be relied on (it is blocked on every phone and on a first desktop visit),
+ *    it made the page claim to be playing when it was not, and the button doubles as
+ *    the pause control — so the one tap teaches the control that stops the stream too.
  *  - Everything the browser gates on a user gesture happens synchronously inside the
  *    click handler. Deferring any of it until the socket connects loses gesture credit
  *    in Safari.
@@ -84,7 +87,7 @@
       if (!ok) return;
       restoreVolume();
       connect(room);
-      tryAutoplay();
+      prepareForPlay();
       if (DEBUG) startDebugReadout();
     });
   });
@@ -170,6 +173,15 @@
     var m;
     try { m = JSON.parse(raw); } catch (_) { return; }
 
+    if (m.t === "expired") {
+      show("screenUnsupported");
+      if (el.unsupportedReason) el.unsupportedReason.textContent = "This link has expired.";
+      var hint = document.querySelector("#screen-unsupported .stream-hint");
+      if (hint) hint.textContent = "Ask Matthew for a new link — each session uses its own.";
+      var actions = el.chromeActions; if (actions) actions.innerHTML = "";
+      if (ws) { try { ws.close(1000, "expired"); } catch (_) {} }
+      return;
+    }
     if (m.t === "state") {
       live = !!m.live;
       if (!live) goOffAir("Waiting for Matthew to start");
@@ -219,7 +231,7 @@
     show("screenPlayer");
     setStatus("Matthew is streaming");
     // Only now is a Play button meaningful — there is audio for it to start.
-    if (!hasGesture && (needsGesture() || !ctxAllowedAutoplay)) showPlayButton();
+    if (!hasGesture) showPlayButton();
   }
 
   function buildDecoder() {
@@ -343,7 +355,6 @@
     });
   }
 
-  var ctxAllowedAutoplay = false;
   var hasGesture = false;
 
   function isIOS() {
@@ -352,43 +363,19 @@
   }
 
   /**
-   * Touch devices never autoplay silently here. iPadOS Safari and Chrome both identify
-   * as Macintosh, and on both an AudioContext can report "running" while the audio
-   * session belongs to another app — so a tap is the only reliable way to acquire the
-   * session and to know the listener meant to take it.
+   * Touch devices and iOS need the tap for the media-channel routing; everyone now taps
+   * anyway, so this only decides whether the <audio> element route is set up.
    */
   function needsGesture() {
     return isIOS() || navigator.maxTouchPoints > 0 || "ontouchstart" in window;
   }
 
-  function tryAutoplay() {
-    // On iOS a context can report "running" and still be inaudible, because the audio
-    // session is on the ringer channel until an <audio> element plays inside a user
-    // gesture. Autoplaying there produces a green "live" indicator and silence, so the
-    // tap is required — it is the only place the unlock can happen.
-    if (needsGesture()) {
-      createContext();
-      showPlayButton();
-      return;
-    }
+  /**
+   * Build the AudioContext up front so the tap has as little to do as possible, then
+   * wait. Nothing is resumed here: sound only ever starts from the tap.
+   */
+  function prepareForPlay() {
     createContext();
-    ctx.resume().then(function () {
-      if (ctx.state === "running") {
-        // Allowed. Sound begins as soon as the buffer primes; no button ever shown.
-        ctxAllowedAutoplay = true;
-        hidePlayButton();
-        ensureGraph();
-      } else {
-        showPlayButton();
-      }
-    }).catch(function () { showPlayButton(); });
-
-    // Safari can report "running" and still stay silent until a gesture. Fall back to
-    // the button — but only once audio is actually arriving, so a listener waiting for
-    // a stream that has not started is never shown a button that does nothing.
-    setTimeout(function () {
-      if (!soundRunning && !started && live && firstAudioAt) showPlayButton();
-    }, 1200);
   }
 
   function showPlayButton() {
@@ -521,35 +508,12 @@
     // playing. On desktop, where autoplay genuinely works, no tap is needed.
     if (el.liveDot && (hasGesture || !needsGesture())) el.liveDot.classList.add("live");
 
-    // The worklet producing samples proves the pipeline runs, NOT that the listener can
-    // hear it. Without a user gesture the browser may still be routing that audio
-    // nowhere. So only claim success once a gesture has actually happened.
-    if (hasGesture) {
-      setPlayState(!paused);
-      localStorage.setItem("trybaStreamPlayedHere", "1");
-      // "Assume no sound is our fault" — offer help before they have to ask.
-      setTimeout(function () {
-        if (!touchedVolume && el.helpLink) el.helpLink.hidden = false;
-      }, 6000);
-      return;
-    }
-
-    // Autoplay path: audio is flowing but unconfirmed. Keep an obvious way to fix it.
-    if (el.helpLink) el.helpLink.hidden = false;
-    showSoundCheck();
-  }
-
-  /**
-   * Shown when audio is flowing but no gesture has confirmed it is audible. One tap
-   * runs the full unlock path, which is exactly what a silent iPhone or a
-   * gesture-gated Safari needs.
-   */
-  function showSoundCheck() {
-    if (!el.playButton || hasGesture) return;
-    if (!el.playButton.querySelector("svg")) el.playButton.innerHTML = ICON_PLAY;
-    el.playButton.hidden = false;
-    if (el.playLabel) { el.playLabel.hidden = false; el.playLabel.textContent = "No sound? Tap here"; }
-    el.playButton.addEventListener("click", onPlayTap, { once: true });
+    setPlayState(!paused);
+    localStorage.setItem("trybaStreamPlayedHere", "1");
+    // "Assume no sound is our fault" — offer help before they have to ask.
+    setTimeout(function () {
+      if (!touchedVolume && el.helpLink) el.helpLink.hidden = false;
+    }, 6000);
   }
 
   // ---------------------------------------------------------------- controls
