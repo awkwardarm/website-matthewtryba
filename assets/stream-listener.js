@@ -438,6 +438,11 @@
    */
   function prepareForPlay() {
     createContext();
+    // Browsers that permit autoplay (desktop Chrome once a site has engagement, or an
+    // embedded browser) create the context already running — which would start sound
+    // the moment HELLO builds the graph, before anyone taps Play. Hold it suspended; the
+    // tap is the only thing that resumes it. Harmless where it starts suspended anyway.
+    if (ctx.state === "running") ctx.suspend();
   }
 
   function showPlayButton() {
@@ -560,6 +565,12 @@
   }
 
   function onSoundStarted() {
+    // Sound without a gesture means a browser started the context on its own. Stop it
+    // rather than play: playback only ever starts from the tap.
+    if (!hasGesture) {
+      if (ctx && ctx.state === "running") ctx.suspend();
+      return;
+    }
     startMeters();
     soundRunning = true;
     started = true;
@@ -569,7 +580,7 @@
     // device that requires a gesture we have no evidence of the former until the tap
     // happens, and showing green anyway is what made a silent iPad look like it was
     // playing. On desktop, where autoplay genuinely works, no tap is needed.
-    if (el.liveDot && (hasGesture || !needsGesture())) el.liveDot.classList.add("live");
+    if (el.liveDot) el.liveDot.classList.add("live");
 
     setPlayState(!paused);
     localStorage.setItem("trybaStreamPlayedHere", "1");
