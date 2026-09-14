@@ -72,6 +72,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     ["screen-loading","screen-unsupported","screen-full","screen-player","play-button","play-label","takeover-hint",
      "status-line","volume","mute","help-link","help-panel","live-dot","error-note",
+     "meters","meter-l","meter-r",
      "unsupported-reason","chrome-actions"].forEach(function (id) {
       el[id.replace(/-([a-z])/g, function (_, c) { return c.toUpperCase(); })] =
         document.getElementById(id);
@@ -292,7 +293,62 @@
    * returns, the page starts cleanly rather than resuming a half-primed buffer — and
    * so no Play button is left on screen promising sound it cannot deliver.
    */
+  // ---------------------------------------------------------------- meters
+
+  /**
+   * Stereo peak meters. They show the stream's level BEFORE the listener's volume and
+   * mute, deliberately: meters moving with no sound means the problem is the listener's
+   * volume, mute or silent switch, not the stream.
+   *
+   * Decibel scale from -60 to 0 dBFS, matching the plugin's own meters. Attack is
+   * instant; the fall is time-based (24 dB per second) so it looks the same at any
+   * display refresh rate. Red above -1 dBFS, also matching the plugin.
+   */
+  var METER_FLOOR_DB = -60;
+  var METER_FALL_DB_PER_SEC = 24;
+  var meterPeak = [0, 0];
+  var meterShownDb = [METER_FLOOR_DB, METER_FLOOR_DB];
+  var meterLastT = 0;
+  var meterRaf = 0;
+
+  function drawMeters(t) {
+    var dt = meterLastT ? Math.min(0.1, (t - meterLastT) / 1000) : 0;
+    meterLastT = t;
+    var fills = [el.meterL, el.meterR];
+    for (var ch = 0; ch < 2; ch++) {
+      var db = meterPeak[ch] > 0 ? 20 * Math.log10(meterPeak[ch]) : METER_FLOOR_DB;
+      meterPeak[ch] = 0;
+      var shown = meterShownDb[ch];
+      shown = db > shown ? db : Math.max(METER_FLOOR_DB, shown - METER_FALL_DB_PER_SEC * dt);
+      meterShownDb[ch] = shown;
+      if (fills[ch]) {
+        var norm = Math.min(1, Math.max(0, (shown - METER_FLOOR_DB) / -METER_FLOOR_DB));
+        fills[ch].style.transform = "scaleX(" + norm.toFixed(4) + ")";
+        fills[ch].classList.toggle("is-clip", shown > -1);
+      }
+    }
+    meterRaf = requestAnimationFrame(drawMeters);
+  }
+
+  function startMeters() {
+    if (!el.meters) return;
+    el.meters.hidden = false;
+    if (!meterRaf) { meterLastT = 0; meterRaf = requestAnimationFrame(drawMeters); }
+  }
+
+  function stopMeters() {
+    if (meterRaf) cancelAnimationFrame(meterRaf);
+    meterRaf = 0;
+    meterPeak = [0, 0];
+    meterShownDb = [METER_FLOOR_DB, METER_FLOOR_DB];
+    [el.meterL, el.meterR].forEach(function (f) {
+      if (f) { f.style.transform = "scaleX(0)"; f.classList.remove("is-clip"); }
+    });
+    if (el.meters) el.meters.hidden = true;
+  }
+
   function goOffAir(message) {
+    stopMeters();
     live = false;
     soundRunning = false;
     started = false;
@@ -344,6 +400,12 @@
         processorOptions: { targetFrames: targetFrames, channels: hello.channels },
       });
       node.port.onmessage = function (e) {
+        if (e.data.type === "meter") {
+          // Keep the loudest peak since the last drawn frame; drawMeters consumes it.
+          if (e.data.l > meterPeak[0]) meterPeak[0] = e.data.l;
+          if (e.data.r > meterPeak[1]) meterPeak[1] = e.data.r;
+          return;
+        }
         if (e.data.type !== "stats") return;
         dbg.buffered = e.data.bufferedFrames;
         dbg.target = e.data.target;
@@ -498,6 +560,7 @@
   }
 
   function onSoundStarted() {
+    startMeters();
     soundRunning = true;
     started = true;
     setStatus("Matthew is streaming");

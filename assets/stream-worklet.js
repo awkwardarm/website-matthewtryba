@@ -23,6 +23,13 @@ class StreamPlayer extends AudioWorkletProcessor {
     this.played = 0;
     this.lastReport = 0;
 
+    // Meter peaks over exactly the samples being played, so the meters show what is
+    // coming out of the jitter buffer rather than what arrived from the network.
+    // Posted about 30 times a second; the page smooths between updates.
+    this.meterPeak = [0, 0];
+    this.meterFrames = 0;
+    this.meterInterval = Math.round(sampleRate / 30);
+
     this.port.onmessage = (e) => {
       const m = e.data;
       if (m.type === "audio") {
@@ -89,8 +96,30 @@ class StreamPlayer extends AudioWorkletProcessor {
       this.priming = true;
     }
     this.played += written;
+    this.measure(out, written, need);
     this.report(false);
     return true;
+  }
+
+  measure(out, written, need) {
+    for (let ch = 0; ch < out.length && ch < 2; ch++) {
+      const d = out[ch];
+      let p = this.meterPeak[ch];
+      for (let i = 0; i < written; i++) {
+        const a = d[i] < 0 ? -d[i] : d[i];
+        if (a > p) p = a;
+      }
+      this.meterPeak[ch] = p;
+    }
+    if (out.length === 1) this.meterPeak[1] = this.meterPeak[0];   // mono feeds both
+
+    this.meterFrames += need;
+    if (this.meterFrames >= this.meterInterval) {
+      this.port.postMessage({ type: "meter", l: this.meterPeak[0], r: this.meterPeak[1] });
+      this.meterPeak[0] = 0;
+      this.meterPeak[1] = 0;
+      this.meterFrames = 0;
+    }
   }
 
   report(silent) {

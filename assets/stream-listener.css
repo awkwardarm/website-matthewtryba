@@ -150,3 +150,31 @@
 .stream-controls.is-muted { opacity: 0.45; }
 .stream-controls.is-muted input[type="range"] { accent-color: var(--secondary-color); }
 .stream-controls.is-muted button { border-color: var(--accent-color); color: var(--accent-color); }
+
+/* Stereo peak meters: pre-volume, dB-scaled, red above -1 dBFS (matches the plugin). */
+.stream-meters { margin-top: 1.25rem; display: grid; gap: 7px; }
+.stream-meter {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+.stream-meter span { width: 0.75rem; text-align: left; }
+.stream-meter-track {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--border-color);
+  overflow: hidden;
+}
+/* Width via transform, not width: no layout work per frame. */
+.stream-meter-fill {
+  height: 100%;
+  background: #6196f8;
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+.stream-meter-fill.is-clip { background: #d64545; }
