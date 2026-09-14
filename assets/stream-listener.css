@@ -154,9 +154,10 @@
 /* Stereo peak meters: pre-volume, -60 to 0 dBFS, same scale as the plugin.
    The gradient is painted once across the full track and never moves; a mask covers the
    unlit part. So each colour sits at a fixed level:
-     blue   quiet, below about -24 dB   (0-60% of the track)
-     orange hot, -18 to -6 dB           (70-90%)
-     red    near clipping, above -3 dB  (95%+)                                     */
+     blue   quiet, below about -30 dB   (0-50% of the track)
+     orange hot, -24 to -12 dB          (60-80%)
+     red    loud, above about -9 dB     (85%+)
+   Each 10% of the track is 6 dB.                                                  */
 .stream-meters { margin-top: 1.25rem; display: grid; gap: 7px; }
 .stream-meter {
   display: flex;
@@ -180,10 +181,10 @@
   inset: 0;
   background: linear-gradient(to right,
     #6196f8 0%,
-    #6196f8 60%,
-    #f5a623 72%,
-    #e8732a 88%,
-    #d64545 95%,
+    #6196f8 50%,
+    #f5a623 62%,
+    #e8732a 78%,
+    #d64545 85%,
     #d64545 100%);
 }
 /* Unlit portion, in the track colour, anchored at the loud end. Transform only, so
