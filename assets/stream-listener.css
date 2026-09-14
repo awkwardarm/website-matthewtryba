@@ -151,7 +151,12 @@
 .stream-controls.is-muted input[type="range"] { accent-color: var(--secondary-color); }
 .stream-controls.is-muted button { border-color: var(--accent-color); color: var(--accent-color); }
 
-/* Stereo peak meters: pre-volume, dB-scaled, red above -1 dBFS (matches the plugin). */
+/* Stereo peak meters: pre-volume, -60 to 0 dBFS, same scale as the plugin.
+   The gradient is painted once across the full track and never moves; a mask covers the
+   unlit part. So each colour sits at a fixed level:
+     blue   quiet, below about -24 dB   (0-60% of the track)
+     orange hot, -18 to -6 dB           (70-90%)
+     red    near clipping, above -3 dB  (95%+)                                     */
 .stream-meters { margin-top: 1.25rem; display: grid; gap: 7px; }
 .stream-meter {
   display: flex;
@@ -163,18 +168,31 @@
 }
 .stream-meter span { width: 0.75rem; text-align: left; }
 .stream-meter-track {
+  position: relative;
   flex: 1;
   height: 8px;
   border-radius: 4px;
   background: var(--border-color);
   overflow: hidden;
 }
-/* Width via transform, not width: no layout work per frame. */
 .stream-meter-fill {
-  height: 100%;
-  background: #6196f8;
-  transform: scaleX(0);
-  transform-origin: left center;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right,
+    #6196f8 0%,
+    #6196f8 60%,
+    #f5a623 72%,
+    #e8732a 88%,
+    #d64545 95%,
+    #d64545 100%);
+}
+/* Unlit portion, in the track colour, anchored at the loud end. Transform only, so
+   animating it does no layout work per frame. */
+.stream-meter-mask {
+  position: absolute;
+  inset: 0;
+  background: var(--border-color);
+  transform: scaleX(1);
+  transform-origin: right center;
   will-change: transform;
 }
-.stream-meter-fill.is-clip { background: #d64545; }

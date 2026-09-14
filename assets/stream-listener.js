@@ -302,7 +302,11 @@
    *
    * Decibel scale from -60 to 0 dBFS, matching the plugin's own meters. Attack is
    * instant; the fall is time-based (24 dB per second) so it looks the same at any
-   * display refresh rate. Red above -1 dBFS, also matching the plugin.
+   * display refresh rate.
+   *
+   * The colour gradient is fixed to the track and the unlit part is covered by a mask,
+   * so blue always means quiet and red always means near clipping. Scaling a gradient
+   * bar instead would squeeze the whole blue-to-red range into even a quiet signal.
    */
   var METER_FLOOR_DB = -60;
   var METER_FALL_DB_PER_SEC = 24;
@@ -314,17 +318,17 @@
   function drawMeters(t) {
     var dt = meterLastT ? Math.min(0.1, (t - meterLastT) / 1000) : 0;
     meterLastT = t;
-    var fills = [el.meterL, el.meterR];
+    var masks = [el.meterL, el.meterR];
     for (var ch = 0; ch < 2; ch++) {
       var db = meterPeak[ch] > 0 ? 20 * Math.log10(meterPeak[ch]) : METER_FLOOR_DB;
       meterPeak[ch] = 0;
       var shown = meterShownDb[ch];
       shown = db > shown ? db : Math.max(METER_FLOOR_DB, shown - METER_FALL_DB_PER_SEC * dt);
       meterShownDb[ch] = shown;
-      if (fills[ch]) {
+      if (masks[ch]) {
         var norm = Math.min(1, Math.max(0, (shown - METER_FLOOR_DB) / -METER_FLOOR_DB));
-        fills[ch].style.transform = "scaleX(" + norm.toFixed(4) + ")";
-        fills[ch].classList.toggle("is-clip", shown > -1);
+        // The mask covers what is NOT lit, anchored at the loud end.
+        masks[ch].style.transform = "scaleX(" + (1 - norm).toFixed(4) + ")";
       }
     }
     meterRaf = requestAnimationFrame(drawMeters);
@@ -341,8 +345,8 @@
     meterRaf = 0;
     meterPeak = [0, 0];
     meterShownDb = [METER_FLOOR_DB, METER_FLOOR_DB];
-    [el.meterL, el.meterR].forEach(function (f) {
-      if (f) { f.style.transform = "scaleX(0)"; f.classList.remove("is-clip"); }
+    [el.meterL, el.meterR].forEach(function (m) {
+      if (m) m.style.transform = "scaleX(1)";   // fully covered = silent
     });
     if (el.meters) el.meters.hidden = true;
   }
