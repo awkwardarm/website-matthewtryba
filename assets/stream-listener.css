@@ -118,8 +118,6 @@
 
 .stream-hint { color: var(--secondary-color); font-size: 0.92rem; margin-top: 0.85rem; }
 .stream-error { color: #d64545; margin-top: 1rem; font-size: 0.95rem; }
-.stream-footer { margin-top: 1.5rem; font-size: 0.9rem; }
-.stream-footer a { color: var(--secondary-color); }
 
 @media (max-width: 480px) {
   .stream-wrap { margin: 2rem auto; }
@@ -197,3 +195,6 @@
   transform-origin: right center;
   will-change: transform;
 }
+
+/* One quiet line under the status saying what happens next (ended / not started). */
+.stream-status-hint { margin: -1.1rem 0 1.5rem; }

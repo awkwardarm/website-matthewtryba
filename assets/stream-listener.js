@@ -54,6 +54,11 @@
   var started = false;
   var soundRunning = false;
   var live = false;
+  // An expired link will never work again, so the page must stop trying: left open, a
+  // 2-second reconnect loop would cost the relay about 43,000 requests a day per tab.
+  var linkExpired = false;
+  var ENDED = "This stream has ended";
+  var ENDED_HINT = "If Matthew starts again, it will pick up here on its own.";
   var fullPoll = null;
   var firstAudioAt = 0;
   var touchedVolume = false;
@@ -71,7 +76,7 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     ["screen-loading","screen-unsupported","screen-full","screen-player","play-button","play-label","takeover-hint",
-     "status-line","volume","mute","help-link","help-panel","live-dot","error-note",
+     "status-line","status-hint","volume","mute","help-link","help-panel","live-dot","error-note",
      "meters","meter-l","meter-r",
      "unsupported-reason","chrome-actions"].forEach(function (id) {
       el[id.replace(/-([a-z])/g, function (_, c) { return c.toUpperCase(); })] =
@@ -152,9 +157,11 @@
     ws.binaryType = "arraybuffer";
 
     ws.addEventListener("open", function () {
-      // Honest default: the page says nothing is playing until a HELLO proves otherwise.
+      // Honest default: nothing is playing until a HELLO proves otherwise. The relay's state
+      // message follows immediately and says whether the stream has ended or not started.
       show("screenPlayer");
-      setStatus("Waiting for Matthew to start");
+      setStatus("Connecting…");
+      setHint("");
       hidePlayButton();
     });
 
@@ -164,8 +171,8 @@
     });
 
     ws.addEventListener("close", function (e) {
-      if (e.code === 4001) return;            // FULL already handled
-      if (!started) setStatus("Waiting for Matthew to start");
+      if (e.code === 4001) return;            // FULL: handled by polling /full instead
+      if (e.code === 4005 || linkExpired) return;   // EXPIRED: never coming back
       setTimeout(function () { connect(room); }, 2000);
     });
   }
@@ -175,17 +182,22 @@
     try { m = JSON.parse(raw); } catch (_) { return; }
 
     if (m.t === "expired") {
+      linkExpired = true;
+      stopMeters();
       show("screenUnsupported");
-      if (el.unsupportedReason) el.unsupportedReason.textContent = "This link has expired.";
+      if (el.unsupportedReason) el.unsupportedReason.textContent = "This link is no longer active";
       var hint = document.querySelector("#screen-unsupported .stream-hint");
-      if (hint) hint.textContent = "Ask Matthew for a new link — each session uses its own.";
+      if (hint) hint.textContent = "Ask Matthew for a new link. Each session gets its own.";
       var actions = el.chromeActions; if (actions) actions.innerHTML = "";
       if (ws) { try { ws.close(1000, "expired"); } catch (_) {} }
       return;
     }
     if (m.t === "state") {
       live = !!m.live;
-      if (!live) goOffAir("Waiting for Matthew to start");
+      if (!live) {
+        if (m.ended) goOffAir(ENDED, ENDED_HINT);
+        else goOffAir("Waiting for Matthew to start", "");
+      }
       return;
     }
     if (m.t !== "full") return;
@@ -231,6 +243,7 @@
     live = true;
     show("screenPlayer");
     setStatus("Matthew is streaming");
+    setHint("");
     // Only now is a Play button meaningful — there is audio for it to start.
     if (!hasGesture) showPlayButton();
   }
@@ -285,7 +298,7 @@
   }
 
   function onBye() {
-    goOffAir("Stream ended");
+    goOffAir(ENDED, ENDED_HINT);
   }
 
   /**
@@ -351,7 +364,7 @@
     if (el.meters) el.meters.hidden = true;
   }
 
-  function goOffAir(message) {
+  function goOffAir(message, hint) {
     stopMeters();
     live = false;
     soundRunning = false;
@@ -364,6 +377,7 @@
     firstAudioAt = 0;
     show("screenPlayer");
     setStatus(message);
+    setHint(hint || "");
     hidePlayButton();
     if (el.liveDot) el.liveDot.classList.remove("live");
   }
@@ -579,6 +593,7 @@
     soundRunning = true;
     started = true;
     setStatus("Matthew is streaming");
+    setHint("");
 
     // The green indicator means "you are hearing this", not "bytes are arriving". On a
     // device that requires a gesture we have no evidence of the former until the tap
@@ -653,6 +668,11 @@
     });
   }
   function setStatus(text) { if (el.statusLine) el.statusLine.textContent = text; }
+  function setHint(text) {
+    if (!el.statusHint) return;
+    el.statusHint.textContent = text;
+    el.statusHint.hidden = !text;
+  }
 
   /**
    * On-screen diagnostics. Deliberately plain text and always visible when enabled —
