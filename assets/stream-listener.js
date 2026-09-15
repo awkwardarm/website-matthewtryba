@@ -354,8 +354,10 @@
   // ---------------------------------------------------------------- listening robot
 
   /**
-   * While the stream plays, the mark nods along for 3 seconds, then rests for the rest of
-   * a 15 second cycle. The first nod is the moment playback starts.
+   * While the stream plays and its audio is above -60 dBFS, the mark nods along for 3
+   * seconds, at most once every 15 seconds. The first nod comes as soon as there is sound;
+   * a stream of silence (Matthew's DAW stopped) keeps it still. The level is measured in
+   * the worklet, before the volume slider, so muting here does not stop it.
    *
    * The motion is the same function the plugin editor uses (plugin/ui/ListeningMotion.h in
    * the tryba-stream repo): a side-to-side tilt at 72 BPM with a small dip on each beat,
@@ -363,7 +365,9 @@
    * are favicon.svg units.
    */
   var ROBOT_LOOP_MS = 3000, ROBOT_EVERY_MS = 15000;
-  var robotInterval = 0, robotRaf = 0, robotLines = null;
+  var AUDIBLE_LEVEL = 0.001, AUDIBLE_HOLD_MS = 1000;   // -60 dBFS; a dip inside music is not silence
+  var robotCheck = 0, robotRaf = 0, robotLines = null;
+  var lastAudibleAt = -Infinity, lastNodAt = -Infinity;
   var LINE_ANGLES = [0, -35, 35], LINE_START = 12, LINE_TRAVEL = 4, LINE_LENGTH = 7;
   var CUP_LEFT_X = 21, CUP_RIGHT_X = 79, CUP_Y = 51;
   var REDUCED_MOTION = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -415,15 +419,25 @@
     });
   }
 
+  function maybeNod() {
+    var now = performance.now();
+    if (now - lastAudibleAt < AUDIBLE_HOLD_MS && now - lastNodAt >= ROBOT_EVERY_MS) {
+      lastNodAt = now;
+      nodOnce();
+    }
+  }
+
   function startRobot() {
-    if (robotInterval) return;
-    nodOnce();
-    robotInterval = setInterval(nodOnce, ROBOT_EVERY_MS);
+    if (robotCheck) return;
+    robotCheck = setInterval(maybeNod, 250);
+    maybeNod();
   }
 
   function stopRobot() {
-    clearInterval(robotInterval);
-    robotInterval = 0;
+    clearInterval(robotCheck);
+    robotCheck = 0;
+    lastAudibleAt = -Infinity;   // a stale reading must not start a nod on resume
+    lastNodAt = -Infinity;
     if (robotRaf) cancelAnimationFrame(robotRaf);
     robotRaf = 0;
     drawRobot(0);
@@ -505,6 +519,7 @@
           // Keep the loudest peak since the last drawn frame; drawMeters consumes it.
           if (e.data.l > meterPeak[0]) meterPeak[0] = e.data.l;
           if (e.data.r > meterPeak[1]) meterPeak[1] = e.data.r;
+          if (Math.max(e.data.l, e.data.r) > AUDIBLE_LEVEL) lastAudibleAt = performance.now();
           return;
         }
         if (e.data.type !== "stats") return;
