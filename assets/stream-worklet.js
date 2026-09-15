@@ -1,5 +1,5 @@
 /**
- * Jitter buffer + playback for Tryba Stream.
+ * Jitter buffer + playback for TRYBA Stream.
  *
  * Decoded AudioData arrives on the main thread and is posted here as plain Float32
  * channel data. This processor holds a ring buffer and drains it one render quantum at a
