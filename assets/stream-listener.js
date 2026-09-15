@@ -77,7 +77,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     ["screen-loading","screen-unsupported","screen-full","screen-player","play-button","play-label","takeover-hint",
      "status-line","status-hint","volume","mute","help-link","help-panel","live-dot","error-note",
-     "meters","meter-l","meter-r",
+     "meters","meter-l","meter-r","robot-head",
      "unsupported-reason","chrome-actions"].forEach(function (id) {
       el[id.replace(/-([a-z])/g, function (_, c) { return c.toUpperCase(); })] =
         document.getElementById(id);
@@ -184,6 +184,7 @@
     if (m.t === "expired") {
       linkExpired = true;
       stopMeters();
+      stopRobot();
       show("screenUnsupported");
       if (el.unsupportedReason) el.unsupportedReason.textContent = "This link is no longer active";
       var hint = document.querySelector("#screen-unsupported .stream-hint");
@@ -350,6 +351,69 @@
     meterRaf = requestAnimationFrame(drawMeters);
   }
 
+  // ---------------------------------------------------------------- listening robot
+
+  /**
+   * While the stream plays, the mark nods along for 3 seconds, then rests for the rest of
+   * a 30 second cycle. The first nod is the moment playback starts.
+   *
+   * The motion is the same function the plugin editor uses (plugin/ui/ListeningMotion.h in
+   * the tryba-stream repo): a side-to-side tilt at 120 BPM with a small dip on each beat,
+   * and three sound lines rippling out of each ear cup. Coordinates are favicon.svg units.
+   */
+  var ROBOT_LOOP_MS = 3000, ROBOT_EVERY_MS = 30000;
+  var robotInterval = 0, robotRaf = 0, robotRings = null;
+  var REDUCED_MOTION = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function smoothstep(x) { x = Math.min(1, Math.max(0, x)); return x * x * (3 - 2 * x); }
+
+  function robotPose(t) {
+    var env = smoothstep(t / 0.35) * smoothstep((3 - t) / 0.45);
+    var beat = 2 * Math.PI * t;                     // one left-right swing per second
+    var rings = [0, 1, 2].map(function (k) {
+      var p = 2 * t - 0.22 * k;                     // two ripples a second, outer rings later
+      p -= Math.floor(p);
+      var s = Math.sin(Math.PI * p);
+      return s * s * env;
+    });
+    return { angle: 8 * Math.sin(beat) * env, dip: 1.6 * (1 - Math.cos(2 * beat)) / 2 * env, rings: rings };
+  }
+
+  function drawRobot(t) {
+    if (!el.robotHead) return;
+    var pose = robotPose(t);
+    el.robotHead.setAttribute("transform",
+      "rotate(" + pose.angle.toFixed(3) + " 50 72) translate(0 " + pose.dip.toFixed(3) + ")");
+    if (!robotRings) robotRings = el.robotHead.querySelectorAll("[data-ring]");
+    for (var i = 0; i < robotRings.length; i++)
+      robotRings[i].setAttribute("opacity", (0.9 * pose.rings[i]).toFixed(3));
+  }
+
+  function nodOnce() {
+    if (robotRaf || REDUCED_MOTION || !el.robotHead) return;
+    var t0 = performance.now();
+    robotRaf = requestAnimationFrame(function frame(now) {
+      var t = (now - t0) / 1000;
+      if (t >= ROBOT_LOOP_MS / 1000) { robotRaf = 0; drawRobot(0); return; }
+      drawRobot(t);
+      robotRaf = requestAnimationFrame(frame);
+    });
+  }
+
+  function startRobot() {
+    if (robotInterval) return;
+    nodOnce();
+    robotInterval = setInterval(nodOnce, ROBOT_EVERY_MS);
+  }
+
+  function stopRobot() {
+    clearInterval(robotInterval);
+    robotInterval = 0;
+    if (robotRaf) cancelAnimationFrame(robotRaf);
+    robotRaf = 0;
+    drawRobot(0);
+  }
+
   function startMeters() {
     if (!el.meters) return;
     el.meters.hidden = false;
@@ -369,6 +433,7 @@
 
   function goOffAir(message, hint) {
     stopMeters();
+    stopRobot();
     live = false;
     soundRunning = false;
     started = false;
@@ -501,11 +566,13 @@
       if (node) node.port.postMessage({ type: "reset" }); // rebuild the buffer, do not replay stale audio
       setPlayState(true);
       setLiveStatus();
+      if (soundRunning) startRobot();
       if (el.liveDot) el.liveDot.classList.add("live");
     } else {
       if (mediaEl) mediaEl.pause();
       if (ctx) ctx.suspend();
       setPlayState(false);
+      stopRobot();
       if (el.liveDot) el.liveDot.classList.remove("live");
       setLiveStatus();
     }
@@ -600,6 +667,7 @@
     }
     startMeters();
     soundRunning = true;
+    if (!paused) startRobot();
     started = true;
     setLiveStatus();
     setHint("");

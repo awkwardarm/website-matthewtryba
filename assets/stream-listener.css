@@ -14,6 +14,14 @@
   padding: 2.5rem 1.5rem;
 }
 
+/* The mark at 72px tall; the extra width either side is room for the sound lines. */
+.stream-robot {
+  display: block;
+  width: 104px;
+  height: 72px;
+  margin: -0.75rem auto 1rem;
+}
+
 .stream-status {
   font-size: 1.35rem;
   font-weight: 600;

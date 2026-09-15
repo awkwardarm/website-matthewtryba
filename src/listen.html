@@ -34,6 +34,30 @@ noPlayer: true
 
   <div id="screen-player" hidden>
     <div class="stream-card">
+      <!-- The TRYBA MUSIC mark (assets/favicon.svg), wider than its viewBox so the sound
+           lines have room. While the stream is playing, stream-listener.js nods the head
+           for 3 seconds every 30 seconds. Keep the drawing in sync with favicon.svg. -->
+      <svg class="stream-robot" id="robot" viewBox="-8 6 116 80" aria-hidden="true" focusable="false">
+        <g id="robot-head">
+          <g fill="none" stroke="#1A73E8" stroke-width="3" stroke-linecap="round">
+            <path data-ring="0" opacity="0" d="M11.67 45.17A11 11 0 0 0 11.67 56.83M88.33 45.17A11 11 0 0 1 88.33 56.83"/>
+            <path data-ring="1" opacity="0" d="M8.28 43.05A15 15 0 0 0 8.28 58.95M91.72 43.05A15 15 0 0 1 91.72 58.95"/>
+            <path data-ring="2" opacity="0" d="M4.89 40.93A19 19 0 0 0 4.89 61.07M95.11 40.93A19 19 0 0 1 95.11 61.07"/>
+          </g>
+          <path d="M19 50 C19 9 81 9 81 50" fill="none" stroke="#1A73E8" stroke-width="5.5" stroke-linecap="round"/>
+          <ellipse cx="21" cy="51" rx="7" ry="10.5" fill="#1A73E8" stroke="#0D0D0D" stroke-width="2"/>
+          <ellipse cx="20.5" cy="51" rx="3" ry="6" fill="#cfe0fb"/>
+          <ellipse cx="79" cy="51" rx="7" ry="10.5" fill="#1A73E8" stroke="#0D0D0D" stroke-width="2"/>
+          <ellipse cx="79.5" cy="51" rx="3" ry="6" fill="#cfe0fb"/>
+          <rect x="25" y="25" width="50" height="42" rx="11" fill="#F0822B" stroke="#0D0D0D" stroke-width="2.5"/>
+          <circle cx="43" cy="48" r="11" fill="#0D0D0D"/>
+          <circle cx="43" cy="48" r="6.5" fill="none" stroke="#6b6b6b" stroke-width="2"/>
+          <circle cx="43" cy="48" r="2.5" fill="#0D0D0D"/>
+          <circle cx="39.5" cy="44.5" r="2" fill="#fff"/>
+          <circle cx="62" cy="46" r="3.6" fill="#0D0D0D"/>
+          <circle cx="60.7" cy="44.7" r="1" fill="#fff"/>
+        </g>
+      </svg>
       <p class="stream-status" id="status-line">Connecting…</p>
       <p class="stream-hint stream-status-hint" id="status-hint" hidden></p>
 
