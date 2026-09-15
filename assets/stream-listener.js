@@ -359,10 +359,13 @@
    *
    * The motion is the same function the plugin editor uses (plugin/ui/ListeningMotion.h in
    * the tryba-stream repo): a side-to-side tilt at 72 BPM with a small dip on each beat,
-   * and three sound lines rippling out of each ear cup. Coordinates are favicon.svg units.
+   * and short straight black lines bursting out of each ear cup, anime style. Coordinates
+   * are favicon.svg units.
    */
   var ROBOT_LOOP_MS = 3000, ROBOT_EVERY_MS = 30000;
-  var robotInterval = 0, robotRaf = 0, robotRings = null;
+  var robotInterval = 0, robotRaf = 0, robotLines = null;
+  var LINE_ANGLES = [0, -35, 35], LINE_START = 12, LINE_TRAVEL = 4, LINE_LENGTH = 7;
+  var CUP_LEFT_X = 21, CUP_RIGHT_X = 79, CUP_Y = 51;
   var REDUCED_MOTION = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function smoothstep(x) { x = Math.min(1, Math.max(0, x)); return x * x * (3 - 2 * x); }
@@ -370,13 +373,16 @@
   function robotPose(t) {
     var env = smoothstep(t / 0.35) * smoothstep((3 - t) / 0.45);
     var beat = 2 * Math.PI * 0.6 * t;               // 0.6 left-right swings per second
-    var rings = [0, 1, 2].map(function (k) {
-      var p = 1.2 * t - 0.22 * k;                   // two ripples per swing, outer rings later
+    var lineOpacity = [], lineInner = [];
+    for (var k = 0; k < 3; k++) {
+      var p = 1.2 * t - (k === 0 ? 0 : 0.12);       // two bursts per swing; angled pair just after
       p -= Math.floor(p);
       var s = Math.sin(Math.PI * p);
-      return s * s * env;
-    });
-    return { angle: 8 * Math.sin(beat) * env, dip: 1.6 * (1 - Math.cos(2 * beat)) / 2 * env, rings: rings };
+      lineOpacity.push(s * s * env);
+      lineInner.push(LINE_START + LINE_TRAVEL * p); // shoots outward as it flashes
+    }
+    return { angle: 8 * Math.sin(beat) * env, dip: 1.6 * (1 - Math.cos(2 * beat)) / 2 * env,
+             lineOpacity: lineOpacity, lineInner: lineInner };
   }
 
   function drawRobot(t) {
@@ -384,9 +390,18 @@
     var pose = robotPose(t);
     el.robotHead.setAttribute("transform",
       "rotate(" + pose.angle.toFixed(3) + " 50 72) translate(0 " + pose.dip.toFixed(3) + ")");
-    if (!robotRings) robotRings = el.robotHead.querySelectorAll("[data-ring]");
-    for (var i = 0; i < robotRings.length; i++)
-      robotRings[i].setAttribute("opacity", (0.9 * pose.rings[i]).toFixed(3));
+    if (!robotLines) robotLines = el.robotHead.querySelectorAll("[data-line]");
+    for (var i = 0; i < robotLines.length; i++) {
+      var ln = robotLines[i], k = Number(ln.getAttribute("data-line"));
+      var left = ln.getAttribute("data-side") === "left";
+      var a = LINE_ANGLES[k] * Math.PI / 180, r = pose.lineInner[k];
+      var dx = (left ? -1 : 1) * Math.cos(a), dy = Math.sin(a), cx = left ? CUP_LEFT_X : CUP_RIGHT_X;
+      ln.setAttribute("x1", (cx + dx * r).toFixed(2));
+      ln.setAttribute("y1", (CUP_Y + dy * r).toFixed(2));
+      ln.setAttribute("x2", (cx + dx * (r + LINE_LENGTH)).toFixed(2));
+      ln.setAttribute("y2", (CUP_Y + dy * (r + LINE_LENGTH)).toFixed(2));
+      ln.setAttribute("opacity", pose.lineOpacity[k].toFixed(3));
+    }
   }
 
   function nodOnce() {
