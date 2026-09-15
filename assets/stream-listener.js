@@ -242,10 +242,13 @@
     if (ctx) ensureGraph();
     live = true;
     show("screenPlayer");
-    setStatus("Matthew is streaming");
+    setLiveStatus();
     setHint("");
-    // Only now is a Play button meaningful — there is audio for it to start.
+    // Only now is a Play button meaningful — there is audio for it to start. After the
+    // first tap, the toggle comes back as it was left: a listener who paused while the
+    // stream was off air still has a button to resume with.
     if (!hasGesture) showPlayButton();
+    else setPlayState(!paused);
   }
 
   function buildDecoder() {
@@ -497,14 +500,20 @@
       if (mediaEl) { var p = mediaEl.play(); if (p && p.catch) p.catch(function () {}); }
       if (node) node.port.postMessage({ type: "reset" }); // rebuild the buffer, do not replay stale audio
       setPlayState(true);
+      setLiveStatus();
       if (el.liveDot) el.liveDot.classList.add("live");
     } else {
       if (mediaEl) mediaEl.pause();
       if (ctx) ctx.suspend();
       setPlayState(false);
       if (el.liveDot) el.liveDot.classList.remove("live");
-      setStatus("Paused");
+      setLiveStatus();
     }
+  }
+
+  /** The status line while a stream is live follows the toggle, never lags behind it. */
+  function setLiveStatus() {
+    setStatus(paused ? "Paused" : "Matthew is streaming");
   }
 
   function onPlayTap() {
@@ -592,7 +601,7 @@
     startMeters();
     soundRunning = true;
     started = true;
-    setStatus("Matthew is streaming");
+    setLiveStatus();
     setHint("");
 
     // The green indicator means "you are hearing this", not "bytes are arriving". On a
