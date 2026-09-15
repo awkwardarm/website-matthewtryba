@@ -358,7 +358,7 @@
    * a 30 second cycle. The first nod is the moment playback starts.
    *
    * The motion is the same function the plugin editor uses (plugin/ui/ListeningMotion.h in
-   * the tryba-stream repo): a side-to-side tilt at 120 BPM with a small dip on each beat,
+   * the tryba-stream repo): a side-to-side tilt at 72 BPM with a small dip on each beat,
    * and three sound lines rippling out of each ear cup. Coordinates are favicon.svg units.
    */
   var ROBOT_LOOP_MS = 3000, ROBOT_EVERY_MS = 30000;
@@ -369,9 +369,9 @@
 
   function robotPose(t) {
     var env = smoothstep(t / 0.35) * smoothstep((3 - t) / 0.45);
-    var beat = 2 * Math.PI * t;                     // one left-right swing per second
+    var beat = 2 * Math.PI * 0.6 * t;               // 0.6 left-right swings per second
     var rings = [0, 1, 2].map(function (k) {
-      var p = 2 * t - 0.22 * k;                     // two ripples a second, outer rings later
+      var p = 1.2 * t - 0.22 * k;                   // two ripples per swing, outer rings later
       p -= Math.floor(p);
       var s = Math.sin(Math.PI * p);
       return s * s * env;
