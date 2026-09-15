@@ -1,5 +1,5 @@
 /**
- * Tryba Stream listener — WebSocket → WebCodecs AudioDecoder → AudioWorklet.
+ * TRYBA Stream listener — WebSocket → WebCodecs AudioDecoder → AudioWorklet.
  *
  * Design notes that matter (PLAN.md §4):
  *  - Playback ALWAYS starts from a tap. Autoplay was dropped deliberately: it could
@@ -355,14 +355,14 @@
 
   /**
    * While the stream plays, the mark nods along for 3 seconds, then rests for the rest of
-   * a 30 second cycle. The first nod is the moment playback starts.
+   * a 15 second cycle. The first nod is the moment playback starts.
    *
    * The motion is the same function the plugin editor uses (plugin/ui/ListeningMotion.h in
    * the tryba-stream repo): a side-to-side tilt at 72 BPM with a small dip on each beat,
    * and short straight black lines bursting out of each ear cup, anime style. Coordinates
    * are favicon.svg units.
    */
-  var ROBOT_LOOP_MS = 3000, ROBOT_EVERY_MS = 30000;
+  var ROBOT_LOOP_MS = 3000, ROBOT_EVERY_MS = 15000;
   var robotInterval = 0, robotRaf = 0, robotLines = null;
   var LINE_ANGLES = [0, -35, 35], LINE_START = 12, LINE_TRAVEL = 4, LINE_LENGTH = 7;
   var CUP_LEFT_X = 21, CUP_RIGHT_X = 79, CUP_Y = 51;
