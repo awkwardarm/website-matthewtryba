@@ -1,0 +1,99 @@
+---
+layout: base.njk
+permalink: /listen/
+title: Listen — Matthew Tryba
+description: Live stream from the studio.
+noindex: true
+noPlayer: true
+---
+
+<link rel="stylesheet" href="/assets/stream-listener.css">
+
+<div class="stream-wrap">
+
+  <div id="screen-loading">
+    <div class="stream-card">
+      <p class="stream-status">Connecting…</p>
+    </div>
+  </div>
+
+  <div id="screen-unsupported" hidden>
+    <div class="stream-card">
+      <p class="stream-status" id="unsupported-reason">This browser can't play the stream.</p>
+      <p class="stream-hint">Open this link in Chrome and it'll work.</p>
+      <div id="chrome-actions"></div>
+    </div>
+  </div>
+
+  <div id="screen-full" hidden>
+    <div class="stream-card">
+      <p class="stream-status">This stream is full right now</p>
+      <p class="stream-hint">It'll start on its own as soon as a spot opens up. You can leave this page open.</p>
+    </div>
+  </div>
+
+  <div id="screen-player" hidden>
+    <div class="stream-card">
+      <!-- The TRYBA MUSIC mark (assets/favicon.svg), wider than its viewBox so the sound
+           lines have room. While the stream is playing, stream-listener.js nods the head
+           for 3 seconds every 30 seconds. Keep the drawing in sync with favicon.svg. -->
+      <svg class="stream-robot" id="robot" viewBox="-8 6 116 80" aria-hidden="true" focusable="false">
+        <g id="robot-head">
+          <g stroke="#0D0D0D" stroke-width="2.5" stroke-linecap="round" id="robot-lines">
+            <line data-line="0" data-side="left" opacity="0"/><line data-line="0" data-side="right" opacity="0"/>
+            <line data-line="1" data-side="left" opacity="0"/><line data-line="1" data-side="right" opacity="0"/>
+            <line data-line="2" data-side="left" opacity="0"/><line data-line="2" data-side="right" opacity="0"/>
+          </g>
+          <path d="M19 50 C19 9 81 9 81 50" fill="none" stroke="#1A73E8" stroke-width="5.5" stroke-linecap="round"/>
+          <ellipse cx="21" cy="51" rx="7" ry="10.5" fill="#1A73E8" stroke="#0D0D0D" stroke-width="2"/>
+          <ellipse cx="20.5" cy="51" rx="3" ry="6" fill="#cfe0fb"/>
+          <ellipse cx="79" cy="51" rx="7" ry="10.5" fill="#1A73E8" stroke="#0D0D0D" stroke-width="2"/>
+          <ellipse cx="79.5" cy="51" rx="3" ry="6" fill="#cfe0fb"/>
+          <rect x="25" y="25" width="50" height="42" rx="11" fill="#F0822B" stroke="#0D0D0D" stroke-width="2.5"/>
+          <circle cx="43" cy="48" r="11" fill="#0D0D0D"/>
+          <circle cx="43" cy="48" r="6.5" fill="none" stroke="#6b6b6b" stroke-width="2"/>
+          <circle cx="43" cy="48" r="2.5" fill="#0D0D0D"/>
+          <circle cx="39.5" cy="44.5" r="2" fill="#fff"/>
+          <circle cx="62" cy="46" r="3.6" fill="#0D0D0D"/>
+          <circle cx="60.7" cy="44.7" r="1" fill="#fff"/>
+        </g>
+      </svg>
+      <p class="stream-status" id="status-line">Connecting…</p>
+      <p class="stream-hint stream-status-hint" id="status-hint" hidden></p>
+
+      <button id="play-button" class="stream-play" aria-label="Play the stream" hidden><svg viewBox="0 0 100 100" width="40" height="40" aria-hidden="true" focusable="false"><polygon points="34,20 34,80 82,50" fill="currentColor"/></svg></button>
+      <p class="stream-play-label" id="play-label" hidden>Tap to listen</p>
+      <p class="stream-hint" id="takeover-hint" hidden>
+        This will pause any video or music playing on your device.
+      </p>
+
+      <div class="stream-controls">
+        <span aria-hidden="true">&#128264;</span>
+        <input id="volume" type="range" min="0" max="100" value="80" aria-label="Volume">
+        <button id="mute" class="stream-btn">Mute</button>
+      </div>
+
+      <div class="stream-meters" id="meters" hidden aria-hidden="true">
+        <div class="stream-meter"><span>L</span><div class="stream-meter-track"><div class="stream-meter-fill"></div><div class="stream-meter-mask" id="meter-l"></div></div></div>
+        <div class="stream-meter"><span>R</span><div class="stream-meter-track"><div class="stream-meter-fill"></div><div class="stream-meter-mask" id="meter-r"></div></div></div>
+      </div>
+
+      <p class="stream-live" id="live-dot">Live</p>
+      <p class="stream-error" id="error-note" hidden></p>
+
+      <a class="stream-help-link" id="help-link" href="#" hidden>Not hearing anything?</a>
+      <div class="stream-help" id="help-panel" hidden>
+        <ul>
+          <li>Playing something else? A phone or tablet can only play one thing at a time — pause your video or music, then tap Play here.</li>
+          <li>On an iPhone or iPad, check the silent switch or Control Centre mute — it mutes a lot of web audio.</li>
+          <li>Turn the device volume up, and check the slider above isn't at zero.</li>
+          <li>If you opened this from Instagram, Messenger, or email, tap the &hellip; menu and choose <strong>Open in browser</strong>.</li>
+          <li>Still nothing? Open the link in Chrome.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="/assets/stream-listener.js"></script>

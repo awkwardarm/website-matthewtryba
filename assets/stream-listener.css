@@ -1,0 +1,208 @@
+/* Tryba Stream listener — reuses the site's surface/border/accent tokens. */
+
+.stream-wrap {
+  max-width: 34rem;
+  margin: 4rem auto;
+  padding: 0 1.25rem;
+  text-align: center;
+}
+
+.stream-card {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 2.5rem 1.5rem;
+}
+
+/* The mark at 72px tall; the extra width either side is room for the sound lines. */
+.stream-robot {
+  display: block;
+  width: 104px;
+  height: 72px;
+  margin: -0.75rem auto 1rem;
+}
+
+.stream-status {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0 0 1.75rem;
+}
+
+/* 96px, per PLAN.md §4. Large enough to be the only thing on screen worth touching. */
+.stream-play {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: none;
+  background: #6196f8;
+  color: #fff;
+  font-size: 2.1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+.stream-play:hover { background: #4d84ec; transform: scale(1.04); }
+.stream-play:focus-visible { outline: 3px solid var(--accent-color); outline-offset: 4px; }
+
+.stream-play-label {
+  margin: 0.9rem 0 0;
+  color: var(--secondary-color);
+  font-size: 1rem;
+}
+
+.stream-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.75rem;
+}
+
+/* Generous track height: this gets dragged with a thumb on a phone. */
+.stream-controls input[type="range"] {
+  flex: 1;
+  height: 28px;
+  accent-color: #6196f8;
+  cursor: pointer;
+}
+
+.stream-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.6rem 1.1rem;
+  min-height: 44px;
+  color: var(--primary-color);
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.stream-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
+
+.stream-live {
+  margin-top: 1.1rem;
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  justify-content: center;
+}
+.stream-live::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--border-color);
+}
+.stream-live.live::before { background: #2ecc71; }
+
+.stream-help-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: var(--secondary-color);
+  font-size: 0.92rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.stream-help {
+  margin-top: 1rem;
+  text-align: left;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  font-size: 0.95rem;
+  color: var(--secondary-color);
+}
+.stream-help ul { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+.stream-help li { margin-bottom: 0.45rem; }
+
+.stream-hint { color: var(--secondary-color); font-size: 0.92rem; margin-top: 0.85rem; }
+.stream-error { color: #d64545; margin-top: 1rem; font-size: 0.95rem; }
+
+@media (max-width: 480px) {
+  .stream-wrap { margin: 2rem auto; }
+  .stream-card { padding: 2rem 1rem; }
+}
+
+/* ?debug=1 only — buffer health on a device with no console. */
+.stream-debug {
+  margin-top: 1.25rem;
+  padding: 0.85rem 1rem;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  text-align: left;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--secondary-color);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* Play/pause toggle: the pause glyph needs no optical nudge. */
+/* Icons are SVG, centred by flex alignment — no font metrics, no letter-spacing, and
+   so no trailing-space offset to correct for. */
+.stream-play svg { display: block; }
+
+/* Muted: the whole row reads as inactive, so gain 0 is never mistaken for a dead stream. */
+.stream-controls.is-muted { opacity: 0.45; }
+.stream-controls.is-muted input[type="range"] { accent-color: var(--secondary-color); }
+.stream-controls.is-muted button { border-color: var(--accent-color); color: var(--accent-color); }
+
+/* Stereo peak meters: pre-volume, -60 to 0 dBFS, same scale as the plugin.
+   The gradient is painted once across the full track and never moves; a mask covers the
+   unlit part. So each colour sits at a fixed level:
+     blue   quiet, below about -30 dB   (0-50% of the track)
+     orange hot, -24 to -12 dB          (60-80%)
+     red    loud, above about -9 dB     (85%+)
+   Each 10% of the track is 6 dB.                                                  */
+.stream-meters { margin-top: 1.25rem; display: grid; gap: 7px; }
+.stream-meter {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+.stream-meter span { width: 0.75rem; text-align: left; }
+.stream-meter-track {
+  position: relative;
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--border-color);
+  overflow: hidden;
+}
+.stream-meter-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right,
+    #6196f8 0%,
+    #6196f8 50%,
+    #f5a623 62%,
+    #e8732a 78%,
+    #d64545 85%,
+    #d64545 100%);
+}
+/* Unlit portion, in the track colour, anchored at the loud end. Transform only, so
+   animating it does no layout work per frame. */
+.stream-meter-mask {
+  position: absolute;
+  inset: 0;
+  background: var(--border-color);
+  transform: scaleX(1);
+  transform-origin: right center;
+  will-change: transform;
+}
+
+/* One quiet line under the status saying what happens next (ended / not started). */
+.stream-status-hint { margin: -1.1rem 0 1.5rem; }

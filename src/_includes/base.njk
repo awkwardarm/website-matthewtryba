@@ -56,7 +56,7 @@
     <link rel="stylesheet" href="/assets/doc.css">
 {%- endif %}
 </head>
-<body{% if docPage %} class="doc-page"{% endif %}>
+<body{% if docPage %} class="doc-page"{% elif noPlayer %} class="no-player"{% endif %}>
 
     <header class="site-header">
         <div class="site-header-inner">
@@ -95,7 +95,10 @@
     <script>
         // Client documents under /docs/ are standalone deliverables — the
         // persistent now-playing bar has no business on a rate sheet.
+        // The stream listener page owns the audio session; a second player on the page
+        // would fight it for the iOS media channel.
         if (!document.body.classList.contains('doc-page')
+            && !document.body.classList.contains('no-player')
             && typeof initAudioPlayer === 'function' && typeof TRACKS !== 'undefined') {
             initAudioPlayer({ tracks: TRACKS });
         }
