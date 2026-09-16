@@ -57,9 +57,12 @@
   // An expired link will never work again, so the page must stop trying: left open, a
   // 2-second reconnect loop would cost the relay about 43,000 requests a day per tab.
   var linkExpired = false;
+  // The same listener id opened the link in another window and took the slot. Like an
+  // expired link, this must not reconnect: two tabs sharing an id would replace each
+  // other every couple of seconds for as long as both stayed open.
+  var replacedElsewhere = false;
   var ENDED = "This stream has ended";
   var ENDED_HINT = "If Matthew starts again, it will pick up here on its own.";
-  var fullPoll = null;
   var firstAudioAt = 0;
   var touchedVolume = false;
   // ?debug=1 surfaces the worklet's buffer health on screen. The worklet has always
@@ -166,53 +169,82 @@
     });
 
     ws.addEventListener("message", function (e) {
-      if (typeof e.data === "string") return handleText(e.data, room);
+      if (typeof e.data === "string") return handleText(e.data);
       handleBinary(e.data);
     });
 
     ws.addEventListener("close", function (e) {
-      if (e.code === 4001) return;            // FULL: handled by polling /full instead
-      if (e.code === 4005 || linkExpired) return;   // EXPIRED: never coming back
+      if (e.code === 4005 || linkExpired) return;       // EXPIRED: never coming back
+      if (e.code === 4007 || replacedElsewhere) return; // this tab lost its slot to another
+      // ROOM_FULL now only reaches us when the relay's waiting queue is itself full,
+      // which takes more than twenty tabs on one link. Retry slowly rather than never —
+      // a tight loop here is exactly what the queue was built to remove.
+      if (e.code === 4001) { setTimeout(function () { connect(room); }, 30000); return; }
       setTimeout(function () { connect(room); }, 2000);
     });
   }
 
-  function handleText(raw, room) {
+  /**
+   * A dead end: one sentence, and at most one button. Reuses the unsupported screen,
+   * which is already the page's "this is as far as you go" layout.
+   */
+  function showDeadEnd(reason, hint, actionLabel, onAction) {
+    stopMeters();
+    stopRobot();
+    show("screenUnsupported");
+    if (el.unsupportedReason) el.unsupportedReason.textContent = reason;
+    var hintEl = document.querySelector("#screen-unsupported .stream-hint");
+    if (hintEl) hintEl.textContent = hint;
+    var actions = el.chromeActions;
+    if (!actions) return;
+    actions.innerHTML = "";
+    if (!actionLabel) return;
+    var b = document.createElement("button");
+    b.className = "stream-btn";
+    b.textContent = actionLabel;
+    b.addEventListener("click", onAction);
+    actions.appendChild(b);
+  }
+
+  function handleText(raw) {
     var m;
     try { m = JSON.parse(raw); } catch (_) { return; }
 
     if (m.t === "expired") {
       linkExpired = true;
-      stopMeters();
-      stopRobot();
-      show("screenUnsupported");
-      if (el.unsupportedReason) el.unsupportedReason.textContent = "This link is no longer active";
-      var hint = document.querySelector("#screen-unsupported .stream-hint");
-      if (hint) hint.textContent = "Ask Matthew for a new link. Each session gets its own.";
-      var actions = el.chromeActions; if (actions) actions.innerHTML = "";
+      showDeadEnd("This link is no longer active",
+                  "Ask Matthew for a new link. Each session gets its own.");
       if (ws) { try { ws.close(1000, "expired"); } catch (_) {} }
+      return;
+    }
+    if (m.t === "replaced") {
+      // This link is open in another window, which now holds the slot. Say so plainly and
+      // offer to take it back, rather than silently reconnecting and starting a tug of war.
+      replacedElsewhere = true;
+      showDeadEnd("You're listening in another window",
+                  "Only one window at a time can play. Close the other one, or take it back here.",
+                  "Listen here instead",
+                  function () { location.reload(); });
+      if (ws) { try { ws.close(1000, "replaced"); } catch (_) {} }
       return;
     }
     if (m.t === "state") {
       live = !!m.live;
-      if (!live) {
+      if (live) {
+        // Also the moment a listener who was waiting for a free slot gets one: leave the
+        // "stream is full" screen. HELLO follows immediately and fills in the rest.
+        show("screenPlayer");
+      } else {
         if (m.ended) goOffAir(ENDED, ENDED_HINT);
         else goOffAir("Waiting for Matthew to start", "");
       }
       return;
     }
     if (m.t !== "full") return;
+    // The relay parks this socket and admits it the moment a slot frees, so there is
+    // nothing to poll and nothing to refresh. The old ten-second /full poll cost the
+    // relay roughly 17,000 requests a day for every tab left sitting on this screen.
     show("screenFull");
-    if (fullPoll) return;
-    // Re-check for a free slot rather than making them refresh.
-    fullPoll = setInterval(function () {
-      fetch(RELAY.replace(/^ws/, "http") + "/v1/rooms/" + room + "/full")
-        .then(function (r) { return r.json(); })
-        .then(function (s) {
-          if (s.listeners < s.maxListeners) { clearInterval(fullPoll); fullPoll = null; location.reload(); }
-        })
-        .catch(function () {});
-    }, 10000);
   }
 
   function handleBinary(buf) {
