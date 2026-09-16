@@ -15,6 +15,13 @@ _site/
 .cache.wrangler/
 .wrangler/
 .dev.vars
+.dev.vars.*
+.env
+.env.*
+!.env.example
+*.pem
+*-service-account*.json
+gha-creds-*.json
 
 # Correct-case macOS ignore (.DS_STORE above is case-sensitive and does not match)
 .DS_Store
