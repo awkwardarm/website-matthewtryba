@@ -34,9 +34,9 @@
 // automatically prepended by hydrateCdnImages().
 //
 // Example: <img data-cdn="images/photo.jpg">
-//          → becomes → src="https://pub-...r2.dev/images/photo.jpg"
+//          → becomes → src="https://cdn.matthewtryba.com/images/photo.jpg"
 // \===========================================================
-const CDN_BASE = 'https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/';
+const CDN_BASE = 'https://cdn.matthewtryba.com/';
 
 // \===========================================================
 // HYDRATE CDN IMAGES
@@ -58,7 +58,7 @@ const CDN_BASE = 'https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/';
  * 
  * Example:
  *     HTML:  <img data-cdn="images/photo.jpg">
- *     Output: <img src="https://pub-...r2.dev/images/photo.jpg">
+ *     Output: <img src="https://cdn.matthewtryba.com/images/photo.jpg">
  */
 function hydrateCdnImages() {
     document.querySelectorAll('img[data-cdn]').forEach(img => {

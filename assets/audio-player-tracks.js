@@ -24,7 +24,7 @@
  * CDN BASE URL:
  *     All src and artwork paths are prefixed with CDN_BASE
  *     (defined in shared-scripts.js line 6).
- *     Format: https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/
+ *     Format: https://cdn.matthewtryba.com/
  * 
  * USAGE:
  *     This file is imported via <script src="./audio-player-tracks.js">

@@ -65,8 +65,8 @@ const PAGE_CONFIGS = {
      'tools-download': {
         // Download files — served from the Cloudflare R2 bucket (downloads/)
         downloads: {
-            stemLogic: 'https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/downloads/Stem%20Logic%200.1.1.zip',
-            transposeAll: 'https://pub-869789a451fa44dbadf9e27cd445afa0.r2.dev/downloads/Transpose%20All%201.0.zip'
+            stemLogic: 'https://cdn.matthewtryba.com/downloads/Stem%20Logic%200.1.1.zip',
+            transposeAll: 'https://cdn.matthewtryba.com/downloads/Transpose%20All%201.0.zip'
         },
         // Stripe Payment Link (donations — any amount).
         // Per-tool attribution: the download page appends
