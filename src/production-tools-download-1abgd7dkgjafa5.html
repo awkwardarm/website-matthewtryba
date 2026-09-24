@@ -14,8 +14,26 @@ noindex: true
         .donate-tiers { list-style: none; padding: 0; max-width: 400px; margin: 1.5rem auto; }
         .donate-tiers li { padding: 6px 0; color: var(--secondary-color); }
         .donate-tiers li strong { color: var(--primary-color); }
-        .donate-section .btn { margin-top: 1rem; }
         .donate-note { font-size: 0.9rem; color: var(--secondary-color); margin-top: 1rem; }
+
+        /* Inline donate widget: pick an amount, then Stripe's checkout mounts below */
+        .donate-widget { max-width: 520px; margin: 1.5rem auto 0; padding: 20px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--background-color); }
+        .donate-section .donate-widget { margin-top: 0; }
+        .donate-prompt { margin: 0 0 12px; font-size: 0.95rem; color: var(--secondary-color); }
+        .donate-amounts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+        .donate-amounts button, .donate-custom { font: inherit; font-size: 1rem; padding: 8px 16px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--surface-color); color: var(--primary-color); cursor: pointer; }
+        .donate-amounts button[aria-pressed="true"] { border-color: var(--accent-color); background: var(--accent-color); color: #fff; }
+        .donate-custom-wrap { position: relative; display: inline-flex; align-items: center; }
+        .donate-custom-wrap span { position: absolute; left: 10px; color: var(--secondary-color); pointer-events: none; }
+        .donate-custom { width: 96px; padding-left: 22px; cursor: text; }
+        .donate-custom.selected { border-color: var(--accent-color); }
+        .donate-widget .donate-go { margin-top: 14px; }
+        .donate-go[disabled] { opacity: 0.6; cursor: wait; }
+        .donate-checkout { margin-top: 16px; text-align: left; }
+        .donate-checkout:empty { display: none; }
+        .donate-status { margin: 10px 0 0; font-size: 0.95rem; color: var(--secondary-color); }
+        .donate-status:empty { display: none; }
+        .donate-thanks { margin: 0; font-size: 1.1rem; color: var(--primary-color); }
     </style>
 
     <header class="page-hero">
@@ -31,14 +49,18 @@ noindex: true
                 <h2>Stem Logic</h2>
                 <p>I made an AppleScript that exports every individual audio file through the master chain in Logic Pro.</p>
                 <a id="download-stem-logic" href="" class="btn">Download Stem Logic</a>
-                <a id="donate-stem-logic" href="" class="btn btn-secondary" target="_blank" rel="noopener">Donate for Stem Logic</a>
+                <div class="donate-widget" data-tool="stem-logic" data-tool-key="stemLogic">
+                    <p class="donate-prompt">Saves you time? Chip in for Stem Logic:</p>
+                </div>
             </div>
 
             <div class="download-item">
                 <h2>Transpose All</h2>
                 <p>An Ableton Max for Live device that globally transposes all midi tracks at once with one knob.</p>
                 <a id="download-transpose-all" href="" class="btn">Download Transpose All</a>
-                <a id="donate-transpose-all" href="" class="btn btn-secondary" target="_blank" rel="noopener">Donate for Transpose All</a>
+                <div class="donate-widget" data-tool="transpose-all" data-tool-key="transposeAll">
+                    <p class="donate-prompt">Saves you time? Chip in for Transpose All:</p>
+                </div>
             </div>
         </div>
     </section>
@@ -53,8 +75,8 @@ noindex: true
                 <li><strong>$25</strong>, my grandma says hi!</li>
                 <li><strong>$1</strong>, the card fees take $0.52...</li>
             </ul>
-            <a id="donate-link" href="" class="btn" target="_blank" rel="noopener">Donate</a>
-            <p class="donate-note">Secure checkout via Stripe. Any amount, one-time or recurring.</p>
+            <div class="donate-widget" data-tool="general"></div>
+            <p class="donate-note">Secure checkout by Stripe, right here on the page. Rather give monthly? <a id="donate-link" href="" target="_blank" rel="noopener">Set up a recurring donation</a>.</p>
         </div>
     </section>
 
@@ -63,16 +85,143 @@ noindex: true
         window.onCDNReady = function() {
             const pageConfig = getPageConfig('tools-download');
 
-            // Per-tool donate: dedicated Payment Link if configured, otherwise
-            // the shared link tagged with client_reference_id for attribution
-            const donateFor = (key, refId) =>
-                (pageConfig.donateUrls && pageConfig.donateUrls[key]) ||
+            // Payment Link fallback: dedicated per-tool link if configured,
+            // otherwise the shared link tagged with client_reference_id
+            const paymentLinkFor = (key, refId) =>
+                (key && pageConfig.donateUrls && pageConfig.donateUrls[key]) ||
                 pageConfig.donateUrl + '?client_reference_id=' + refId;
 
             document.getElementById('download-stem-logic').href = pageConfig.downloads.stemLogic;
             document.getElementById('download-transpose-all').href = pageConfig.downloads.transposeAll;
-            document.getElementById('donate-stem-logic').href = donateFor('stemLogic', 'stem-logic');
-            document.getElementById('donate-transpose-all').href = donateFor('transposeAll', 'transpose-all');
             document.getElementById('donate-link').href = pageConfig.donateUrl + '?client_reference_id=general';
+
+            const AMOUNTS = [5, 10, 25];
+            const DEFAULT_AMOUNT = 5;
+            let stripePromise = null;   // Stripe.js loads on first donate click
+            let activeCheckout = null;  // Stripe allows one embedded checkout per page
+
+            function loadStripe() {
+                if (!stripePromise) {
+                    stripePromise = new Promise((resolve, reject) => {
+                        const s = document.createElement('script');
+                        s.src = 'https://js.stripe.com/v3/';
+                        s.onload = () => resolve(Stripe(pageConfig.stripePublishableKey));
+                        s.onerror = () => { stripePromise = null; reject(new Error('Stripe.js failed to load')); };
+                        document.head.appendChild(s);
+                    });
+                }
+                return stripePromise;
+            }
+
+            document.querySelectorAll('.donate-widget').forEach(widget => {
+                const tool = widget.dataset.tool;
+                const fallbackUrl = paymentLinkFor(widget.dataset.toolKey, tool);
+                let amount = DEFAULT_AMOUNT;
+
+                const amounts = document.createElement('div');
+                amounts.className = 'donate-amounts';
+                amounts.setAttribute('role', 'group');
+                amounts.setAttribute('aria-label', 'Donation amount');
+                const presetButtons = AMOUNTS.map(a => {
+                    const b = document.createElement('button');
+                    b.type = 'button';
+                    b.textContent = '$' + a;
+                    b.setAttribute('aria-pressed', String(a === amount));
+                    b.addEventListener('click', () => { custom.value = ''; setAmount(a); });
+                    amounts.appendChild(b);
+                    return b;
+                });
+                const customWrap = document.createElement('label');
+                customWrap.className = 'donate-custom-wrap';
+                customWrap.innerHTML = '<span>$</span>';
+                const custom = document.createElement('input');
+                custom.className = 'donate-custom';
+                custom.type = 'number';
+                custom.min = '1';
+                custom.max = '1000';
+                custom.step = '1';
+                custom.inputMode = 'decimal';
+                custom.placeholder = 'Other';
+                custom.setAttribute('aria-label', 'Other amount in dollars');
+                custom.addEventListener('input', () => setAmount(parseFloat(custom.value) || 0, true));
+                customWrap.appendChild(custom);
+                amounts.appendChild(customWrap);
+
+                const go = document.createElement('button');
+                go.type = 'button';
+                go.className = 'btn btn-secondary donate-go';
+
+                const status = document.createElement('p');
+                status.className = 'donate-status';
+                status.setAttribute('role', 'status');
+
+                const checkoutEl = document.createElement('div');
+                checkoutEl.className = 'donate-checkout';
+                checkoutEl.id = 'donate-checkout-' + tool;
+
+                widget.append(amounts, go, status, checkoutEl);
+
+                function setAmount(a, fromCustom) {
+                    amount = a;
+                    presetButtons.forEach((b, i) => b.setAttribute('aria-pressed', String(!fromCustom && AMOUNTS[i] === a)));
+                    custom.classList.toggle('selected', Boolean(fromCustom));
+                    go.textContent = a >= 1 ? 'Donate $' + formatDollars(a) : 'Donate';
+                    status.textContent = '';
+                }
+                setAmount(amount);
+
+                go.addEventListener('click', async () => {
+                    // Not configured for inline checkout yet: use the Payment Link
+                    if (!pageConfig.stripePublishableKey) {
+                        window.open(fallbackUrl, '_blank', 'noopener');
+                        return;
+                    }
+                    if (!(amount >= 1 && amount <= 1000)) {
+                        status.textContent = 'Pick an amount between $1 and $1,000.';
+                        return;
+                    }
+
+                    go.disabled = true;
+                    status.textContent = 'Loading secure checkout...';
+                    try {
+                        const [stripe, res] = await Promise.all([
+                            loadStripe(),
+                            fetch('/api/donate', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ amount, tool })
+                            })
+                        ]);
+                        const data = await res.json();
+                        if (!res.ok || !data.clientSecret) throw new Error(data.error || 'No client secret');
+
+                        if (activeCheckout) {
+                            activeCheckout.checkout.destroy();
+                            activeCheckout.onClose();
+                        }
+                        const checkout = await stripe.initEmbeddedCheckout({
+                            fetchClientSecret: () => Promise.resolve(data.clientSecret),
+                            onComplete: () => {
+                                checkout.destroy();
+                                activeCheckout = null;
+                                widget.innerHTML = '<p class="donate-thanks">Thank you so much! Your donation went through, and a receipt is on its way to your inbox.</p>';
+                            }
+                        });
+                        checkout.mount(checkoutEl);
+                        activeCheckout = { checkout, onClose: () => { checkoutEl.innerHTML = ''; } };
+                        status.textContent = '';
+                        checkoutEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    } catch (err) {
+                        console.error('Inline donate failed:', err);
+                        status.innerHTML = 'Checkout didn\'t load. <a href="' + fallbackUrl + '" target="_blank" rel="noopener">Donate on Stripe instead</a>.';
+                    } finally {
+                        go.disabled = false;
+                    }
+                });
+            });
+
+            function formatDollars(a) {
+                return Number.isInteger(a) ? String(a) : a.toFixed(2);
+            }
         };
     </script>

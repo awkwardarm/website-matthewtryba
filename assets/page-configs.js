@@ -68,6 +68,11 @@ const PAGE_CONFIGS = {
             stemLogic: 'https://cdn.matthewtryba.com/downloads/Stem%20Logic%200.1.1.zip',
             transposeAll: 'https://cdn.matthewtryba.com/downloads/Transpose%20All%201.0.zip'
         },
+        // Stripe publishable key (pk_live_..., safe to be public) for the
+        // inline donate checkout on the download page. Needs the matching
+        // STRIPE_SECRET_KEY set in Cloudflare Pages; see functions/api/donate.js.
+        // While empty, the donate buttons open the Payment Link below instead.
+        stripePublishableKey: '',
         // Stripe Payment Link (donations — any amount).
         // Per-tool attribution: the download page appends
         // ?client_reference_id=stem-logic / transpose-all to this link, and
