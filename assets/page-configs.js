@@ -72,7 +72,7 @@ const PAGE_CONFIGS = {
         // inline donate checkout on the download page. Needs the matching
         // STRIPE_SECRET_KEY set in Cloudflare Pages; see functions/api/donate.js.
         // While empty, the donate buttons open the Payment Link below instead.
-        stripePublishableKey: '',
+        stripePublishableKey: 'pk_live_51RtDJ62I6aM6jWEuoOnSlBpwcQtvvQRu7kOvKEgdxGAFdhUgnIEQymPhUDsZt2RYT9tTd5be3JYLjpGQOpXFkRA100w6InS98X',
         // Stripe Payment Link (donations — any amount).
         // Per-tool attribution: the download page appends
         // ?client_reference_id=stem-logic / transpose-all to this link, and
