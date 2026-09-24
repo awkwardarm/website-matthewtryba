@@ -10,15 +10,9 @@ noindex: true
         .download-item { max-width: 800px; margin: 0 auto 60px auto; text-align: center; }
         .download-item p { max-width: 600px; margin-left: auto; margin-right: auto; }
         .download-item .btn { margin-top: 1rem; }
-        .donate-section { background-color: var(--surface-color); text-align: center; }
-        .donate-tiers { list-style: none; padding: 0; max-width: 400px; margin: 1.5rem auto; }
-        .donate-tiers li { padding: 6px 0; color: var(--secondary-color); }
-        .donate-tiers li strong { color: var(--primary-color); }
-        .donate-note { font-size: 0.9rem; color: var(--secondary-color); margin-top: 1rem; }
 
         /* Inline donate widget: pick an amount, then Stripe's checkout mounts below */
         .donate-widget { max-width: 520px; margin: 1.5rem auto 0; padding: 20px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--background-color); }
-        .donate-section .donate-widget { margin-top: 0; }
         .donate-prompt { margin: 0 0 12px; font-size: 0.95rem; color: var(--secondary-color); }
         .donate-amounts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
         .donate-amounts button, .donate-custom { font: inherit; font-size: 1rem; padding: 8px 16px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--surface-color); color: var(--primary-color); cursor: pointer; }
@@ -50,7 +44,7 @@ noindex: true
                 <p>I made an AppleScript that exports every individual audio file through the master chain in Logic Pro.</p>
                 <a id="download-stem-logic" href="" class="btn">Download Stem Logic</a>
                 <div class="donate-widget" data-tool="stem-logic" data-tool-key="stemLogic">
-                    <p class="donate-prompt">Saves you time? Chip in for Stem Logic:</p>
+                    <p class="donate-prompt">Donate. Secure checkout by Stripe, right here on the page.</p>
                 </div>
             </div>
 
@@ -59,24 +53,9 @@ noindex: true
                 <p>An Ableton Max for Live device that globally transposes all midi tracks at once with one knob.</p>
                 <a id="download-transpose-all" href="" class="btn">Download Transpose All</a>
                 <div class="donate-widget" data-tool="transpose-all" data-tool-key="transposeAll">
-                    <p class="donate-prompt">Saves you time? Chip in for Transpose All:</p>
+                    <p class="donate-prompt">Donate. Secure checkout by Stripe, right here on the page.</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="donate-section">
-        <div class="container">
-            <h2>Enjoying These Tools?</h2>
-            <p>They're free, but if they save you time you can support their development with a donation:</p>
-            <ul class="donate-tiers">
-                <li><strong>$5</strong>, thank you!</li>
-                <li><strong>$10</strong>, you're awesome!</li>
-                <li><strong>$25</strong>, my grandma says hi!</li>
-                <li><strong>$1</strong>, the card fees take $0.52...</li>
-            </ul>
-            <div class="donate-widget" data-tool="general"></div>
-            <p class="donate-note">Secure checkout by Stripe, right here on the page. Rather give monthly? <a id="donate-link" href="" target="_blank" rel="noopener">Set up a recurring donation</a>.</p>
         </div>
     </section>
 
@@ -93,7 +72,6 @@ noindex: true
 
             document.getElementById('download-stem-logic').href = pageConfig.downloads.stemLogic;
             document.getElementById('download-transpose-all').href = pageConfig.downloads.transposeAll;
-            document.getElementById('donate-link').href = pageConfig.donateUrl + '?client_reference_id=general';
 
             const AMOUNTS = [5, 10, 25];
             const DEFAULT_AMOUNT = 5;
