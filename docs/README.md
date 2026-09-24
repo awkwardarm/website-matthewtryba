@@ -11,6 +11,10 @@ Complete guide to managing and deploying the Matthew Tryba website (Eleventy on 
 - Key concepts (page configs, form pipeline, tools download flow)
 - Client documents under a randomized base path
 
+### [STYLE-GUIDE.md](STYLE-GUIDE.md)
+**Copy rules for every page, email, and client document**
+- No em dashes, ever
+
 ### [CREATING-PAGES.md](CREATING-PAGES.md)
 **Step-by-step guide to creating new pages**
 - Front matter and the shared layout

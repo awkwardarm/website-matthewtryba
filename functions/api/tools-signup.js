@@ -135,13 +135,13 @@ async function sendDownloadEmail(env, { name, email, origin }) {
                     <p><a href="${downloadUrl}">Download the tools</a></p>
                     <p>If the link doesn't work, copy and paste this into your browser:<br>
                     ${downloadUrl}</p>
-                    <p>Enjoy — and if they save you time in a session, you can
+                    <p>Enjoy! If they save you time in a session, you can
                     <a href="${DONATE_URL}">donate any amount here</a>. No pressure,
                     but it's always appreciated.</p>
-                    <p>— Matthew Tryba<br>
+                    <p>Matthew Tryba<br>
                     <a href="https://www.matthewtryba.com">matthewtryba.com</a></p>
                 `,
-                text: `Hey ${firstName},\n\nThanks for signing up! Here's your download link for Stem Logic (Logic Pro) and Transpose All (Ableton Live):\n\n${downloadUrl}\n\nEnjoy — and if they save you time in a session, you can donate any amount here:\n${DONATE_URL}\n\nNo pressure, but it's always appreciated.\n\n— Matthew Tryba\nhttps://www.matthewtryba.com`
+                text: `Hey ${firstName},\n\nThanks for signing up! Here's your download link for Stem Logic (Logic Pro) and Transpose All (Ableton Live):\n\n${downloadUrl}\n\nEnjoy! If they save you time in a session, you can donate any amount here:\n${DONATE_URL}\n\nNo pressure, but it's always appreciated.\n\nMatthew Tryba\nhttps://www.matthewtryba.com`
             })
         });
 
