@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Why:** donations stopped after switching to a Stripe Payment Link button that opened checkout in a new tab. Each tool now has an inline widget: pick $5 / $10 / $25 or type an amount, press Donate, and Stripe's Embedded Checkout mounts right under the tool. On success the widget swaps to a thank-you message; the visitor never leaves the page.
 - **`functions/api/donate.js`** (new) creates the embedded Checkout Session (`ui_mode: embedded`, `redirect_on_completion: never`, `submit_type: donate`) for $1 to $1,000, tagging `client_reference_id` and `metadata.tool` with the tool id so per-tool attribution matches the old Payment Link setup. Stripe API version is pinned in the function.
 - **Setup:** `STRIPE_SECRET_KEY` in Cloudflare Pages env vars, and `stripePublishableKey` in `assets/page-configs.js`. Until both are set, the Donate buttons open the Payment Link as before; if checkout fails to load, the widget offers the Payment Link.
-- Removed the "Enjoying These Tools?" section (tier list, general donate widget, and recurring-donation link); each tool's widget now reads "Donate for {tool}." with "Secure checkout by Stripe." on the next line.
+- Removed the "Enjoying These Tools?" section (tier list, general donate widget, and recurring-donation link); each tool's widget now reads "Donate to {tool}." with "Secure checkout by Stripe." on the next line.
 
 ## [2.3.0] - 2026-08-27
 
