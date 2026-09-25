@@ -14,14 +14,15 @@ noindex: true
         /* Inline donate widget: pick an amount, then Stripe's checkout mounts below */
         .donate-widget { max-width: 520px; margin: 1.5rem auto 0; padding: 20px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--background-color); }
         .donate-prompt { margin: 0 0 12px; font-size: 0.95rem; color: var(--secondary-color); }
-        .donate-amounts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-        .donate-amounts button, .donate-custom { font: inherit; font-size: 1rem; padding: 8px 16px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--surface-color); color: var(--primary-color); cursor: pointer; }
+        .donate-amounts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.4fr); gap: 8px; max-width: 400px; margin: 0 auto; }
+        .donate-amounts button, .donate-custom { box-sizing: border-box; width: 100%; height: 44px; margin: 0; font: inherit; font-size: 1rem; line-height: 1; padding: 0 8px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--surface-color); color: var(--primary-color); cursor: pointer; text-align: center; }
         .donate-amounts button[aria-pressed="true"] { border-color: var(--accent-color); background: var(--accent-color); color: #fff; }
-        .donate-custom-wrap { position: relative; display: inline-flex; align-items: center; }
+        .donate-custom-wrap { position: relative; display: flex; align-items: center; min-width: 0; }
         .donate-custom-wrap span { position: absolute; left: 10px; color: var(--secondary-color); pointer-events: none; }
-        .donate-custom { width: 96px; padding-left: 22px; cursor: text; }
+        .donate-custom { padding-left: 24px; text-align: left; cursor: text; -moz-appearance: textfield; appearance: textfield; }
+        .donate-custom::-webkit-outer-spin-button, .donate-custom::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .donate-custom.selected { border-color: var(--accent-color); }
-        .donate-widget .donate-go { margin-top: 14px; }
+        .donate-widget .donate-go { display: block; width: 100%; max-width: 400px; margin: 14px auto 0; box-sizing: border-box; }
         .donate-go[disabled] { opacity: 0.6; cursor: wait; }
         .donate-checkout { margin-top: 16px; text-align: left; }
         .donate-checkout:empty { display: none; }
