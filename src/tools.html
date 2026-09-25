@@ -7,7 +7,10 @@ permalink: /tools/
     <style>
         .page-hero { text-align: center; padding: 60px 0; background-color: var(--surface-color); }
         .tool-item { max-width: 800px; margin: 0 auto 60px auto; }
-        .tool-item h2 { text-align: left; }
+        .tool-item h2 { text-align: left; margin: 0; }
+        .tool-heading { display: flex; align-items: center; gap: 16px; margin-bottom: 1rem; }
+        .tool-logo { flex: none; width: 72px; height: 72px; }
+        .tool-logo.tile { border-radius: 22%; border: 1px solid var(--border-color); }
         .tool-item .video-wrapper { margin-top: 1.5rem; }
         .signup-section { background-color: var(--surface-color); }
     </style>
@@ -22,7 +25,10 @@ permalink: /tools/
     <section>
         <div class="container">
             <div class="tool-item">
-                <h2>Transpose All for Ableton Live Suite</h2>
+                <div class="tool-heading">
+                    <img class="tool-logo tile" src="/images/tools/transpose-all-logo.png" alt="Transpose All logo" width="72" height="72">
+                    <h2>Transpose All for Ableton Live Suite</h2>
+                </div>
                 <p>Transpose all midi tracks in Ableton with one knob.</p>
                 <div class="video-wrapper">
                     <iframe src="https://www.youtube.com/embed/SG6F8H0YKak" title="Transpose All for Ableton Live demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -30,7 +36,10 @@ permalink: /tools/
             </div>
 
             <div class="tool-item">
-                <h2>Stem Logic for Logic Pro</h2>
+                <div class="tool-heading">
+                    <img class="tool-logo" src="/images/tools/stem-logic-logo.png" alt="Stem Logic logo" width="72" height="72">
+                    <h2>Stem Logic for Logic Pro</h2>
+                </div>
                 <p>Automate exporting all individual tracks solo'd through the master in Logic Pro.</p>
                 <div class="video-wrapper">
                     <iframe src="https://www.youtube.com/embed/dAX1SxtWb60" title="Stem Logic for Logic Pro demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
