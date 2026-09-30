@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed: Creative Date Checklist, Zoom to Remote
+- New **`src/docs/creative-date-checklist-remote.html`** (renamed from the Zoom page) says "Remote" instead of Zoom and drops the "Zoom Desktop installed" requirement, since calls now run on Google Meet. The docs index links to it.
+- **`src/docs/creative-date-checklist-zoom.html`** is now a noindex redirect stub (meta refresh, relative URL so the secret `DOCS_BASE` stays out of the repo), so links already sent to clients keep working.
+
 ### Changed — Inline Stripe donations on the tools download page
 - **Why:** donations stopped after switching to a Stripe Payment Link button that opened checkout in a new tab. Each tool now has an inline widget: pick $5 / $10 / $25 or type an amount, press Donate, and Stripe's Embedded Checkout mounts right under the tool. On success the widget swaps to a thank-you message; the visitor never leaves the page.
 - **`functions/api/donate.js`** (new) creates the embedded Checkout Session (`ui_mode: embedded`, `redirect_on_completion: never`, `submit_type: donate`) for $1 to $1,000, tagging `client_reference_id` and `metadata.tool` with the tool id so per-tool attribution matches the old Payment Link setup. Stripe API version is pinned in the function.

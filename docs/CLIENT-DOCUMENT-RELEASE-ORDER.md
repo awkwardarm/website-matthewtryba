@@ -20,10 +20,10 @@ for how those pages are built. This file is internal; it is not published.
    - Purpose: the menu of ways to work together, as an ascending ladder. The client
      picks a starting point. Includes the credit structure and fine print.
 
-2. **Creative Date Checklist** — Zoom: `<base>/creative-date-checklist-zoom/` ·
+2. **Creative Date Checklist** — Remote: `<base>/creative-date-checklist-remote/` ·
    In-Studio: `<base>/creative-date-checklist-in-studio/`
    - Send: as soon as a Creative Date is booked.
-   - Which one: the **Zoom** version for a remote Creative Date; the **In-Studio**
+   - Which one: the **Remote** version for a remote Creative Date (video call, currently Google Meet; the old `<base>/creative-date-checklist-zoom/` link forwards to it); the **In-Studio**
      version for a session at the studio.
    - Purpose: how to prep for the Creative Date.
 
