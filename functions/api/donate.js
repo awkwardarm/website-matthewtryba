@@ -4,12 +4,13 @@
  * ===========================================================
  *
  * Cloudflare Pages Function (auto-deployed from /functions).
- * The download page's donate widgets post here with the amount the
- * visitor picked. This creates a Stripe Checkout Session in embedded
+ * The donate widgets (assets/donate-widget.js, on the tools download
+ * page and /donate) post here with the amount the visitor picked. This creates a Stripe Checkout Session in embedded
  * mode and returns its client_secret, which Stripe.js mounts inline
  * under the tool, so the visitor pays without leaving the page.
  *
- * Request:  JSON { amount: <dollars>, tool: 'stem-logic' | 'transpose-all' | 'general' }
+ * Request:  JSON { amount: <dollars>, tool: one of TOOLS below,
+ *                  source: one of SOURCES below (optional) }
  * Response: JSON { clientSecret } or { error } with a 4xx/5xx status
  *
  * The tool id lands on the payment as client_reference_id and
@@ -32,8 +33,12 @@ const STRIPE_API_VERSION = '2024-06-20';
 const TOOLS = {
     'stem-logic': 'Stem Logic',
     'transpose-all': 'Transpose All',
+    'tryba-strip': 'TRYBA Strip',
     'general': 'Production Tools'
 };
+
+// Where the widget was: lands on the payment as metadata.source
+const SOURCES = ['download-page', 'donate-page'];
 
 const MIN_DOLLARS = 1;
 const MAX_DOLLARS = 1000;
@@ -52,6 +57,7 @@ export async function onRequestPost({ request, env }) {
     }
 
     const tool = String(body.tool || '');
+    const source = SOURCES.includes(body.source) ? body.source : 'download-page';
     const dollars = Number(body.amount);
     if (!TOOLS[tool]) return json({ error: 'Unknown tool' }, 400);
     if (!Number.isFinite(dollars) || dollars < MIN_DOLLARS || dollars > MAX_DOLLARS) {
@@ -68,11 +74,12 @@ export async function onRequestPost({ request, env }) {
         'redirect_on_completion': 'never',
         'client_reference_id': tool,
         'metadata[tool]': tool,
-        'metadata[source]': 'download-page',
+        'metadata[source]': source,
         'line_items[0][quantity]': '1',
         'line_items[0][price_data][currency]': 'usd',
         'line_items[0][price_data][unit_amount]': String(cents),
-        'line_items[0][price_data][product_data][name]': `Donation for ${TOOLS[tool]}`
+        // Every donation reads the same at checkout; the tool is in the metadata
+        'line_items[0][price_data][product_data][name]': 'Donation to Matthew Tryba'
     });
 
     try {

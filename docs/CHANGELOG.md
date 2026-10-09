@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added: /donate page for tools outside the download page
+- **`src/donate.html`** (new, noindex) at `/donate/`: one inline Stripe donate widget with $5 (selected), $10, $20 and Other. `?tool=tryba-strip` (or `transpose-all`, `stem-logic`) names the tool in the heading and copy and tags the payment with it; without it, the donation counts as `general`. The TRYBA Strip Max for Live device's Donate button links here.
+- **`assets/donate-widget.js` / `.css`** (new): the download page's widget code and styles moved out of the page so both pages share one implementation. `initDonateWidgets(pageConfig, { amounts, defaultAmount, source, paymentLinkFor })`; the download page keeps $5 / $10 / $25.
+- **`functions/api/donate.js`** accepts `tryba-strip` and an optional `source` (`download-page` or `donate-page`), recorded as `metadata.source`.
+- Every widget prompt and the Stripe checkout item now read "Donate to Matthew Tryba" / "Donation to Matthew Tryba" instead of naming the tool. The tool still tags each payment (`client_reference_id`, `metadata.tool`) for per-tool totals.
+- **`assets/page-configs.js`**: the Stripe publishable key and Payment Link are shared constants, used by both `tools-download` and the new `donate` entry.
+
 ### Changed: Creative Date Checklist, Zoom to Remote
 - New **`src/docs/creative-date-checklist-remote.html`** (renamed from the Zoom page) says "Remote" instead of Zoom and drops the "Zoom Desktop installed" requirement, since calls now run on Google Meet. The docs index links to it.
 - **`src/docs/creative-date-checklist-zoom.html`** is now a noindex redirect stub (meta refresh, relative URL so the secret `DOCS_BASE` stays out of the repo), so links already sent to clients keep working.

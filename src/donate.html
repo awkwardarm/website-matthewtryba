@@ -1,0 +1,58 @@
+---
+layout: base.njk
+title: Donate to Matthew Tryba
+description: Support Matthew Tryba's free production tools.
+permalink: /donate/
+noindex: true
+---
+    <link rel="stylesheet" href="/assets/donate-widget.css">
+    <style>
+        .page-hero { text-align: center; padding: 60px 0; background-color: var(--surface-color); }
+        .donate-page { max-width: 640px; margin: 0 auto 60px auto; text-align: center; }
+    </style>
+
+    <header class="page-hero">
+        <div class="container">
+            <h1 id="donate-title">Support My Free Tools</h1>
+            <p id="donate-intro">I build these tools for my own sessions and share them for free. If one saves you time, a donation helps me keep making them.</p>
+        </div>
+    </header>
+
+    <section>
+        <div class="container">
+            <div class="donate-page">
+                <div class="donate-widget" id="donate-widget" data-tool="general">
+                    <p class="donate-prompt">Donate to Matthew Tryba.<br>Secure checkout by Stripe.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="/assets/donate-widget.js"></script>
+    <!-- Page-specific initialization -->
+    <script>
+        window.onCDNReady = function() {
+            const pageConfig = getPageConfig('donate');
+
+            // Which tool the donation is for: /donate?tool=tryba-strip (the
+            // TRYBA Strip device's Donate button). Ids match TOOLS in
+            // functions/api/donate.js; anything else counts as general.
+            const TOOL_NAMES = {
+                'tryba-strip': 'TRYBA Strip',
+                'transpose-all': 'Transpose All',
+                'stem-logic': 'Stem Logic'
+            };
+            const requested = new URLSearchParams(location.search).get('tool');
+            const tool = TOOL_NAMES[requested] ? requested : 'general';
+
+            if (tool !== 'general') {
+                const name = TOOL_NAMES[tool];
+                document.getElementById('donate-title').textContent = 'Support ' + name;
+                document.getElementById('donate-intro').textContent =
+                    'I built ' + name + ' for my own sessions and share it for free. If it saves you time, a donation helps me keep making tools like it.';
+            }
+            document.getElementById('donate-widget').dataset.tool = tool;
+
+            initDonateWidgets(pageConfig, { amounts: [5, 10, 20], defaultAmount: 5, source: 'donate-page' });
+        };
+    </script>
