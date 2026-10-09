@@ -27,6 +27,16 @@ noindex: true
     <section>
         <div class="container">
             <div class="download-item">
+                <img class="tool-logo tile" src="/images/tools/tryba-strip-logo.svg" alt="TRYBA Strip logo" width="96" height="96">
+                <h2>TRYBA Strip</h2>
+                <p>An Ableton Max for Live device that strips the silence out of audio clips, one track or your whole session at a time.</p>
+                <p class="tool-requirement">*Requires Ableton Live 12 with Max for Live</p>
+                <a id="download-tryba-strip" href="" class="btn">Download TRYBA Strip</a>
+                <div class="donate-widget" data-tool="tryba-strip" data-tool-key="trybaStrip">
+                    <p class="donate-prompt">Donate to Matthew Tryba.<br>Secure checkout by Stripe.</p>
+                </div>
+            </div>
+            <div class="download-item">
                 <img class="tool-logo tile" src="/images/tools/transpose-all-logo.png" alt="Transpose All logo" width="96" height="96">
                 <h2>Transpose All</h2>
                 <p>An Ableton Max for Live device that globally transposes all midi tracks at once with one knob.</p>
@@ -63,6 +73,7 @@ noindex: true
 
             document.getElementById('download-stem-logic').href = pageConfig.downloads.stemLogic;
             document.getElementById('download-transpose-all').href = pageConfig.downloads.transposeAll;
+            document.getElementById('download-tryba-strip').href = pageConfig.downloads.trybaStrip;
 
             initDonateWidgets(pageConfig, { amounts: [5, 10, 25], defaultAmount: 5, paymentLinkFor });
         };
