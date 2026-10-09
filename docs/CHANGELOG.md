@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed: one requirement line for every Max for Live device
+- TRYBA Strip and Transpose All on the tools and download pages read "Requires Ableton Live 12 or higher, with Live Suite or the Max for Live add-on". Transpose All's heading drops "Suite" now that the line covers it.
+
 ### Added: TRYBA Strip on the tools and download pages
 - **`src/tools.html`**: TRYBA Strip (strip silence in Ableton Live, Max for Live, Live 12) listed first, with a new logo (`images/tools/tryba-strip-logo.svg`) and a screenshot of the device window (`images/tools/tryba-strip-window.svg`, rendered from the device's drawing code in the `max4live` repo).
 - **Download page**: a TRYBA Strip download (`downloads/TRYBA Strip 1.0.zip` on R2, the frozen device plus an install note) with its own donate widget (`tool: tryba-strip`).
