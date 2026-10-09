@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed: TRYBA Strip 1.1 download
+- The download page links `downloads/TRYBA Strip 1.1.zip` on R2 (1.0 stays in the bucket): Enter-only "Strip and next track", track selection with All clips on track, Open / close that brings a hidden window back, hover help, Grid adds 1/16 and 1/32, Preview and Save as default removed. The tools page screenshot shows the 1.1 window.
+
 ### Changed: one requirement line for every Max for Live device
 - TRYBA Strip and Transpose All on the tools and download pages read "Requires Ableton Live 12 or higher, with Live Suite or the Max for Live add-on". Transpose All's heading drops "Suite" now that the line covers it.
 
