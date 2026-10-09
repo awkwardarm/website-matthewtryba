@@ -12,6 +12,8 @@ permalink: /tools/
         .tool-logo { flex: none; width: 72px; height: 72px; }
         .tool-logo.tile { border-radius: 22%; border: 1px solid var(--border-color); }
         .tool-item .video-wrapper { margin-top: 1.5rem; }
+        .tool-requirement { margin-top: -0.5rem; font-size: 0.9rem; color: var(--secondary-color); }
+        .tool-screenshot { display: block; width: 100%; height: auto; margin-top: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; }
         .signup-section { background-color: var(--surface-color); }
     </style>
 
@@ -24,6 +26,15 @@ permalink: /tools/
 
     <section>
         <div class="container">
+            <div class="tool-item">
+                <div class="tool-heading">
+                    <img class="tool-logo tile" src="/images/tools/tryba-strip-logo.svg" alt="TRYBA Strip logo" width="72" height="72">
+                    <h2>TRYBA Strip for Ableton Live</h2>
+                </div>
+                <p>Strip the silence out of audio clips in Ableton Live's Arrangement View, like Strip Silence in Pro Tools or Logic. Set a threshold on one clip, then strip your whole session one track at a time, with every cut landing on the beat grid so clips are easy to move later.</p>
+                <p class="tool-requirement">*Requires Ableton Live 12 with Max for Live</p>
+                <img class="tool-screenshot" src="/images/tools/tryba-strip-window.svg" alt="The TRYBA Strip window: a clip's waveform with the kept regions outlined, and the threshold, padding and grid controls" width="960" height="250" loading="lazy">
+            </div>
             <div class="tool-item">
                 <div class="tool-heading">
                     <img class="tool-logo tile" src="/images/tools/transpose-all-logo.png" alt="Transpose All logo" width="72" height="72">

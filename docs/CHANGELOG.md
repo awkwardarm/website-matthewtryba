@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added: TRYBA Strip on the tools and download pages
+- **`src/tools.html`**: TRYBA Strip (strip silence in Ableton Live, Max for Live, Live 12) listed first, with a new logo (`images/tools/tryba-strip-logo.svg`) and a screenshot of the device window (`images/tools/tryba-strip-window.svg`, rendered from the device's drawing code in the `max4live` repo).
+- **Download page**: a TRYBA Strip download (`downloads/TRYBA Strip 1.0.zip` on R2, the frozen device plus an install note) with its own donate widget (`tool: tryba-strip`).
+
 ### Changed: Transpose All 1.1 download
 - The download page links `downloads/Transpose All 1.1.zip` on R2 (1.0 is still in the bucket): both devices in the TRYBA MUSIC look, a Donate button on the Send device, and the Outfit font as an optional extra. Built in the `max4live` repo (`devices/transpose-all`).
 
