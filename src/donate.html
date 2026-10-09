@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: Donate | Matthew Tryba
+title: Donate to Matthew Tryba
 description: Support Matthew Tryba's free production tools.
 permalink: /donate/
 noindex: true
@@ -22,7 +22,7 @@ noindex: true
         <div class="container">
             <div class="donate-page">
                 <div class="donate-widget" id="donate-widget" data-tool="general">
-                    <p class="donate-prompt" id="donate-prompt">Pick an amount.<br>Secure checkout by Stripe.</p>
+                    <p class="donate-prompt">Donate to Matthew Tryba.<br>Secure checkout by Stripe.</p>
                 </div>
             </div>
         </div>
@@ -50,9 +50,6 @@ noindex: true
                 document.getElementById('donate-title').textContent = 'Support ' + name;
                 document.getElementById('donate-intro').textContent =
                     'I built ' + name + ' for my own sessions and share it for free. If it saves you time, a donation helps me keep making tools like it.';
-                document.getElementById('donate-prompt').innerHTML =
-                    'Donate to ' + name + '.<br>Secure checkout by Stripe.';
-                document.title = 'Donate to ' + name + ' | Matthew Tryba';
             }
             document.getElementById('donate-widget').dataset.tool = tool;
 

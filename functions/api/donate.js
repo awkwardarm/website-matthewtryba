@@ -78,7 +78,8 @@ export async function onRequestPost({ request, env }) {
         'line_items[0][quantity]': '1',
         'line_items[0][price_data][currency]': 'usd',
         'line_items[0][price_data][unit_amount]': String(cents),
-        'line_items[0][price_data][product_data][name]': `Donation for ${TOOLS[tool]}`
+        // Every donation reads the same at checkout; the tool is in the metadata
+        'line_items[0][price_data][product_data][name]': 'Donation to Matthew Tryba'
     });
 
     try {

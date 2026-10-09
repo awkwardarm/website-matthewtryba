@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`src/donate.html`** (new, noindex) at `/donate/`: one inline Stripe donate widget with $5 (selected), $10, $20 and Other. `?tool=tryba-strip` (or `transpose-all`, `stem-logic`) names the tool in the heading and copy and tags the payment with it; without it, the donation counts as `general`. The TRYBA Strip Max for Live device's Donate button links here.
 - **`assets/donate-widget.js` / `.css`** (new): the download page's widget code and styles moved out of the page so both pages share one implementation. `initDonateWidgets(pageConfig, { amounts, defaultAmount, source, paymentLinkFor })`; the download page keeps $5 / $10 / $25.
 - **`functions/api/donate.js`** accepts `tryba-strip` and an optional `source` (`download-page` or `donate-page`), recorded as `metadata.source`.
+- Every widget prompt and the Stripe checkout item now read "Donate to Matthew Tryba" / "Donation to Matthew Tryba" instead of naming the tool. The tool still tags each payment (`client_reference_id`, `metadata.tool`) for per-tool totals.
 - **`assets/page-configs.js`**: the Stripe publishable key and Payment Link are shared constants, used by both `tools-download` and the new `donate` entry.
 
 ### Changed: Creative Date Checklist, Zoom to Remote
