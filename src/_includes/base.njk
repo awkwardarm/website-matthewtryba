@@ -49,11 +49,11 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-    <link rel="stylesheet" href="/assets/shared-styles.css">
-    <link rel="stylesheet" href="/assets/audio-player.css">
-    <link rel="stylesheet" href="/assets/site-chrome.css">
+    <link rel="stylesheet" href="/assets/shared-styles.css?v={{ assetVersion }}">
+    <link rel="stylesheet" href="/assets/audio-player.css?v={{ assetVersion }}">
+    <link rel="stylesheet" href="/assets/site-chrome.css?v={{ assetVersion }}">
 {%- if docPage %}
-    <link rel="stylesheet" href="/assets/doc.css">
+    <link rel="stylesheet" href="/assets/doc.css?v={{ assetVersion }}">
 {%- endif %}
 </head>
 <body{% if docPage %} class="doc-page"{% elif noPlayer %} class="no-player"{% endif %}>
@@ -88,10 +88,10 @@
     <footer></footer>
 
     <!-- Site scripts — load order matters (was previously the Squarespace Code Injection footer loader) -->
-    <script src="/assets/shared-scripts.js"></script>
-    <script src="/assets/page-configs.js"></script>
-    <script src="/assets/audio-player-tracks.js"></script>
-    <script src="/assets/audio-player.js"></script>
+    <script src="/assets/shared-scripts.js?v={{ assetVersion }}"></script>
+    <script src="/assets/page-configs.js?v={{ assetVersion }}"></script>
+    <script src="/assets/audio-player-tracks.js?v={{ assetVersion }}"></script>
+    <script src="/assets/audio-player.js?v={{ assetVersion }}"></script>
     <script>
         // Client documents under /docs/ are standalone deliverables — the
         // persistent now-playing bar has no business on a rate sheet.
