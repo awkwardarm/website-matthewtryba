@@ -44,7 +44,11 @@ noindex: true
                 'transpose-all': 'Transpose All',
                 'stem-logic': 'Stem Logic'
             };
-            const requested = new URLSearchParams(location.search).get('tool');
+            const query = new URLSearchParams(location.search);
+            const requested = query.get('tool');
+            // ?from=device: the Donate button inside the Max for Live device, recorded as
+            // metadata.source = 'device' so device donations can be traced in Stripe
+            const source = query.get('from') === 'device' ? 'device' : 'donate-page';
             const tool = TOOL_NAMES[requested] ? requested : 'general';
 
             if (tool !== 'general') {
@@ -55,6 +59,6 @@ noindex: true
             }
             document.getElementById('donate-widget').dataset.tool = tool;
 
-            initDonateWidgets(pageConfig, { amounts: [5, 10, 20], defaultAmount: 5, source: 'donate-page' });
+            initDonateWidgets(pageConfig, { amounts: [5, 10, 20], defaultAmount: 5, source });
         };
     </script>

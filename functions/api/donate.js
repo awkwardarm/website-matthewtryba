@@ -38,7 +38,8 @@ const TOOLS = {
 };
 
 // Where the widget was: lands on the payment as metadata.source
-const SOURCES = ['download-page', 'donate-page'];
+// 'device': the Donate button inside a Max for Live device (/donate?from=device)
+const SOURCES = ['download-page', 'donate-page', 'device'];
 
 const MIN_DOLLARS = 1;
 const MAX_DOLLARS = 1000;

@@ -77,7 +77,7 @@ const PAGE_CONFIGS = {
         // Download files — served from the Cloudflare R2 bucket (downloads/)
         downloads: {
             stemLogic: 'https://cdn.matthewtryba.com/downloads/Stem%20Logic%200.1.1.zip',
-            transposeAll: 'https://cdn.matthewtryba.com/downloads/Transpose%20All%201.0.zip'
+            transposeAll: 'https://cdn.matthewtryba.com/downloads/Transpose%20All%201.1.zip'
         },
         // Inline donate checkout and its Payment Link fallback (see top of file)
         stripePublishableKey: STRIPE_PUBLISHABLE_KEY,

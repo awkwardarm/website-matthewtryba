@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed: Transpose All 1.1 download
+- The download page links `downloads/Transpose All 1.1.zip` on R2 (1.0 is still in the bucket): both devices in the TRYBA MUSIC look, a Donate button on the Send device, and the Outfit font as an optional extra. Built in the `max4live` repo (`devices/transpose-all`).
+
+### Added: trace donations from inside the devices
+- `/donate?tool=<id>&from=device` (the Donate buttons in TRYBA Strip and Transpose All 1.1) records `metadata.source = device` in Stripe, so device donations are told apart from the donate page and the download page. `functions/api/donate.js` accepts `device` as a source.
+
 ### Fixed: stale cached scripts after a deploy
 - Browsers keep `/assets` files for up to 4 hours, so right after the /donate deploy a cached `page-configs.js` (with no `donate` entry) left the page without its donate widget. `.eleventy.js` now sets an `assetVersion` (the Cloudflare commit SHA, or the build time locally) and `base.njk` plus the donate widget links add `?v=` with it, so every deploy fetches fresh scripts and styles.
 - `/donate` also falls back to the `tools-download` config if `donate` is missing.
