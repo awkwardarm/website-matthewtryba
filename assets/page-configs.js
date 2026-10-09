@@ -22,6 +22,7 @@
  *      'home'             : Homepage (different form source)
  *      'tools'            : Tools page signup form
  *      'tools-download'   : Download/donate page links
+ *      'donate'           : /donate page (Stripe keys only)
  *
  * ADDING A NEW PAGE:
  *     1. Add a new entry to PAGE_CONFIGS object
@@ -29,6 +30,16 @@
  *     3. Ensure page name matches getPageConfig('page-name') in the page
  * \===========================================================
  */
+
+// Stripe publishable key (pk_live_..., safe to be public) for the inline
+// donate checkout. Needs the matching STRIPE_SECRET_KEY set in Cloudflare
+// Pages; see functions/api/donate.js. While empty, the donate buttons open
+// the Payment Link below instead.
+const STRIPE_PUBLISHABLE_KEY = 'pk_live_51RtDJ62I6aM6jWEuoOnSlBpwcQtvvQRu7kOvKEgdxGAFdhUgnIEQymPhUDsZt2RYT9tTd5be3JYLjpGQOpXFkRA100w6InS98X';
+// Stripe Payment Link (donations, any amount): the fallback when inline
+// checkout isn't configured or fails to load. Pages append
+// ?client_reference_id=<tool> so per-tool attribution still shows in Stripe.
+const DONATE_URL = 'https://donate.stripe.com/00wdR2bT4cKi886aT4gUM02';
 
 const PAGE_CONFIGS = {
      // NOTE: the old 'main-landing' entry was removed 2026-07 — no live
@@ -68,16 +79,9 @@ const PAGE_CONFIGS = {
             stemLogic: 'https://cdn.matthewtryba.com/downloads/Stem%20Logic%200.1.1.zip',
             transposeAll: 'https://cdn.matthewtryba.com/downloads/Transpose%20All%201.0.zip'
         },
-        // Stripe publishable key (pk_live_..., safe to be public) for the
-        // inline donate checkout on the download page. Needs the matching
-        // STRIPE_SECRET_KEY set in Cloudflare Pages; see functions/api/donate.js.
-        // While empty, the donate buttons open the Payment Link below instead.
-        stripePublishableKey: 'pk_live_51RtDJ62I6aM6jWEuoOnSlBpwcQtvvQRu7kOvKEgdxGAFdhUgnIEQymPhUDsZt2RYT9tTd5be3JYLjpGQOpXFkRA100w6InS98X',
-        // Stripe Payment Link (donations — any amount).
-        // Per-tool attribution: the download page appends
-        // ?client_reference_id=stem-logic / transpose-all to this link, and
-        // that id appears on each payment in the Stripe dashboard/exports.
-        donateUrl: 'https://donate.stripe.com/00wdR2bT4cKi886aT4gUM02',
+        // Inline donate checkout and its Payment Link fallback (see top of file)
+        stripePublishableKey: STRIPE_PUBLISHABLE_KEY,
+        donateUrl: DONATE_URL,
         // Optional: for per-link revenue reports in Stripe instead, create a
         // separate Payment Link per tool and paste it below — a non-empty
         // value here overrides the client_reference_id approach.
@@ -85,6 +89,13 @@ const PAGE_CONFIGS = {
             stemLogic: '',
             transposeAll: ''
         }
+     },
+
+     'donate': {
+        // /donate?tool=<id>: one donate widget for the tool named in the link
+        // (TRYBA Strip's Donate button links here). See src/donate.html.
+        stripePublishableKey: STRIPE_PUBLISHABLE_KEY,
+        donateUrl: DONATE_URL
      }
 };
 

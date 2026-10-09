@@ -46,6 +46,7 @@ website-matthewtryba/
 │   ├── welcome-2.html              # /welcome-2 (Google Ads landing page)
 │   ├── thank-you-*.html            # obfuscated thank-you pages (noindex)
 │   ├── production-tools-download-*.html  # download + donate page (noindex)
+│   ├── donate.html                 # /donate?tool=<id>: inline Stripe donate (noindex)
 │   ├── docs/                       # <base>/* client documents (unlisted, secret base path)
 │   │   ├── docs.11tydata.js       # layout, noindex, permalink for the whole dir
 │   │   └── *.html                 # rate cards, checklists, one-sheets, FAQs
@@ -57,6 +58,7 @@ website-matthewtryba/
 │   ├── doc.css                     # Client documents only (loaded via docPage)
 │   ├── shared-scripts.js           # Forms, spam filter, GCLID, footer, animations
 │   ├── page-configs.js             # Form endpoints, redirects, downloads, donate
+│   ├── donate-widget.css/.js       # Inline Stripe donate widget (download page, /donate)
 │   ├── audio-player.css/.js        # Custom audio player
 │   └── audio-player-tracks.js      # Track list — single source of truth
 │
