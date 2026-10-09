@@ -77,9 +77,9 @@ const PAGE_CONFIGS = {
         // Download files — served from the Cloudflare R2 bucket (downloads/)
         downloads: {
             stemLogic: 'https://cdn.matthewtryba.com/downloads/Stem%20Logic%200.1.1.zip',
-            // ?v=2: Cloudflare had cached an earlier upload of the same file name
-            transposeAll: 'https://cdn.matthewtryba.com/downloads/Transpose%20All%201.1.zip?v=2',
-            trybaStrip: 'https://cdn.matthewtryba.com/downloads/TRYBA%20Strip%201.2.zip'
+            // ?v=: Cloudflare caches a re-upload under the same file name; bump it after replacing a zip
+            transposeAll: 'https://cdn.matthewtryba.com/downloads/Transpose%20All%201.1.zip?v=3',
+            trybaStrip: 'https://cdn.matthewtryba.com/downloads/TRYBA%20Strip%201.2.zip?v=2'
         },
         // Inline donate checkout and its Payment Link fallback (see top of file)
         stripePublishableKey: STRIPE_PUBLISHABLE_KEY,
