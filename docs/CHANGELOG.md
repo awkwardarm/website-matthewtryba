@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed: TRYBA Strip 1.2 download
+- The download page links `downloads/TRYBA Strip 1.2.zip` on R2 (1.1 stays in the bucket): Stay in front brings the window back on every clip or track selected in Live, and Min. silence defaults to 1200 ms.
+
+### Fixed: TRYBA Strip screenshot button labels
+- `images/tools/tryba-strip-window.svg` re-rendered with real Arial text widths, so "All clips on track" and the other button labels sit centred, and with Min. silence at 1200 ms (the new default).
+
 ### Changed: TRYBA Strip 1.1 download
 - The download page links `downloads/TRYBA Strip 1.1.zip` on R2 (1.0 stays in the bucket): Enter-only "Strip and next track", track selection with All clips on track, Open / close that brings a hidden window back, hover help, Grid adds 1/16 and 1/32, Preview and Save as default removed. The tools page screenshot shows the 1.1 window.
 
