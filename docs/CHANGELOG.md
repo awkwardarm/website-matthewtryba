@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed: stale cached scripts after a deploy
+- Browsers keep `/assets` files for up to 4 hours, so right after the /donate deploy a cached `page-configs.js` (with no `donate` entry) left the page without its donate widget. `.eleventy.js` now sets an `assetVersion` (the Cloudflare commit SHA, or the build time locally) and `base.njk` plus the donate widget links add `?v=` with it, so every deploy fetches fresh scripts and styles.
+- `/donate` also falls back to the `tools-download` config if `donate` is missing.
+
 ### Added: /donate page for tools outside the download page
 - **`src/donate.html`** (new, noindex) at `/donate/`: one inline Stripe donate widget with $5 (selected), $10, $20 and Other. `?tool=tryba-strip` (or `transpose-all`, `stem-logic`) names the tool in the heading and copy and tags the payment with it; without it, the donation counts as `general`. The TRYBA Strip Max for Live device's Donate button links here.
 - **`assets/donate-widget.js` / `.css`** (new): the download page's widget code and styles moved out of the page so both pages share one implementation. `initDonateWidgets(pageConfig, { amounts, defaultAmount, source, paymentLinkFor })`; the download page keeps $5 / $10 / $25.

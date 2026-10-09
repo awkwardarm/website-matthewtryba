@@ -5,7 +5,7 @@ description: Support Matthew Tryba's free production tools.
 permalink: /donate/
 noindex: true
 ---
-    <link rel="stylesheet" href="/assets/donate-widget.css">
+    <link rel="stylesheet" href="/assets/donate-widget.css?v={{ assetVersion }}">
     <style>
         .page-hero { text-align: center; padding: 60px 0; background-color: var(--surface-color); }
         .donate-page { max-width: 640px; margin: 0 auto 60px auto; text-align: center; }
@@ -28,11 +28,13 @@ noindex: true
         </div>
     </section>
 
-    <script src="/assets/donate-widget.js"></script>
+    <script src="/assets/donate-widget.js?v={{ assetVersion }}"></script>
     <!-- Page-specific initialization -->
     <script>
         window.onCDNReady = function() {
-            const pageConfig = getPageConfig('donate');
+            // A browser holding an older cached page-configs.js has no 'donate'
+            // entry; the download page's entry carries the same Stripe settings.
+            const pageConfig = getPageConfig('donate') || getPageConfig('tools-download');
 
             // Which tool the donation is for: /donate?tool=tryba-strip (the
             // TRYBA Strip device's Donate button). Ids match TOOLS in
