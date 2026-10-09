@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed: install notes in the TRYBA Strip and Transpose All downloads
+- Both zips were re-uploaded under the same names with a `How to install.txt` that walks through adding the devices to Live's User Library (Transpose All's replaces the 1.0 PDF manual). The devices are unchanged. The links in `assets/page-configs.js` carry a new `?v=` so Cloudflare serves the new files.
+
 ### Changed: TRYBA Strip 1.2 download
 - The download page links `downloads/TRYBA Strip 1.2.zip` on R2 (1.1 stays in the bucket): Stay in front brings the window back on every clip or track selected in Live, and Min. silence defaults to 1200 ms.
 
