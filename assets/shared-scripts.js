@@ -413,7 +413,11 @@ function initializeFormInviteAnimation() {
      footer.innerHTML = `
           <div class="container">
               <p class="footer-tagline">You are the art.</p>
-              <p>&copy; ${new Date().getFullYear()} TRYBA MUSIC, LLC. All Rights Reserved. <a href="/privacy/">Privacy Policy</a></p>
+              <p><a class="footer-youtube" href="https://www.youtube.com/@trybamusic" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 28 20" width="28" height="20" aria-hidden="true"><rect width="28" height="20" rx="5" fill="#FF0000"/><path d="M11 5.5v9l8-4.5z" fill="#fff"/></svg>
+                  Watch on YouTube</a></p>
+              <p>&copy; ${new Date().getFullYear()} TRYBA MUSIC, LLC. All Rights Reserved.</p>
+              <p class="footer-legal"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms of Service</a></p>
           </div>`;
     }
 

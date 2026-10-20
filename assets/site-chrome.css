@@ -113,3 +113,14 @@ footer {
     color: var(--secondary-color, #555);
     background: var(--surface-color, #f7f7f7);
 }
+
+footer .footer-youtube {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: inherit;
+    font-weight: 600;
+    text-decoration: none;
+}
+footer .footer-youtube:hover { text-decoration: underline; }
+footer .footer-legal a { color: inherit; }
