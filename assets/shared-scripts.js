@@ -413,7 +413,7 @@ function initializeFormInviteAnimation() {
      footer.innerHTML = `
           <div class="container">
               <p class="footer-tagline">You are the art.</p>
-              <p>&copy; ${new Date().getFullYear()} TRYBA MUSIC, LLC. All Rights Reserved.</p>
+              <p>&copy; ${new Date().getFullYear()} TRYBA MUSIC, LLC. All Rights Reserved. <a href="/privacy/">Privacy Policy</a></p>
           </div>`;
     }
 
