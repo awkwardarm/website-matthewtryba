@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added: text-ahead note on the in-studio Creative Date checklist
-- `src/docs/creative-date-checklist-in-studio.html`: a new "Before" row at the top of Session Logistics asks clients to text at least a full day ahead with their full name and that it's for the Creative Date, so the number is saved and day-of texts get through filters.
+- `src/docs/creative-date-checklist-in-studio.html`: a blue "Important: Text Me First" callout above Session Logistics, with the key details in bold, asks clients to text at least a full day ahead with their full name and that it's for the Creative Date, so the number is saved and day-of texts get through filters.
 
 ### Changed: install notes in the TRYBA Strip and Transpose All downloads
 - Both zips were re-uploaded under the same names with a `How to install.txt` that walks through adding the devices to Live's User Library (Transpose All's replaces the 1.0 PDF manual). The devices are unchanged. The links in `assets/page-configs.js` carry a new `?v=` so Cloudflare serves the new files.
